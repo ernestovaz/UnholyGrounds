@@ -1,1 +1,1 @@
-# Unnamed game project for Computer Graphics Fundamentals
+# Unnamed game project for Fundamentals of Computer Graphics
