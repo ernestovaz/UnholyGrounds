@@ -1,11 +1,11 @@
 #version 330 core
 
-in vec4 interpolatedColor;
+in vec4 interpolated_color;
 
 out vec4 color;
 
 void main()
 {
-    color = interpolatedColor;
+    color = interpolated_color;
 } 
 
