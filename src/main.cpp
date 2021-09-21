@@ -150,10 +150,10 @@ int main()
         w = w / norm(w);
         u = u / norm(u);
 
-        if(g_WPressed) d_Frente -= w*0.01f;
-        if(g_SPressed) d_Tras += w*0.01f;
-        if(g_APressed) d_Esquerda -= u*0.01f;
-        if(g_DPressed) d_Direita += u*0.01f;
+        if(g_WPressed) d_W -= w*0.01f;
+        if(g_SPressed) d_S += w*0.01f;
+        if(g_APressed) d_A -= u*0.01f;
+        if(g_DPressed) d_D += u*0.01f;
 
 
         glm::mat4 view = Matrix_Camera_View(camera_position_c, camera_view_vector, camera_up_vector);
