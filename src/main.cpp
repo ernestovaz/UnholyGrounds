@@ -7,6 +7,7 @@
 #include <limits>
 #include <fstream>
 #include <sstream>
+#include <chrono>
 
 #include <glad/glad.h>  
 #include <GLFW/glfw3.h>  
@@ -17,7 +18,6 @@
 
 #include "utils.h"
 #include "matrices.h"
-
 
 GLuint BuildTriangles(); 
 GLuint LoadShader_Vertex(const char* filename);   
@@ -42,8 +42,6 @@ struct SceneObject
 
 std::map<const char*, SceneObject> g_VirtualScene;
 
-float g_ScreenRatio = 1.0f;
-
 float g_AngleX = 0.0f;
 float g_AngleY = 0.0f;
 float g_AngleZ = 0.0f;
@@ -62,10 +60,11 @@ bool g_SPressed = false;
 bool g_APressed = false;
 bool g_DPressed = false;
 
+float g_ScreenRatio;
+
 int main()
 {
-    int success = glfwInit();
-    if (!success)
+    if (!glfwInit())
     {
         fprintf(stderr, "ERROR: glfwInit() failed.\n");
         std::exit(EXIT_FAILURE);
@@ -75,52 +74,46 @@ int main()
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwWindowHint(GLFW_SAMPLES, 4);
 
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    GLFWwindow* window;
-    window = glfwCreateWindow(800, 800, "window", NULL, NULL);
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* screen = glfwGetVideoMode(monitor);
+    g_ScreenRatio = screen->width/screen->height;
+    GLFWwindow* window = glfwCreateWindow(screen->width, screen->height, "window", monitor, NULL);
     if (!window)
     {
         glfwTerminate();
         fprintf(stderr, "ERROR: glfwCreateWindow() failed.\n");
         std::exit(EXIT_FAILURE);
     }
-
-    glfwSetKeyCallback(window, KeyCallback);
-    glfwSetMouseButtonCallback(window, MouseButtonCallback);
-    glfwSetCursorPosCallback(window, CursorPosCallback);
-    glfwSetScrollCallback(window, ScrollCallback);
-
-    glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
-    glfwSetWindowSize(window, 800, 800); 
-
     glfwMakeContextCurrent(window);
 
+    glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
     GLuint vertex_shader_id = LoadShader_Vertex("src/shader_vertex.glsl");
     GLuint fragment_shader_id = LoadShader_Fragment("src/shader_fragment.glsl");
-
     GLuint program_id = CreateGpuProgram(vertex_shader_id, fragment_shader_id);
-
     GLuint vertex_array_object_id = BuildTriangles();
 
     GLint model_uniform           = glGetUniformLocation(program_id, "model"); 
     GLint view_uniform            = glGetUniformLocation(program_id, "view"); 
     GLint projection_uniform      = glGetUniformLocation(program_id, "projection"); 
     GLint render_as_black_uniform = glGetUniformLocation(program_id, "render_as_black"); 
-
     glEnable(GL_DEPTH_TEST);
-
     glm::mat4 the_projection;
     glm::mat4 the_model;
     glm::mat4 the_view;
 
+    glfwSetKeyCallback(window, KeyCallback);
+    glfwSetMouseButtonCallback(window, MouseButtonCallback);
+    glfwSetCursorPosCallback(window, CursorPosCallback);
+    glfwSetScrollCallback(window, ScrollCallback);
     glm::vec4 d_W = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);
     glm::vec4 d_S = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);
     glm::vec4 d_A = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);
@@ -132,9 +125,6 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(program_id);
         glBindVertexArray(vertex_array_object_id);
-
-
-
 
         glm::vec4 camera_position_c  = glm::vec4(0.0f,1.0f,-5.5f,1.0f)+d_W+d_S+d_A+d_D; 
         glm::vec4 camera_free_l      = glm::vec4(cos(g_CameraPhi)*sin(g_CameraTheta),
