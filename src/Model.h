@@ -14,5 +14,6 @@ public: //initially
     size_t       num_indices; 
     GLenum       rendering_mode; 
 
+    Model();
     Model(std::string name, size_t first_index, size_t run_indices, GLenum rendering_mode);
 };

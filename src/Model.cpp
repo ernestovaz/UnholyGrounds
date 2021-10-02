@@ -1,7 +1,9 @@
 #include "Model.h"
 
-
-Model::Model(std::string name, size_t first_index, size_t nun_indices, GLenum rendering_mode)
+Model::Model()
+{
+}
+Model::Model(std::string name, size_t first_index, size_t num_indices, GLenum rendering_mode)
 {
     this->name = name;
     this->first_index = first_index;

@@ -18,6 +18,7 @@
 
 #include "utils.h"
 #include "matrices.h"
+#include "Model.h"
 
 GLuint BuildTriangles(); 
 GLuint LoadShader_Vertex(const char* filename);   
@@ -32,15 +33,8 @@ void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 void CursorPosCallback(GLFWwindow* window, double xpos, double ypos);
 void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
-struct SceneObject
-{
-    const char*  name;        
-    void*        first_index;
-    int          num_indices; 
-    GLenum       rendering_mode;
-};
 
-std::map<const char*, SceneObject> g_VirtualScene;
+std::map<const char*, Model> g_VirtualScene;
 
 float g_AngleX = 0.0f;
 float g_AngleY = 0.0f;
@@ -356,27 +350,12 @@ GLuint BuildTriangles()
         12, 13  
     };
 
-    SceneObject cube_faces;
-    cube_faces.name           = "Cubo (faces coloridas)";
-    cube_faces.first_index    = (void*)0; 
-    cube_faces.num_indices    = 36;      
-    cube_faces.rendering_mode = GL_TRIANGLES; 
+    Model cube_faces("Cubo (faces coloridas)", 0, 36, GL_TRIANGLES);
+    Model cube_edges("Cubo (arestas pretas)", (36*sizeof(GLuint)), 24, GL_LINES);
+    Model axes("Eixos XYZ", (60*sizeof(GLuint)), 6, GL_LINES);
 
     g_VirtualScene["cube_faces"] = cube_faces;
-
-    SceneObject cube_edges;
-    cube_edges.name           = "Cubo (arestas pretas)";
-    cube_edges.first_index    = (void*)(36*sizeof(GLuint)); 
-    cube_edges.num_indices    = 24; 
-    cube_edges.rendering_mode = GL_LINES; 
-
     g_VirtualScene["cube_edges"] = cube_edges;
-
-    SceneObject axes;
-    axes.name           = "Eixos XYZ";
-    axes.first_index    = (void*)(60*sizeof(GLuint)); 
-    axes.num_indices    = 6; 
-    axes.rendering_mode = GL_LINES; 
     g_VirtualScene["axes"] = axes;
 
     GLuint indices_id;
@@ -563,10 +542,6 @@ void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mod)
 {
-    for (int i = 0; i < 10; ++i)
-        if (key == GLFW_KEY_0 + i && action == GLFW_PRESS && mod == GLFW_MOD_SHIFT)
-            std::exit(100 + i);
-
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
 
