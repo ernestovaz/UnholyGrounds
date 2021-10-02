@@ -1,5 +1,6 @@
 #include "ObjModel.h"
 
+
 ObjModel::ObjModel(const char* filename, const char* basepath = NULL, bool triangulate = true)
 {
     std::string err;
