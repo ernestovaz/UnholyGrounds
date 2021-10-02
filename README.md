@@ -8,4 +8,4 @@ Ideas:
 To do:
 - [ ] Refactor code using Model and ObjModel classes
 - [ ] Unify Model into one class
-- [ ] Implement custom Obj loading
+- [ ] Implement custom .obj loading
