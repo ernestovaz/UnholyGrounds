@@ -1,6 +1,6 @@
-#include "Model.h"
+#include "ObjModel.h"
 
-Model::Model(const char* filename, const char* basepath = NULL, bool triangulate = true)
+ObjModel::ObjModel(const char* filename, const char* basepath = NULL, bool triangulate = true)
 {
     std::string err;
     bool success = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, filename, basepath, triangulate);
