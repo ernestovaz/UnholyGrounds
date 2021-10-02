@@ -1,6 +1,5 @@
 #include "Model.h"
 
-#include<string>
 
 Model::Model(std::string name, size_t first_index, size_t nun_indices, GLenum rendering_mode)
 {
