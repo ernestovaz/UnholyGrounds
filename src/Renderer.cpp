@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Renderer.h"
 
 void GLClearError()
