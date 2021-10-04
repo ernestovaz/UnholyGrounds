@@ -108,6 +108,8 @@ int main()
          0.5f, -0.5f, -0.5f, 1.0f, 
          0.5f,  0.5f, -0.5f, 1.0f, 
     };
+
+    //vao
     GLuint vertex_array_object_id;
     glGenVertexArrays(1, &vertex_array_object_id);
     glBindVertexArray(vertex_array_object_id);
@@ -117,9 +119,7 @@ int main()
     GLuint location = 0; 
     GLint  number_of_dimensions = 4; 
     glVertexAttribPointer(location, number_of_dimensions, GL_FLOAT, GL_FALSE, 0, 0);
-
     glEnableVertexAttribArray(location);
-
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     GLfloat color_coefficients[] = {
@@ -132,11 +132,15 @@ int main()
         0.0f, 0.5f, 1.0f, 1.0f, 
         0.0f, 0.5f, 1.0f, 1.0f, 
     };
+
     GLuint VBO_color_coefficients_id;
     glGenBuffers(1, &VBO_color_coefficients_id);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_color_coefficients_id);
     glBufferData(GL_ARRAY_BUFFER, sizeof(color_coefficients), NULL, GL_STATIC_DRAW);
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(color_coefficients), color_coefficients);
+
+    //VertexBuffer vbcolor(color_coefficients,sizeof(color_coefficients));
+
     location = 1; 
     number_of_dimensions = 4; 
     glVertexAttribPointer(location, number_of_dimensions, GL_FLOAT, GL_FALSE, 0, 0);
@@ -166,10 +170,10 @@ int main()
     glGenBuffers(1, &indices_id);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
-
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), NULL, GL_STATIC_DRAW);
-
     glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(indices), indices);
+
+    //IndexBuffer ibo(indices, 36);
 
     glBindVertexArray(0);
 
@@ -267,25 +271,6 @@ int main()
                 GL_UNSIGNED_INT,
                 (void*)g_VirtualScene["cube_faces"].first_index
             );
-
-            glLineWidth(4.0f);
-
-            glDrawElements(
-                g_VirtualScene["axes"].rendering_mode,
-                g_VirtualScene["axes"].num_indices,
-                GL_UNSIGNED_INT,
-                (void*)g_VirtualScene["axes"].first_index
-            );
-
-            glUniform1i(render_as_black_uniform, true);
-
-            glDrawElements(
-                g_VirtualScene["cube_edges"].rendering_mode,
-                g_VirtualScene["cube_edges"].num_indices,
-                GL_UNSIGNED_INT,
-                (void*)g_VirtualScene["cube_edges"].first_index
-            );
-
             if ( i == 3 )
             {
                 glPointSize(15.0f);
