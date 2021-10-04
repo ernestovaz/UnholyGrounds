@@ -195,7 +195,7 @@ int main()
 
     while (!glfwWindowShouldClose(window))
     {
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(program_id);
         glBindVertexArray(vertex_array_object_id);
@@ -277,13 +277,10 @@ int main()
         }
 
         glm::mat4 model = Matrix_Identity();
-
         glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model));
 
         glBindVertexArray(0);
-
         glfwSwapBuffers(window);
-
         glfwPollEvents();
     }
     }//closing bracket for scope created for deconstruction fix
