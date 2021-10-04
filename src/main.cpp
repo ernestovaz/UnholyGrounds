@@ -162,9 +162,7 @@ int main()
         1, 6, 2, 
     };
 
-    Model cube_faces("Cubo (faces coloridas)", 0, 36, GL_TRIANGLES);
-
-    g_VirtualScene["cube_faces"] = cube_faces;
+    Model cube("Cubo", 0, 36, GL_TRIANGLES);
 
     GLuint indices_id;
     glGenBuffers(1, &indices_id);
@@ -266,10 +264,10 @@ int main()
             glUniform1i(render_as_black_uniform, false);
 
             glDrawElements(
-                g_VirtualScene["cube_faces"].rendering_mode, 
-                g_VirtualScene["cube_faces"].num_indices,
+                cube.rendering_mode, 
+                cube.num_indices,
                 GL_UNSIGNED_INT,
-                (void*)g_VirtualScene["cube_faces"].first_index
+                (void*)cube.first_index
             );
             if ( i == 3 )
             {
@@ -282,20 +280,7 @@ int main()
 
         glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model));
 
-        glLineWidth(10.0f);
-
-        glUniform1i(render_as_black_uniform, false);
-
-        glDrawElements(
-            g_VirtualScene["axes"].rendering_mode,
-            g_VirtualScene["axes"].num_indices,
-            GL_UNSIGNED_INT,
-            (void*)g_VirtualScene["axes"].first_index
-        );
-
         glBindVertexArray(0);
-
-        glm::vec4 p_model(0.5f, 0.5f, 0.5f, 1.0f);
 
         glfwSwapBuffers(window);
 
