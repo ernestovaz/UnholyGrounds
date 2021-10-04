@@ -94,6 +94,7 @@ int main()
     glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
+    {//creates scope, fix for now to force deconstruction of buffer objects before glfw is terminated
     GLuint vertex_shader_id = LoadShader_Vertex("src/shader_vertex.glsl");
     GLuint fragment_shader_id = LoadShader_Fragment("src/shader_fragment.glsl");
     GLuint program_id = CreateGpuProgram(vertex_shader_id, fragment_shader_id);
@@ -110,14 +111,8 @@ int main()
     GLuint vertex_array_object_id;
     glGenVertexArrays(1, &vertex_array_object_id);
     glBindVertexArray(vertex_array_object_id);
-    {
+
     VertexBuffer vbo(model_coefficients, 32*sizeof(GLfloat));
-    /* 
-    GLuint VBO_model_coefficients_id;
-    glGenBuffers(1, &VBO_model_coefficients_id);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_model_coefficients_id);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(model_coefficients), model_coefficients, GL_STATIC_DRAW);
-    */ 
 
     GLuint location = 0; 
     GLint  number_of_dimensions = 4; 
@@ -321,7 +316,7 @@ int main()
 
         glfwPollEvents();
     }
-    }
+    }//closing bracket for scope created for deconstruction fix
     glfwTerminate();
 
     return 0;
