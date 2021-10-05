@@ -164,14 +164,7 @@ int main()
 
     Model cube("Cubo", 0, 36, GL_TRIANGLES);
 
-    GLuint indices_id;
-    glGenBuffers(1, &indices_id);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), NULL, GL_STATIC_DRAW);
-    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(indices), indices);
-
-    //IndexBuffer ibo(indices, 36);
+    IndexBuffer ibo(indices, 36);
 
     glBindVertexArray(0);
 
