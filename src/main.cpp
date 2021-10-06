@@ -98,7 +98,13 @@ int main()
     GLuint vertex_shader_id = LoadShader_Vertex("src/shader_vertex.glsl");
     GLuint fragment_shader_id = LoadShader_Fragment("src/shader_fragment.glsl");
     GLuint program_id = CreateGpuProgram(vertex_shader_id, fragment_shader_id);
-    GLfloat model_coefficients[] = {
+
+    //Vertex Array Object
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
+    GLfloat vertex_pos[] = {
         -0.5f,  0.5f,  0.5f, 1.0f, 
         -0.5f, -0.5f,  0.5f, 1.0f, 
          0.5f, -0.5f,  0.5f, 1.0f, 
@@ -108,21 +114,11 @@ int main()
          0.5f, -0.5f, -0.5f, 1.0f, 
          0.5f,  0.5f, -0.5f, 1.0f, 
     };
+    VertexBuffer positions(vertex_pos, sizeof(vertex_pos));
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(0);
 
-    //vao
-    GLuint vertex_array_object_id;
-    glGenVertexArrays(1, &vertex_array_object_id);
-    glBindVertexArray(vertex_array_object_id);
-
-    VertexBuffer vbo(model_coefficients, 32*sizeof(GLfloat));
-
-    GLuint location = 0; 
-    GLint  number_of_dimensions = 4; 
-    glVertexAttribPointer(location, number_of_dimensions, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(location);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    GLfloat color_coefficients[] = {
+    GLfloat vertex_colors[] = {
         1.0f, 0.5f, 0.0f, 1.0f, 
         1.0f, 0.5f, 0.0f, 1.0f,
         0.0f, 0.5f, 1.0f, 1.0f,
@@ -132,20 +128,9 @@ int main()
         0.0f, 0.5f, 1.0f, 1.0f, 
         0.0f, 0.5f, 1.0f, 1.0f, 
     };
-
-    GLuint VBO_color_coefficients_id;
-    glGenBuffers(1, &VBO_color_coefficients_id);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_color_coefficients_id);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(color_coefficients), NULL, GL_STATIC_DRAW);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(color_coefficients), color_coefficients);
-
-    //VertexBuffer vbcolor(color_coefficients,sizeof(color_coefficients));
-
-    location = 1; 
-    number_of_dimensions = 4; 
-    glVertexAttribPointer(location, number_of_dimensions, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(location);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    VertexBuffer colors(vertex_colors,sizeof(vertex_colors));
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(1);
 
     GLuint indices[] = {
         0, 1, 2, 
@@ -161,12 +146,11 @@ int main()
         4, 1, 0, 
         1, 6, 2, 
     };
+    IndexBuffer ib(indices, 36);
+    glBindVertexArray(0);
 
     Model cube("Cubo", 0, 36, GL_TRIANGLES);
 
-    IndexBuffer ibo(indices, 36);
-
-    glBindVertexArray(0);
 
     GLint model_uniform           = glGetUniformLocation(program_id, "model"); 
     GLint view_uniform            = glGetUniformLocation(program_id, "view"); 
@@ -191,7 +175,7 @@ int main()
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(program_id);
-        glBindVertexArray(vertex_array_object_id);
+        glBindVertexArray(vao);
 
         glm::vec4 camera_position_c  = glm::vec4(0.0f,1.0f,-5.5f,1.0f)+d_W+d_S+d_A+d_D; 
         glm::vec4 camera_free_l      = glm::vec4(cos(g_CameraPhi)*sin(g_CameraTheta),
