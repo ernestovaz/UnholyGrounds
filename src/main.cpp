@@ -1,7 +1,7 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
-
+#include <iostream>
 #include <map>
 #include <string>
 #include <limits>
@@ -94,6 +94,7 @@ int main()
     glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
+
     {//creates scope, fix for now to force deconstruction of buffer objects before glfw is terminated
     GLuint vertex_shader_id = LoadShader_Vertex("src/shader_vertex.glsl");
     GLuint fragment_shader_id = LoadShader_Fragment("src/shader_fragment.glsl");
@@ -104,59 +105,19 @@ int main()
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-    GLfloat vertex_pos[] = {
-        -0.5f,  0.5f,  0.5f, 1.0f, 
-        -0.5f, -0.5f,  0.5f, 1.0f, 
-         0.5f, -0.5f,  0.5f, 1.0f, 
-         0.5f,  0.5f,  0.5f, 1.0f, 
-        -0.5f,  0.5f, -0.5f, 1.0f, 
-        -0.5f, -0.5f, -0.5f, 1.0f, 
-         0.5f, -0.5f, -0.5f, 1.0f, 
-         0.5f,  0.5f, -0.5f, 1.0f, 
-    };
-    VertexBuffer positions(vertex_pos, sizeof(vertex_pos));
+    Model tardis("data/tardis.obj");
+    std::vector<float> vertex_pos = tardis.vertex_positions;
+    std::vector<GLuint> indices = tardis.indices;
+    VertexBuffer positions(vertex_pos.data(), vertex_pos.size()*sizeof(float));
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(0);
+    positions.Bind();
 
-    GLfloat vertex_colors[] = {
-        1.0f, 0.5f, 0.0f, 1.0f, 
-        1.0f, 0.5f, 0.0f, 1.0f,
-        0.0f, 0.5f, 1.0f, 1.0f,
-        0.0f, 0.5f, 1.0f, 1.0f, 
-        1.0f, 0.5f, 0.0f, 1.0f, 
-        1.0f, 0.5f, 0.0f, 1.0f, 
-        0.0f, 0.5f, 1.0f, 1.0f, 
-        0.0f, 0.5f, 1.0f, 1.0f, 
-    };
-    VertexBuffer colors(vertex_colors,sizeof(vertex_colors));
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(1);
-
-    GLuint indices[] = {
-        0, 1, 2, 
-        7, 6, 5, 
-        3, 2, 6, 
-        4, 0, 3, 
-        4, 5, 1, 
-        1, 5, 6, 
-        0, 2, 3, 
-        7, 5, 4, 
-        3, 6, 7, 
-        4, 3, 7, 
-        4, 1, 0, 
-        1, 6, 2, 
-    };
-    IndexBuffer ib(indices, 36);
-    glBindVertexArray(0);
-
-    Model cube("Cubo", 0, 36, GL_TRIANGLES);
+    IndexBuffer ib(indices.data(), indices.size());
 
     GLint model_uniform           = glGetUniformLocation(program_id, "model"); 
     GLint view_uniform            = glGetUniformLocation(program_id, "view"); 
     GLint projection_uniform      = glGetUniformLocation(program_id, "projection"); 
-    glm::mat4 the_model;
-    glm::mat4 the_view;
-    glm::mat4 the_projection;
 
     glEnable(GL_DEPTH_TEST);
 
@@ -169,12 +130,16 @@ int main()
     glm::vec4 d_A = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);
     glm::vec4 d_D = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);
 
+    float tardisrotation = 0;
+
     while (!glfwWindowShouldClose(window))
     {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(program_id);
         glBindVertexArray(vao);
+        positions.Bind();
+        ib.Bind();
 
         glm::vec4 camera_position_c  = glm::vec4(0.0f,1.0f,-5.5f,1.0f)+d_W+d_S+d_A+d_D; 
         glm::vec4 camera_free_l      = glm::vec4(cos(g_CameraPhi)*sin(g_CameraTheta),
@@ -208,50 +173,19 @@ int main()
 
         glUniformMatrix4fv(view_uniform       , 1 , GL_FALSE , glm::value_ptr(view));
         glUniformMatrix4fv(projection_uniform , 1 , GL_FALSE , glm::value_ptr(projection));
+        
+        
+        tardisrotation += 0.1;
+        glm::mat4 model = Matrix_Scale(0.2f, 0.2f, 0.2f)*Matrix_Rotate_Y(tardisrotation);
 
-        for (int i = 1; i <= 3; ++i)
-        {
-            glm::mat4 model;
-
-            if (i == 1)
-            {
-                model = Matrix_Identity();
-            }
-            else if ( i == 2 )
-            {
-                model = Matrix_Translate(0.0f, 0.0f, -2.0f) 
-                      * Matrix_Rotate(3.141592f / 8.0f, glm::vec4(1.0f,1.0f,1.0f,0.0f)) 
-                      * Matrix_Scale(2.0f, 0.5f, 0.5f); 
-            }
-            else if ( i == 3 )
-            {
-                model = Matrix_Translate(-2.0f, 0.0f, 0.0f) 
-                      * Matrix_Rotate_Z(g_AngleZ)  
-                      * Matrix_Rotate_Y(g_AngleY) 
-                      * Matrix_Rotate_X(g_AngleX);
-
-                the_model = model;
-                the_projection = projection;
-                the_view = view;
-            }
-
-            glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model));
-
-            glDrawElements(
-                cube.rendering_mode, 
-                cube.num_indices,
-                GL_UNSIGNED_INT,
-                (void*)cube.first_index
-            );
-            if ( i == 3 )
-            {
-                glPointSize(15.0f);
-                glDrawArrays(GL_POINTS, 3, 1);
-            }
-        }
-
-        glm::mat4 model = Matrix_Identity();
         glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model));
+
+        GLCall(glDrawElements(
+                tardis.rendering_mode, 
+                tardis.num_indices,
+                GL_UNSIGNED_INT,
+                (void*)tardis.first_index
+        ));
 
         glBindVertexArray(0);
         glfwSwapBuffers(window);

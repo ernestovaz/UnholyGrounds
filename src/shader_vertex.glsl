@@ -1,7 +1,6 @@
 #version 330 core
 
 layout (location = 0) in vec4 model_coefficients;
-layout (location = 1) in vec4 color_coefficients;
 
 out vec4 interpolated_color;
 
@@ -23,7 +22,7 @@ void main()
     }
     else
     {
-        interpolated_color = color_coefficients;
+        interpolated_color = vec4(0.0f,0.231372f,0.435294f,1.0f);
     }
 }
 
