@@ -151,15 +151,14 @@ int main()
 
     Model cube("Cubo", 0, 36, GL_TRIANGLES);
 
-
     GLint model_uniform           = glGetUniformLocation(program_id, "model"); 
     GLint view_uniform            = glGetUniformLocation(program_id, "view"); 
     GLint projection_uniform      = glGetUniformLocation(program_id, "projection"); 
-    GLint render_as_black_uniform = glGetUniformLocation(program_id, "render_as_black"); 
-    glEnable(GL_DEPTH_TEST);
-    glm::mat4 the_projection;
     glm::mat4 the_model;
     glm::mat4 the_view;
+    glm::mat4 the_projection;
+
+    glEnable(GL_DEPTH_TEST);
 
     glfwSetKeyCallback(window, KeyCallback);
     glfwSetMouseButtonCallback(window, MouseButtonCallback);
@@ -237,8 +236,6 @@ int main()
             }
 
             glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model));
-
-            glUniform1i(render_as_black_uniform, false);
 
             glDrawElements(
                 cube.rendering_mode, 
