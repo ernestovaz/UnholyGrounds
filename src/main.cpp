@@ -24,11 +24,11 @@
 #include "IndexBuffer.h"
 #include "Model.h"
 
-GLuint BuildTriangles(); 
 GLuint LoadShader_Vertex(const char* filename);   
 GLuint LoadShader_Fragment(const char* filename);
 void LoadShader(const char* filename, GLuint shader_id);
 GLuint CreateGpuProgram(GLuint vertex_shader_id, GLuint fragment_shader_id); 
+
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 void ErrorCallback(int error, const char* description);
@@ -108,10 +108,10 @@ int main()
     Model tardis("data/tardis.obj");
     std::vector<float> vertex_pos = tardis.vertex_positions;
     std::vector<GLuint> indices = tardis.indices;
+
     VertexBuffer positions(vertex_pos.data(), vertex_pos.size()*sizeof(float));
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(0);
-    positions.Bind();
 
     IndexBuffer ib(indices.data(), indices.size());
 
@@ -173,7 +173,6 @@ int main()
 
         glUniformMatrix4fv(view_uniform       , 1 , GL_FALSE , glm::value_ptr(view));
         glUniformMatrix4fv(projection_uniform , 1 , GL_FALSE , glm::value_ptr(projection));
-        
         
         tardisrotation += 0.1;
         glm::mat4 model = Matrix_Scale(0.2f, 0.2f, 0.2f)*Matrix_Rotate_Y(tardisrotation);
