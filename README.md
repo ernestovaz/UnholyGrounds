@@ -6,6 +6,13 @@ Ideas:
 
 
 To do:
-- [ ] Refactor code using Model and ObjModel classes
-- [ ] Unify Model into one class
-- [ ] Implement custom .obj loading
+- [x] Refactor code using Model and ObjModel classes
+- [x] Unify Model into one class
+- [x] Implement custom .obj loading
+- [ ] Cap frame buffer change to FPS
+- [ ] Improve Model and Obj loading abstraction (abstract glcalls into Renderer?)
+- [ ] Improve VAO abstraction
+- [ ] Display abstraction? (Separate graphic actions from game actions)
+- [ ] Add textures drawing and texture data loading from .obj
+- [ ] Add lighting and material data loading from .obj
+- [ ] Improve debug tools 
