@@ -1,6 +1,6 @@
 # Unnamed game project for Fundamentals of Computer Graphics
 Ideas:
-- shooter?
+- shooter
 - low poly
 - crunchy pixels
 
@@ -9,7 +9,7 @@ To do:
 - [x] Refactor code using Model and ObjModel classes
 - [x] Unify Model into one class
 - [x] Implement custom .obj loading
-- [ ] Cap frame buffer change to FPS
+- [ ] Cap frame buffer swapping to FPS
 - [ ] Improve Model and Obj loading abstraction (abstract glcalls into Renderer?)
 - [ ] Improve VAO abstraction
 - [ ] Display abstraction? (Separate graphic actions from game actions)
