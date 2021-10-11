@@ -1,5 +1,7 @@
 #pragma once
 
+//Abstraction for buffer that holds index arrays.
+
 class IndexBuffer
 {
 private:

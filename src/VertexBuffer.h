@@ -1,5 +1,7 @@
 #pragma once
 
+//Abstraction for a VBO, may hold array of positions, normals, color coordinates, etc.
+
 class VertexBuffer
 {
 private:
