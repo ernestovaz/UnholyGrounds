@@ -96,8 +96,8 @@ int main()
 
 
     {//creates scope, fix for now to force deconstruction of buffer objects before glfw is terminated
-    GLuint vertex_shader_id = LoadShader_Vertex("src/shader_vertex.glsl");
-    GLuint fragment_shader_id = LoadShader_Fragment("src/shader_fragment.glsl");
+    GLuint vertex_shader_id = LoadShader_Vertex("src/renderer/shader_vertex.glsl");
+    GLuint fragment_shader_id = LoadShader_Fragment("src/renderer/shader_fragment.glsl");
     GLuint program_id = CreateGpuProgram(vertex_shader_id, fragment_shader_id);
 
     //Vertex Array Object
