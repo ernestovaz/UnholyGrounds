@@ -1,5 +1,8 @@
 #pragma once
 
+#include <map>
+#include <tuple>
+
 #include "Command.h" 
 
 class InputManager
@@ -7,22 +10,12 @@ class InputManager
 
 public:
 
-    enum Key
-    {
-        KeyW,
-        KeyA,
-        KeyS,
-        KeyD,
-        keycount //the last int value in enum, since it's the last item
-    };
-
-    InputManager();
-    ~InputManager();
-    void insertCommand(Command* command, Key key);
-    void handleInput(int key, int action, int mods);
+    InputManager(std::tuple<int, Command*> commandList[]);
+    void callback(int key, int action, int mods);
+    void handleInput();
 
 private:
-    bool*       heldKeys;
-    Command**    commands;
+    std::map<int,bool>    heldKeys;
+    std::map<int,Command*> commands;
 };
 

@@ -23,7 +23,7 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "Model.h"
-//#include "InpuManager.h"
+//#include "InputManager.h"
 
 GLuint LoadShader_Vertex(const char* filename);   
 GLuint LoadShader_Fragment(const char* filename);
@@ -63,40 +63,10 @@ float g_ScreenRatio;
 
 int main()
 {
-    if (!glfwInit())
-    {
-        fprintf(stderr, "ERROR: glfwInit() failed.\n");
-        std::exit(EXIT_FAILURE);
-    }
+    Window window;
 
-    glfwSetErrorCallback(ErrorCallback);
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    #ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    #endif
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-    glfwWindowHint(GLFW_SAMPLES, 4);
-
-    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-    const GLFWvidmode* screen = glfwGetVideoMode(monitor);
-    g_ScreenRatio = screen->width/screen->height;
-    GLFWwindow* window = glfwCreateWindow(screen->width, screen->height, "window", monitor, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        fprintf(stderr, "ERROR: glfwCreateWindow() failed.\n");
-        std::exit(EXIT_FAILURE);
-    }
-    glfwMakeContextCurrent(window);
-
-    glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
-
-    {//creates scope, fix for now to force deconstruction of buffer objects before glfw is terminated
     GLuint vertex_shader_id = LoadShader_Vertex("src/shaders/vertex.glsl");
     GLuint fragment_shader_id = LoadShader_Fragment("src/shaders/fragment.glsl");
     GLuint program_id = CreateGpuProgram(vertex_shader_id, fragment_shader_id);
@@ -119,13 +89,13 @@ int main()
     GLint model_uniform           = glGetUniformLocation(program_id, "model"); 
     GLint view_uniform            = glGetUniformLocation(program_id, "view"); 
     GLint projection_uniform      = glGetUniformLocation(program_id, "projection"); 
-
     glEnable(GL_DEPTH_TEST);
 
     glfwSetKeyCallback(window, KeyCallback);
     glfwSetMouseButtonCallback(window, MouseButtonCallback);
     glfwSetCursorPosCallback(window, CursorPosCallback);
     glfwSetScrollCallback(window, ScrollCallback);
+
     glm::vec4 d_W = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);
     glm::vec4 d_S = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);
     glm::vec4 d_A = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);

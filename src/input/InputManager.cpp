@@ -1,43 +1,42 @@
+#include <map>
+#include <iterator>
+
 #include <GLFW/glfw3.h>
 
 #include "InputManager.h" 
 
-InputManager::InputManager()
+InputManager::InputManager(std::tuple<int, Command*> commandList[])
 {
-    heldKeys = new bool[keycount];
-    commands = new Command*[keycount];
+    int count = sizeof(commandList)/sizeof(std::tuple<int, Command*>);
+    for(int i=0; i<count; i++) {
+        int key          = std::get<0>(commandList[i]);
+        Command* command = std::get<1>(commandList[i]);
+        heldKeys[key] = false;
+        commands[key] = command;
+    }
 }
 
-InputManager::~InputManager()
+void InputManager::callback(int key, int action, int mods)
 {
-    delete [] heldKeys;
-    delete [] commands;
-}
-
-void InputManager::insertCommand(Command* command, Key key)
-{
-    commands[key] = command;
-}
-
-void InputManager::handleInput(int key, int action, int mods)
-{
+    bool state;
     if(action == GLFW_PRESS)
+        state = true;
+    else if(action == GLFW_RELEASE)
+        state = false;
+    else
+        return;
+
+    std::map<int, bool>::iterator it = heldKeys.find(key); 
+    if (it != heldKeys.end())
+        it->second = state; 
+}
+
+void InputManager::handleInput()
+{
+    for(auto const& k : heldKeys)
     {
-        switch(key)
-        {
-            case GLFW_KEY_W:
-                commands[KeyW]->execute();
-                break;
-            case GLFW_KEY_A:
-                commands[KeyA]->execute();
-                break;
-            case GLFW_KEY_S:
-                commands[KeyS]->execute();
-                break;
-            case GLFW_KEY_D:
-                commands[KeyD]->execute();
-                break;
-        }
+        if(k.second)                            //if key is held
+            commands[k.first]->execute();       //execute key's command
     }
 }
 
