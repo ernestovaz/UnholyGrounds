@@ -4,7 +4,7 @@
 
 InputManager::InputManager()
 {
-    heldKeys = new bool*[keycount];
+    heldKeys = new bool[keycount];
     commands = new Command*[keycount];
 }
 
