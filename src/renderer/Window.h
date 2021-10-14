@@ -2,12 +2,14 @@
    
 #include <GLFW/glfw3.h>
 
+#include "InputManager.h"
+
 class Window
 {
 private:
     GLFWwindow* window;
 public:
-    Window();
+    Window(InputManager* input);
     ~Window();
     bool shouldClose();
     void swapBuffers();

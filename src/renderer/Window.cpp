@@ -4,8 +4,9 @@
 #include <GLFW/glfw33.h>
 
 #include "Window.h"
+#include "InputManager.h"
 
-Window::Window()
+Window::Window(InputManager* input)
 {
     if (!glfwInit())
     {
@@ -40,49 +41,6 @@ Window::Window()
 
     glfwSetKeyCallback(this->window, [](GLFWwindow* window, int key, int scancode, int action, int mod)
     {
-        
-        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-            glfwSetWindowShouldClose(window, GL_TRUE);  //IMPLEMENT INTO COMMAND
-
-        if (key == GLFW_KEY_W && action == GLFW_PRESS)
-        {
-            g_WPressed = true;
-        }
-        if (key == GLFW_KEY_W && action == GLFW_RELEASE)
-        {
-            g_WPressed = false;
-        }
-
-        if (key == GLFW_KEY_S && action == GLFW_PRESS)
-        {
-            g_SPressed = true;
-        }
-        if (key == GLFW_KEY_S && action == GLFW_RELEASE)
-        {
-            g_SPressed = false;
-        }
-
-        if (key == GLFW_KEY_A && action == GLFW_PRESS)
-        {
-            g_APressed = true;
-        }
-        if (key == GLFW_KEY_A && action == GLFW_RELEASE)
-        {
-            g_APressed = false;
-        }
-
-        if (key == GLFW_KEY_D && action == GLFW_PRESS)
-        {
-            g_DPressed = true;
-        }
-        if (key == GLFW_KEY_D && action == GLFW_RELEASE)
-        {
-            g_DPressed = false;
-        }
+        input->callback(key, action, mod); 
     });
-
-    glfwSetMouseButtonCallback(window, MouseButtonCallback);
-    glfwSetCursorPosCallback(window, CursorPosCallback);
-    glfwSetScrollCallback(window, ScrollCallback);
-
 }

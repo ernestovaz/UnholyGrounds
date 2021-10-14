@@ -63,9 +63,10 @@ float g_ScreenRatio;
 
 int main()
 {
-    Window window;
-
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+
+    InputManager input;
+    Window window(&input);
 
     GLuint vertex_shader_id = LoadShader_Vertex("src/shaders/vertex.glsl");
     GLuint fragment_shader_id = LoadShader_Fragment("src/shaders/fragment.glsl");
@@ -91,10 +92,9 @@ int main()
     GLint projection_uniform      = glGetUniformLocation(program_id, "projection"); 
     glEnable(GL_DEPTH_TEST);
 
-    glfwSetKeyCallback(window, KeyCallback);
-    glfwSetMouseButtonCallback(window, MouseButtonCallback);
-    glfwSetCursorPosCallback(window, CursorPosCallback);
-    glfwSetScrollCallback(window, ScrollCallback);
+    //glfwSetMouseButtonCallback(window, MouseButtonCallback);
+    //glfwSetCursorPosCallback(window, CursorPosCallback);
+    //glfwSetScrollCallback(window, ScrollCallback);
 
     glm::vec4 d_W = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);
     glm::vec4 d_S = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);
@@ -413,10 +413,5 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mod)
     {
         g_DPressed = false;
     }
-}
-
-void ErrorCallback(int error, const char* description)
-{
-    fprintf(stderr, "ERROR: GLFW: %s\n", description);
 }
 
