@@ -10,6 +10,9 @@ To do:
 - [x] Unify Model into one class
 - [x] Implement custom .obj loading
 - [ ] Cap frame buffer swapping to FPS
+- [ ] Abstract window into class
+- [ ] Create input handler
+- [ ] Implement base for command design pattern. [source](https://gameprogrammingpatterns.com/command.html)
 - [ ] Improve Model and Obj loading abstraction (abstract glcalls into Renderer?)
 - [ ] Improve VAO abstraction
 - [ ] Display abstraction? (Separate graphic actions from game actions)
