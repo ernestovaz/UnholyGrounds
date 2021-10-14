@@ -23,6 +23,7 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "Model.h"
+//#include "InpuManager.h"
 
 GLuint LoadShader_Vertex(const char* filename);   
 GLuint LoadShader_Fragment(const char* filename);
