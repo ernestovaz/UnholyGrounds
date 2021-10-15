@@ -1,6 +1,8 @@
 #include <cstdlib>
 #include <cstdio>
+#include <iostream>
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include "Window.h"
@@ -29,7 +31,7 @@ Window::Window(InputManager* input)
     const GLFWvidmode* screen = glfwGetVideoMode(monitor);
 
     this->window = glfwCreateWindow(screen->width, screen->height, "window", monitor, NULL);
-    this->screenRatio = screen->width/screen->height;
+    this->screenRatio = (float)screen->width/(float)screen->height;
 
     if (!this->window)
     {
@@ -44,6 +46,12 @@ Window::Window(InputManager* input)
         auto input = (InputManager*)glfwGetWindowUserPointer( window );
         input->callback(key, action, mod); 
     });
+    /*
+    glfwSetFramebufferSizeCallback(this->window, [](GLFWwindow* window, int width, int height)
+    {
+        glViewport(0, 0, width, height);
+    });
+    */
 }
 
 Window::~Window()
@@ -69,5 +77,7 @@ void Window::pollEvents()
 
 float Window::getScreenRatio()
 {
-    return this->screenRatio;
+    int width, height;
+    glfwGetWindowSize(this->window, &width, &height);
+    return (float)width/(float)height;
 }

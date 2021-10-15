@@ -9,7 +9,7 @@
 Actor::Actor()
 {
     position = glm::vec4(0.0f, 1.0f, -5.5f, 1.0f);
-    facing   = glm::vec4( 0.0f, 0.0f, 1.0f,  0.0f);
+    facing   = glm::vec4(0.0f, 0.0f, 1.0f,  0.0f);
 }
 
 glm::vec4 Actor::getPosition()
@@ -24,9 +24,11 @@ glm::vec4 Actor::getFacing()
 
 void Actor::moveForward()
 {
+    /*
     glm::vec3 forward(facing);
     glm::vec4 hmForward(glm::normalize(forward), 0.0f);
     position += hmForward;
+    */
 }
 
 void Actor::moveBackward()
