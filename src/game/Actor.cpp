@@ -4,7 +4,7 @@
 
 #include "Actor.h"
 
-#define SPEED 0.2
+#define SPEED 0.2f
 
 Actor::Actor()
 {
