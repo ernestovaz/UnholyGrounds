@@ -99,8 +99,6 @@ int main()
 
     Actor player;
 
-    double lastTime = 0.0;
-
     while (!window.shouldClose())
     {
         glClearColor(0.1f, 0.1f, 0.1f, 0.0f);

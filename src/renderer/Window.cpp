@@ -1,6 +1,5 @@
 #include <cstdlib>
 #include <cstdio>
-#include <iostream>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -46,12 +45,10 @@ Window::Window(InputManager* input)
         auto input = (InputManager*)glfwGetWindowUserPointer( window );
         input->callback(key, action, mod); 
     });
-    /*
     glfwSetFramebufferSizeCallback(this->window, [](GLFWwindow* window, int width, int height)
     {
         glViewport(0, 0, width, height);
     });
-    */
 }
 
 Window::~Window()
