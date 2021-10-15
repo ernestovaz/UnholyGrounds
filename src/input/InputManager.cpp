@@ -37,7 +37,7 @@ void InputManager::handleInput(Actor& actor)
     for(auto const& k : heldKeys)
     {
         if(k.second == true){                            //if key is held
-            commands[k.first]->execute(actor);       //execute key's command
+            commands[k.first]->execute();       //execute key's command
         }
     }
 }

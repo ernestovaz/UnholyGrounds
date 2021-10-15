@@ -27,7 +27,7 @@
 #include "InputManager.h"
 #include "Actor.h"
 #include "Command.h"
-#include "ForwardCommand.h"
+#include "MoveCommand.h"
 #include "Window.h"
 
 GLuint LoadShader_Vertex(const char* filename);   
@@ -55,10 +55,22 @@ bool g_DPressed = false;
 
 int main()
 {
-    Command* forward = new ForwardCommand();
-    std::tuple<int, Command*> commandLst[] = {std::make_tuple(GLFW_KEY_W,forward)};
+    Actor player;
 
-    InputManager input(commandLst, 1);
+    Command* forw  = new MoveCommand(player, MoveCommand::FORWARD);
+    Command* back  = new MoveCommand(player, MoveCommand::BACKWARD);
+    Command* left  = new MoveCommand(player, MoveCommand::LEFT);
+    Command* right = new MoveCommand(player, MoveCommand::RIGHT);
+
+    std::tuple<int, Command*> commandLst[] = {
+        std::make_tuple(GLFW_KEY_W,forw),
+        std::make_tuple(GLFW_KEY_S,back),
+        std::make_tuple(GLFW_KEY_A,left),
+        std::make_tuple(GLFW_KEY_D,right)
+    };
+
+    InputManager input(commandLst, 4);
+
     Window window(&input);
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
@@ -87,8 +99,6 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     float tardisrotation = 0;
-
-    Actor player;
 
     while (!window.shouldClose())
     {
