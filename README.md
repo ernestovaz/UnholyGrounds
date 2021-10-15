@@ -12,9 +12,10 @@ To do:
 - [x] Cap frame buffer swapping to FPS
 - [x] Abstract window into class
 - [x] Create input handler
-- [x] Implement base for command design pattern. [source](https://gameprogrammingpatterns.com/command.html)
-- [ ] Implement all basic movement commands
-- [ ] Fix frame buffer issue
+- [x] Implement base for command design pattern [source](https://gameprogrammingpatterns.com/command.html)
+- [x] Implement all basic movement commands
+- [x] Fix frame buffer issue
+- [ ] Reimplement mouse movement
 - [ ] Improve Model and Obj loading abstraction (abstract glcalls into Renderer?)
 - [ ] Improve VAO abstraction
 - [ ] Display abstraction? (Separate graphic actions from game actions)
