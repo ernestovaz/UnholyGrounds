@@ -35,18 +35,7 @@ GLuint LoadShader_Fragment(const char* filename);
 void LoadShader(const char* filename, GLuint shader_id);
 GLuint CreateGpuProgram(GLuint vertex_shader_id, GLuint fragment_shader_id); 
 
-float g_AngleX = 0.0f;
-float g_AngleY = 0.0f;
-float g_AngleZ = 0.0f;
-
 bool g_LeftMouseButtonPressed = false;
-
-float g_CameraTheta = 0.0f; 
-float g_CameraPhi = 0.0f;  
-float g_CameraDistance = 2.5f; 
-
-float g_CameraX = 0.0f;
-float g_CameraZ = 0.0f;
 
 bool g_WPressed = false;
 bool g_SPressed = false;
