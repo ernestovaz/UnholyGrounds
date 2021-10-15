@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include <GLFW/glfw33.h>
+#include <GLFW/glfw3.h>
 
 #include "Window.h"
 #include "InputManager.h"
@@ -27,9 +27,9 @@ Window::Window(InputManager* input)
 
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* screen = glfwGetVideoMode(monitor);
-    g_ScreenRatio = screen->width/screen->height;
 
     this->window = glfwCreateWindow(screen->width, screen->height, "window", monitor, NULL);
+    this->screenRatio = screen->width/screen->height;
 
     if (!this->window)
     {
@@ -38,9 +38,36 @@ Window::Window(InputManager* input)
         std::exit(EXIT_FAILURE);
     }
     glfwMakeContextCurrent(this->window);
-
+    glfwSetWindowUserPointer(this->window, &input);
     glfwSetKeyCallback(this->window, [](GLFWwindow* window, int key, int scancode, int action, int mod)
     {
+        auto input = (InputManager*)glfwGetWindowUserPointer( window );
         input->callback(key, action, mod); 
     });
+}
+
+Window::~Window()
+{
+   glfwDestroyWindow(this->window); 
+   glfwTerminate();
+}
+
+bool Window::shouldClose()
+{
+    return glfwWindowShouldClose(this->window);
+}
+
+void Window::swapBuffers()
+{
+    glfwSwapBuffers(this->window);
+}
+
+void Window::pollEvents()
+{
+    glfwPollEvents();
+}
+
+float Window::getScreenRatio()
+{
+    return this->screenRatio;
 }

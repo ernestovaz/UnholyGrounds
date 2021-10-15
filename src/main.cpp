@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+#include <tuple>
 
 #include <glad/glad.h>  
 #include <GLFW/glfw3.h>  
@@ -23,23 +24,25 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "Model.h"
-//#include "InputManager.h"
+#include "InputManager.h"
+#include "Actor.h"
+#include "Command.h"
+#include "ForwardCommand.h"
+#include "Window.h"
 
 GLuint LoadShader_Vertex(const char* filename);   
 GLuint LoadShader_Fragment(const char* filename);
 void LoadShader(const char* filename, GLuint shader_id);
 GLuint CreateGpuProgram(GLuint vertex_shader_id, GLuint fragment_shader_id); 
 
-
+/*
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 void ErrorCallback(int error, const char* description);
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 void CursorPosCallback(GLFWwindow* window, double xpos, double ypos);
 void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
-
-
-std::map<const char*, Model> g_VirtualScene;
+*/
 
 float g_AngleX = 0.0f;
 float g_AngleY = 0.0f;
@@ -59,14 +62,14 @@ bool g_SPressed = false;
 bool g_APressed = false;
 bool g_DPressed = false;
 
-float g_ScreenRatio;
-
 int main()
 {
-    gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+    Command* forward = new ForwardCommand();
+    std::tuple<int, Command*> commandLst[] = {std::make_tuple(GLFW_KEY_W,forward)};
 
-    InputManager input;
+    InputManager input(commandLst, 1);
     Window window(&input);
+    gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
     GLuint vertex_shader_id = LoadShader_Vertex("src/shaders/vertex.glsl");
     GLuint fragment_shader_id = LoadShader_Fragment("src/shaders/fragment.glsl");
@@ -92,45 +95,22 @@ int main()
     GLint projection_uniform      = glGetUniformLocation(program_id, "projection"); 
     glEnable(GL_DEPTH_TEST);
 
-    //glfwSetMouseButtonCallback(window, MouseButtonCallback);
-    //glfwSetCursorPosCallback(window, CursorPosCallback);
-    //glfwSetScrollCallback(window, ScrollCallback);
-
-    glm::vec4 d_W = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);
-    glm::vec4 d_S = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);
-    glm::vec4 d_A = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);
-    glm::vec4 d_D = glm::vec4(0.0f,0.0f, 0.0f, 0.0f);
-
     float tardisrotation = 0;
 
-    while (!glfwWindowShouldClose(window))
+    Actor player;
+    while (!window.shouldClose())
     {
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glUseProgram(program_id);
-        glBindVertexArray(vao);
+        GLCall(glUseProgram(program_id));
+        GLCall(glBindVertexArray(vao));
         positions.Bind();
         ib.Bind();
+        input.handleInput(player);
 
-        glm::vec4 camera_position_c  = glm::vec4(0.0f,1.0f,-5.5f,1.0f)+d_W+d_S+d_A+d_D; 
-        glm::vec4 camera_free_l      = glm::vec4(cos(g_CameraPhi)*sin(g_CameraTheta),
-                                        sin(g_CameraPhi),
-                                        cos(g_CameraTheta)*cos(g_CameraPhi),
-                                        0.0f); 
-
-        glm::vec4 camera_view_vector = camera_free_l;
+        glm::vec4 camera_position_c  = player.getPosition();
+        glm::vec4 camera_view_vector = player.getFacing();
         glm::vec4 camera_up_vector   = glm::vec4(0.0f,1.0f,0.0f,0.0f); 
-
-        glm::vec4 w = -camera_view_vector;
-        glm::vec4 u = crossproduct(camera_up_vector,w);
-        w = w / norm(w);
-        u = u / norm(u);
-
-        if(g_WPressed) d_W -= w*0.01f;
-        if(g_SPressed) d_S += w*0.01f;
-        if(g_APressed) d_A -= u*0.01f;
-        if(g_DPressed) d_D += u*0.01f;
-
 
         glm::mat4 view = Matrix_Camera_View(camera_position_c, camera_view_vector, camera_up_vector);
 
@@ -140,15 +120,15 @@ int main()
         float farplane  = -10.0f; 
 
         float field_of_view = 3.141592 / 3.0f;
-        projection = Matrix_Perspective(field_of_view, g_ScreenRatio, nearplane, farplane);
+        projection = Matrix_Perspective(field_of_view, window.getScreenRatio(), nearplane, farplane);
 
-        glUniformMatrix4fv(view_uniform       , 1 , GL_FALSE , glm::value_ptr(view));
-        glUniformMatrix4fv(projection_uniform , 1 , GL_FALSE , glm::value_ptr(projection));
+        GLCall(glUniformMatrix4fv(view_uniform       , 1 , GL_FALSE , glm::value_ptr(view)));
+        GLCall(glUniformMatrix4fv(projection_uniform , 1 , GL_FALSE , glm::value_ptr(projection)));
         
         tardisrotation += 0.1;
         glm::mat4 model = Matrix_Scale(0.2f, 0.2f, 0.2f)*Matrix_Rotate_Y(tardisrotation);
 
-        glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model));
+        GLCall(glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model)));
 
         GLCall(glDrawElements(
                 tardis.rendering_mode, 
@@ -157,12 +137,10 @@ int main()
                 (void*)tardis.first_index
         ));
 
-        glBindVertexArray(0);
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+        GLCall(glBindVertexArray(0));
+        window.pollEvents();
+        window.swapBuffers();
     }
-    }//closing bracket for scope created for deconstruction fix
-    glfwTerminate();
 
     return 0;
 }
@@ -201,18 +179,18 @@ void LoadShader(const char* filename, GLuint shader_id)
     const GLchar* shader_string = str.c_str();
     const GLint   shader_string_length = static_cast<GLint>( str.length() );
 
-    glShaderSource(shader_id, 1, &shader_string, &shader_string_length);
+    GLCall(glShaderSource(shader_id, 1, &shader_string, &shader_string_length));
 
-    glCompileShader(shader_id);
+    GLCall(glCompileShader(shader_id));
 
     GLint compiled_ok;
-    glGetShaderiv(shader_id, GL_COMPILE_STATUS, &compiled_ok);
+    GLCall(glGetShaderiv(shader_id, GL_COMPILE_STATUS, &compiled_ok));
 
     GLint log_length = 0;
-    glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &log_length);
+    GLCall(glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &log_length));
 
     GLchar* log = new GLchar[log_length];
-    glGetShaderInfoLog(shader_id, log_length, &log_length, log);
+    GLCall(glGetShaderInfoLog(shader_id, log_length, &log_length, log));
 
     if ( log_length != 0 )
     {
@@ -279,6 +257,7 @@ GLuint CreateGpuProgram(GLuint vertex_shader_id, GLuint fragment_shader_id)
     return program_id;
 }
 
+/*
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
@@ -414,4 +393,5 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mod)
         g_DPressed = false;
     }
 }
+*/
 

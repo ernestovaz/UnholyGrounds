@@ -8,11 +8,12 @@ class Window
 {
 private:
     GLFWwindow* window;
+    float screenRatio;
 public:
     Window(InputManager* input);
     ~Window();
     bool shouldClose();
     void swapBuffers();
-    GLFWwindow* getGLFWwindow();
-
-}
+    void pollEvents();
+    float getScreenRatio();
+};

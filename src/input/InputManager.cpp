@@ -5,12 +5,11 @@
 
 #include "InputManager.h" 
 
-InputManager::InputManager(std::tuple<int, Command*> commandList[])
+InputManager::InputManager(std::tuple<int,Command*> cList[], int count)
 {
-    int count = sizeof(commandList)/sizeof(std::tuple<int, Command*>);
     for(int i=0; i<count; i++) {
-        int key          = std::get<0>(commandList[i]);
-        Command* command = std::get<1>(commandList[i]);
+        int key          = std::get<0>(cList[i]);
+        Command* command = std::get<1>(cList[i]);
         heldKeys[key] = false;
         commands[key] = command;
     }
@@ -31,12 +30,12 @@ void InputManager::callback(int key, int action, int mods)
         it->second = state; 
 }
 
-void InputManager::handleInput()
+void InputManager::handleInput(Actor& actor)
 {
     for(auto const& k : heldKeys)
     {
         if(k.second)                            //if key is held
-            commands[k.first]->execute();       //execute key's command
+            commands[k.first]->execute(actor);       //execute key's command
     }
 }
 
