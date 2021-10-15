@@ -1,12 +1,15 @@
 #pragma once
 
 #include "Command.h"
+#include "Window.h"
 
 class ExitCommand : public Command
 {
 
     public:
-        ExitCommand();
-        virtual void execute() override; 
-
+        ExitCommand(Window& w);
+        virtual void execute() override;
+    
+    private: 
+        Window& window;
 };
