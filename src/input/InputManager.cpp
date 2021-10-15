@@ -1,5 +1,6 @@
 #include <map>
 #include <iterator>
+#include <iostream>
 
 #include <GLFW/glfw3.h>
 
@@ -18,8 +19,9 @@ InputManager::InputManager(std::tuple<int,Command*> cList[], int count)
 void InputManager::callback(int key, int action, int mods)
 {
     bool state;
-    if(action == GLFW_PRESS)
+    if(action == GLFW_PRESS){
         state = true;
+    }
     else if(action == GLFW_RELEASE)
         state = false;
     else
@@ -34,8 +36,9 @@ void InputManager::handleInput(Actor& actor)
 {
     for(auto const& k : heldKeys)
     {
-        if(k.second)                            //if key is held
+        if(k.second == true){                            //if key is held
             commands[k.first]->execute(actor);       //execute key's command
+        }
     }
 }
 

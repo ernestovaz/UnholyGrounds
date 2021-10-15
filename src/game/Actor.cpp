@@ -24,18 +24,16 @@ glm::vec4 Actor::getFacing()
 
 void Actor::moveForward()
 {
-    /*
     glm::vec3 forward(facing);
     glm::vec4 hmForward(glm::normalize(forward), 0.0f);
-    position += hmForward;
-    */
+    position += hmForward*0.01f;
 }
 
 void Actor::moveBackward()
 {
     glm::vec3 backward(-facing);
     glm::vec4 hmBackward(glm::normalize(backward), 0.0f);
-    position += hmBackward;
+    position += hmBackward*0.01f;
 }
 
 void Actor::moveLeft()

@@ -40,7 +40,7 @@ Window::Window(InputManager* input)
         std::exit(EXIT_FAILURE);
     }
     glfwMakeContextCurrent(this->window);
-    glfwSetWindowUserPointer(this->window, &input);
+    glfwSetWindowUserPointer(this->window, input);
     glfwSetKeyCallback(this->window, [](GLFWwindow* window, int key, int scancode, int action, int mod)
     {
         auto input = (InputManager*)glfwGetWindowUserPointer( window );

@@ -6,7 +6,7 @@
 class ForwardCommand : public Command
 {
 public:
-    virtual void execute(Actor& actor){ actor.moveForward(); }
+    virtual void execute(Actor& actor) override { actor.moveForward(); }
 };
 
 
