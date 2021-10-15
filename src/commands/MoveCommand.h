@@ -7,14 +7,14 @@
 class MoveCommand : public Command
 {
 
-public:
-    enum Direction {FORWARD, BACKWARD, LEFT, RIGHT};
-    MoveCommand(Actor& actor, Direction dir);
-    virtual void execute() override; 
+    public:
+        enum Direction {FORWARD, BACKWARD, LEFT, RIGHT};
+        MoveCommand(Actor& actor, Direction dir);
+        virtual void execute() override; 
 
-private:
-    Actor& actor;
-    Direction dir;
+    private:
+        Actor& actor;
+        Direction dir;
 };
 
 
