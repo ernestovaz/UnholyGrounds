@@ -13,6 +13,7 @@ public:
     Window(InputManager* input);
     ~Window();
     bool shouldClose();
+    void closeWindow();
     void swapBuffers();
     void pollEvents();
     float getScreenRatio();
