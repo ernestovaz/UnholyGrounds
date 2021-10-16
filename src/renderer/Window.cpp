@@ -62,7 +62,7 @@ bool Window::shouldClose()
     return glfwWindowShouldClose(this->window);
 }
 
-void Window::closeWindow()
+void Window::setShouldClose()
 {
     glfwSetWindowShouldClose(this->window, GL_TRUE);
 }
