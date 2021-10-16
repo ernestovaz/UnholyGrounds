@@ -35,13 +35,6 @@ GLuint LoadShader_Fragment(const char* filename);
 void LoadShader(const char* filename, GLuint shader_id);
 GLuint CreateGpuProgram(GLuint vertex_shader_id, GLuint fragment_shader_id); 
 
-bool g_LeftMouseButtonPressed = false;
-
-bool g_WPressed = false;
-bool g_SPressed = false;
-bool g_APressed = false;
-bool g_DPressed = false;
-
 int main()
 {
     Actor player;
@@ -58,7 +51,7 @@ int main()
         std::make_tuple(GLFW_KEY_D,right)
     };
 
-    InputManager input(commandLst, 4);
+    InputManager input(commandLst, 4, player);
 
     Window window(&input);
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
@@ -97,7 +90,7 @@ int main()
         GLCall(glBindVertexArray(vao));
         positions.Bind();
         ib.Bind();
-        input.handleInput(player);
+        input.handleInput();
 
         glm::vec4 camera_position_c  = player.getPosition();
         glm::vec4 camera_view_vector = player.getFacing();

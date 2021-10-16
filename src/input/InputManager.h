@@ -11,12 +11,16 @@ class InputManager
 
 public:
 
-    InputManager(std::tuple<int,Command*> cList[], int count);
-    void callback(int key, int action, int mods);
-    void handleInput(Actor&);
+    InputManager(std::tuple<int,Command*> cList[], int count, Actor& player);
+    void keyCallback(int key, int action, int mods);
+    void cursorCallback(double xpos, double ypos);
+    void handleInput();
 
 private:
     std::map<int,bool>    heldKeys;
     std::map<int,Command*> commands;
+    float lastCursorPosX;
+    float lastCursorPosY;
+    Actor& player;
 };
 

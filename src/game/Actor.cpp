@@ -4,12 +4,16 @@
 
 #include "Actor.h"
 
-#define SPEED 0.2f
+#define SPEED 0.15f
+#define SENSITIVITY 0.002f
+#define PI 3.141592f/2.0f
 
 Actor::Actor()
 {
     position = glm::vec4(0.0f, 1.0f, -5.5f, 1.0f);
     facing   = glm::vec4(0.0f, 0.0f, 1.0f,  0.0f);
+    viewYaw  = 0.0f;
+    viewPitch= 0.0f;
 }
 
 glm::vec4 Actor::getPosition()
@@ -50,4 +54,20 @@ void Actor::moveRight()
     glm::vec3 right = glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), backward);
     glm::vec4 hmRight(right, 0.0f);
     position += hmRight * SPEED;
+}
+
+void Actor::moveView(float dx, float dy)
+{
+    viewYaw   -= SENSITIVITY * dx; 
+    viewPitch -= SENSITIVITY * dy; 
+    if(viewPitch > PI/2)
+        viewPitch = PI/2;
+    if(viewPitch < -PI/2)
+        viewPitch = -PI/2;
+    facing = glm::vec4(
+            glm::cos(viewPitch) * glm::sin(viewYaw),
+            glm::sin(viewPitch),
+            glm::cos(viewPitch) * glm::cos(viewYaw),
+            0.0f
+    );
 }
