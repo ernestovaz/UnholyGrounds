@@ -4,7 +4,7 @@
 
 #include "Actor.h"
 
-#define SPEED 0.15f
+#define SPEED 0.05f
 #define SENSITIVITY 0.002f
 #define PI 3.141592f/2.0f
 
@@ -29,6 +29,7 @@ glm::vec4 Actor::getFacing()
 void Actor::moveForward()
 {
     glm::vec3 forward(facing);
+    forward.y = 0;
     glm::vec4 hmForward(glm::normalize(forward), 0.0f);
     position += hmForward * SPEED;
 }
@@ -36,6 +37,7 @@ void Actor::moveForward()
 void Actor::moveBackward()
 {
     glm::vec3 backward(-facing);
+    backward.y = 0;
     glm::vec4 hmBackward(glm::normalize(backward), 0.0f);
     position += hmBackward * SPEED;
 }
