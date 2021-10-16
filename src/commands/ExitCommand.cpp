@@ -1,11 +1,10 @@
 #include "ExitCommand.h"
-#include "Window.h"
 
-ExitCommand::ExitCommand(Window& w): window(w)
+ExitCommand::ExitCommand(Game& game) : game(game)
 {
 }
 
 void ExitCommand::execute()
 {
-    window.closeWindow();
+    this->game.terminate();
 }
