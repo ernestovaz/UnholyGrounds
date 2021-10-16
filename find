@@ -1,1 +1,0 @@
-clang\n src/ -type f -iname *.h -printf -I%h\n
