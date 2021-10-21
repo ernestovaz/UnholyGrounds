@@ -12,7 +12,7 @@ Model::Model()
 
 }
 
-Model::Model(std::string name, size_t first_index, size_t num_indices, GLenum rendering_mode)
+Model::Model(std::string name, size_t first_index, size_t num_indices, GLenum rendering_mode) //deprecated constructor
 {
     this->name = name;
     this->first_index = first_index;
@@ -22,6 +22,8 @@ Model::Model(std::string name, size_t first_index, size_t num_indices, GLenum re
 
 Model::Model(std::string filename)
 {
+    //Loads model from filename
+    //Based on example from https://github.com/tinyobjloader/tinyobjloader
     std::vector<tinyobj::material_t> materials; //unused for now    
     tinyobj::attrib_t   attrib;
     std::vector<tinyobj::shape_t> shapes;
@@ -36,14 +38,14 @@ Model::Model(std::string filename)
     std::vector<GLuint> indices;
     std::vector<float>  model_coefficients;
 
-    for (size_t shape = 0; shape < shapes.size(); ++shape)
+    for (size_t shape = 0; shape < shapes.size(); ++shape) // a single .obj can have multiple "shapes" (e.g. each shape can have a diferent material)
     {
 	size_t first_index = indices.size();
 	size_t num_triangles = shapes[shape].mesh.num_face_vertices.size();
-	for (size_t triangle = 0; triangle < num_triangles; ++triangle)
+	for (size_t triangle = 0; triangle < num_triangles; ++triangle) // each line in .obj represents a polygon face, in this case a triangle
 	{
             assert(shapes[shape].mesh.num_face_vertices[triangle] >= 3);
-	    for (size_t vertex = 0; vertex < 3; ++vertex)
+	    for (size_t vertex = 0; vertex < 3; ++vertex)                //each triangle has three vertices 
 	    {
 		tinyobj::index_t idx = shapes[shape].mesh.indices[3*triangle + vertex];
 		indices.push_back(first_index + 3*triangle + vertex);
@@ -58,11 +60,12 @@ Model::Model(std::string filename)
 	    }
 	}
 
-    this->name                  = shapes[shape].name;
+    this->name                  = shapes[shape].name; //the name is set as the last shape's name. needs changing
     this->first_index           = 0; 
     this->num_indices           = indices.size(); 
-    this->rendering_mode        = GL_TRIANGLES;       
+    this->rendering_mode        = GL_TRIANGLES;       //in this method we insert data into indices in the template of GL_TRIANGLES  
     this->indices               = indices;
-    this->vertex_positions      = model_coefficients;
+    this->vertex_positions      = model_coefficients;   //right now, all shapes go into same model, it's useful to separate shapes for animations,
+                                                        //however it's probably not urgent 
     }
 }

@@ -65,7 +65,7 @@ int main()
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-    Model tardis("data/tardis.obj");
+    Model tardis("data/tardis.obj"); //reads model, saving position and index array on object
     std::vector<float> vertex_pos = tardis.vertex_positions;
     std::vector<GLuint> indices = tardis.indices;
 
