@@ -52,7 +52,7 @@ void main()
     float q; // Expoente especular para o modelo de iluminação de Phong
 
     // Propriedades espectrais do nosso unico objeto ate entao
-    Kd = vec3(0.08, 0.4, 0.8);
+    Kd = vec3(0.08, 0.23137, 0.4352941);
     Ks = vec3(0.8, 0.8, 0.8);
     Ka = vec3(0.04, 0.2, 0.4);
     q = 32.0;
