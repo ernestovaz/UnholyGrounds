@@ -57,7 +57,7 @@ int main()
     };
 
 
-    InputManager input(commandLst, 5);
+    InputManager input(commandLst, 5, player);
 
 
     Window window(&input);
