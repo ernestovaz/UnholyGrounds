@@ -37,7 +37,9 @@ Model::Model(std::string filename)
 
     std::vector<GLuint> indices;
     std::vector<float>  model_coefficients;
-
+    std::vector<float> normal_coefficients;
+    std::vector<float> texture_coefficients;
+    
     for (size_t shape = 0; shape < shapes.size(); ++shape) // a single .obj can have multiple "shapes" (e.g. each shape can have a diferent material)
     {
 	size_t first_index = indices.size();
@@ -57,6 +59,27 @@ Model::Model(std::string filename)
 		model_coefficients.push_back( vy ); 
 		model_coefficients.push_back( vz ); 
 		model_coefficients.push_back( 1.0f ); 
+		
+		//testa se existem normais e texturas no ObjModel, lendo em caso afirmativo
+		if ( idx.normal_index != -1 )
+                {
+                    const float nx = attrib.normals[3*idx.normal_index + 0];
+                    const float ny = attrib.normals[3*idx.normal_index + 1];
+                    const float nz = attrib.normals[3*idx.normal_index + 2];
+                    normal_coefficients.push_back( nx ); // X
+                    normal_coefficients.push_back( ny ); // Y
+                    normal_coefficients.push_back( nz ); // Z
+                    normal_coefficients.push_back( 0.0f ); // W
+                }
+
+                if ( idx.texcoord_index != -1 )
+                {
+                    const float u = attrib.texcoords[2*idx.texcoord_index + 0];
+                    const float v = attrib.texcoords[2*idx.texcoord_index + 1];
+                    texture_coefficients.push_back( u );
+                    texture_coefficients.push_back( v );
+                }
+		
 	    }
 	}
 

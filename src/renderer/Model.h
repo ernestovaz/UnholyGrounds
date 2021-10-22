@@ -16,6 +16,8 @@ public: //initially
     GLenum       rendering_mode; 
     std::vector<GLuint> indices;
     std::vector<float> vertex_positions;
+    std::vector<float> normal_coefficients;
+    std::vector<float> texture_coefficients;
 
     Model();
     Model(std::string name, size_t first_index, size_t run_indices, GLenum rendering_mode); // Deprecated constructor
