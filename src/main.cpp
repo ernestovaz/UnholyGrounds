@@ -56,7 +56,9 @@ int main()
         std::make_tuple(GLFW_KEY_ESCAPE, exit)
     };
 
+
     InputManager input(commandLst, 5);
+
 
     Window window(&input);
 
@@ -71,7 +73,7 @@ int main()
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-    Model tardis("data/tardis.obj");
+    Model tardis("data/tardis.obj"); //reads model, saving position and index array on object
     std::vector<float> vertex_pos = tardis.vertex_positions;
     std::vector<GLuint> indices = tardis.indices;
 
@@ -96,7 +98,7 @@ int main()
         GLCall(glBindVertexArray(vao));
         positions.Bind();
         ib.Bind();
-        input.handleInput(player);
+        input.handleInput();
 
         glm::vec4 camera_position_c  = player.getPosition();
         glm::vec4 camera_view_vector = player.getFacing();

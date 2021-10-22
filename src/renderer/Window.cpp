@@ -43,12 +43,23 @@ Window::Window(InputManager* input)
     glfwSetKeyCallback(this->window, [](GLFWwindow* window, int key, int scancode, int action, int mod)
     {
         auto input = (InputManager*)glfwGetWindowUserPointer( window );
-        input->callback(key, action, mod); 
+        input->keyCallback(key, action, mod); 
+    });
+    glfwSetCursorPosCallback(this->window, [](GLFWwindow* window, double xpos, double ypos)
+    {
+        auto input = (InputManager*)glfwGetWindowUserPointer( window );
+        input->cursorCallback(xpos, ypos); 
     });
     glfwSetFramebufferSizeCallback(this->window, [](GLFWwindow* window, int width, int height)
     {
         glViewport(0, 0, width, height);
     });
+
+
+    if (glfwRawMouseMotionSupported())
+        glfwSetInputMode(this->window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+
+    glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 Window::~Window()

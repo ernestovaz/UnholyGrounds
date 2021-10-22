@@ -1,12 +1,12 @@
 #include <map>
 #include <iterator>
-#include <iostream>
 
 #include <GLFW/glfw3.h>
 
 #include "InputManager.h" 
 
-InputManager::InputManager(std::tuple<int,Command*> cList[], int count)
+InputManager::InputManager(std::tuple<int,Command*> cList[], int count, Actor& player)
+    : player(player)
 {
     for(int i=0; i<count; i++) {
         int key          = std::get<0>(cList[i]);
@@ -16,23 +16,32 @@ InputManager::InputManager(std::tuple<int,Command*> cList[], int count)
     }
 }
 
-void InputManager::callback(int key, int action, int mods)
+void InputManager::keyCallback(int key, int action, int mods)
 {
-    bool state;
+    bool keyState;
     if(action == GLFW_PRESS){
-        state = true;
+        keyState = true;
     }
     else if(action == GLFW_RELEASE)
-        state = false;
+        keyState = false;
     else
         return;
 
     std::map<int, bool>::iterator it = heldKeys.find(key); 
     if (it != heldKeys.end())
-        it->second = state; 
+        it->second = keyState; 
 }
 
-void InputManager::handleInput(Actor& actor)
+void InputManager::cursorCallback(double xpos, double ypos)
+{
+    float dx = xpos - lastCursorPosX;
+    float dy = ypos - lastCursorPosY;
+    player.moveView(dx, dy);
+    lastCursorPosX = xpos;
+    lastCursorPosY = ypos;
+}
+
+void InputManager::handleInput()
 {
     for(auto const& k : heldKeys)
     {
