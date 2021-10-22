@@ -28,7 +28,9 @@
 #include "Actor.h"
 #include "Command.h"
 #include "MoveCommand.h"
+#include "ExitCommand.h"
 #include "Window.h"
+#include "Game.h"
 
 GLuint LoadShader_Vertex(const char* filename);   
 GLuint LoadShader_Fragment(const char* filename);
@@ -38,22 +40,28 @@ GLuint CreateGpuProgram(GLuint vertex_shader_id, GLuint fragment_shader_id);
 int main()
 {
     Actor player;
+    Game game;
 
     Command* forw  = new MoveCommand(player, MoveCommand::FORWARD);
     Command* back  = new MoveCommand(player, MoveCommand::BACKWARD);
     Command* left  = new MoveCommand(player, MoveCommand::LEFT);
     Command* right = new MoveCommand(player, MoveCommand::RIGHT);
+    Command* exit  = new ExitCommand (game);
 
     std::tuple<int, Command*> commandLst[] = {
-        std::make_tuple(GLFW_KEY_W,forw),
-        std::make_tuple(GLFW_KEY_S,back),
-        std::make_tuple(GLFW_KEY_A,left),
-        std::make_tuple(GLFW_KEY_D,right)
+        std::make_tuple(GLFW_KEY_W,      forw),
+        std::make_tuple(GLFW_KEY_S,      back),
+        std::make_tuple(GLFW_KEY_A,      left),
+        std::make_tuple(GLFW_KEY_D,      right),
+        std::make_tuple(GLFW_KEY_ESCAPE, exit)
     };
 
-    InputManager input(commandLst, 4, player);
+
+    InputManager input(commandLst, 5);
+
 
     Window window(&input);
+
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
     GLuint vertex_shader_id = LoadShader_Vertex("src/shaders/vertex.glsl");
@@ -82,7 +90,7 @@ int main()
 
     float tardisrotation = 0;
 
-    while (!window.shouldClose())
+    while (!window.shouldClose() && game.isRunning())
     {
         glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
