@@ -74,14 +74,17 @@ int main()
     glBindVertexArray(vao);
 
     Model tardis("data/tardis.obj"); //reads model, saving position and index array on object
-    std::vector<float> vertex_pos = tardis.vertex_positions;
     std::vector<GLuint> indices = tardis.indices;
+    std::vector<float> vertex_pos = tardis.vertex_positions;
+    std::vector<float> normal_coefs = tardis.normal_coefficients;
+    std::vector<float> texture_coefs = tardis.texture_coefficients;
 
-    VertexBuffer positions(vertex_pos.data(), vertex_pos.size()*sizeof(float));
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(0);
-
+    VertexBuffer positions(vertex_pos.data(), vertex_pos.size()*sizeof(float), 0);
+    VertexBuffer normals(normal_coefs.data(), normal_coefs.size()*sizeof(float), 1);
+    //VertexBuffer textures(texture_coefs.data(), texture_coefs.size()*sizeof(float), 2);
+    //
     IndexBuffer ib(indices.data(), indices.size());
+
 
     GLint model_uniform           = glGetUniformLocation(program_id, "model"); 
     GLint view_uniform            = glGetUniformLocation(program_id, "view"); 
@@ -96,8 +99,8 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         GLCall(glUseProgram(program_id));
         GLCall(glBindVertexArray(vao));
-        positions.Bind();
-        ib.Bind();
+        //positions.Bind();
+        //ib.Bind();
         input.handleInput();
 
         glm::vec4 camera_position_c  = player.getPosition();
@@ -122,14 +125,14 @@ int main()
 
         GLCall(glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model)));
 
-        GLCall(glDrawElements(
-                tardis.rendering_mode, 
+        glDrawElements(
+                tardis.rendering_mode,
                 tardis.num_indices,
                 GL_UNSIGNED_INT,
                 (void*)tardis.first_index
-        ));
+        );
 
-        GLCall(glBindVertexArray(0));
+        //GLCall(glBindVertexArray(0));
         window.pollEvents();
         window.swapBuffers();
     }

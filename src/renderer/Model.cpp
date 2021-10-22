@@ -89,6 +89,7 @@ Model::Model(std::string filename)
     this->rendering_mode        = GL_TRIANGLES;       //in this method we insert data into indices in the template of GL_TRIANGLES  
     this->indices               = indices;
     this->vertex_positions      = model_coefficients;   //right now, all shapes go into same model, it's useful to separate shapes for animations,
-                                                        //however it's probably not urgent 
+    this->normal_coefficients   = normal_coefficients;   
+    this->texture_coefficients  = texture_coefficients;   
     }
 }
