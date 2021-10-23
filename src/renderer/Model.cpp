@@ -104,6 +104,10 @@ Model::Model(std::string name)
     glBindVertexArray(0);
 }
 
+Model::Model()
+{
+}
+
 unsigned int Model::getId()
 {
     return this->vaoID;

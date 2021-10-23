@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glad/glad.h>
+
 //Abstraction for buffer that holds index arrays.
 
 class IndexBuffer

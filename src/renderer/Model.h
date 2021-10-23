@@ -22,6 +22,7 @@ private:
 
 public: 
     Model(std::string name); 
+    Model();
     unsigned int getId();
     size_t getIndexCount();
     void draw();
