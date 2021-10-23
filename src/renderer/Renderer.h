@@ -1,6 +1,8 @@
 #pragma once
 
 #include<string>
+
+#include "Entity.h"
 #include "Model.h"
 #include "Actor.h"
 
@@ -10,6 +12,7 @@ public:
     Renderer(std::string vertexShader, std::string fragmentShader, float screenRatio);
     ~Renderer();
     void draw(Actor player);
+    void drawEntity(Entity entity);
 
 private:
     Model testObject;

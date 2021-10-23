@@ -1,9 +1,5 @@
-#include "Entitiy.h"
+#include "Entity.h"
 
-Entity::Entity(Model model) : model(model)
-{
-}
-
-Entity::Entity(Model model, glm::vec3 position) : model(model), pos(position)
+Entity::Entity(Model model, glm::vec3 position, glm::vec3 rotation) : pos(position), rot(rotation), model(model)
 {
 }
