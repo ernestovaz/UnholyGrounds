@@ -21,8 +21,6 @@
 #include "matrices.h"
 
 #include "Renderer.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
 #include "Model.h"
 #include "InputManager.h"
 #include "Actor.h"
@@ -42,20 +40,15 @@ int main()
     Actor player;
     Game game;
 
-    Command* forw  = new MoveCommand(player, MoveCommand::FORWARD);
-    Command* back  = new MoveCommand(player, MoveCommand::BACKWARD);
-    Command* left  = new MoveCommand(player, MoveCommand::LEFT);
-    Command* right = new MoveCommand(player, MoveCommand::RIGHT);
-    Command* exit  = new ExitCommand (game);
-
-    std::tuple<int, Command*> commandLst[] = {
-        std::make_tuple(GLFW_KEY_W,      forw),
-        std::make_tuple(GLFW_KEY_S,      back),
-        std::make_tuple(GLFW_KEY_A,      left),
-        std::make_tuple(GLFW_KEY_D,      right),
-        std::make_tuple(GLFW_KEY_ESCAPE, exit)
+    std::vector<std::tuple<int, Command*>> commandLst = {
+        std::make_tuple(GLFW_KEY_W,     new MoveCommand(player, MoveCommand::FORWARD)),
+        std::make_tuple(GLFW_KEY_S,     new MoveCommand(player, MoveCommand::BACKWARD)),
+        std::make_tuple(GLFW_KEY_A,     new MoveCommand(player, MoveCommand::LEFT)),
+        std::make_tuple(GLFW_KEY_D,     new MoveCommand(player, MoveCommand::RIGHT)),
+        std::make_tuple(GLFW_KEY_ESCAPE,new ExitCommand (game))
     };
-    InputManager input(commandLst, 5, player);
+
+    InputManager input(commandLst, player);
     Window window(&input);
 
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);

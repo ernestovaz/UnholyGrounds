@@ -5,10 +5,10 @@
 
 #include "InputManager.h" 
 
-InputManager::InputManager(std::tuple<int,Command*> cList[], int count, Actor& player)
+InputManager::InputManager(std::vector<std::tuple<int,Command*>> cList, Actor& player)
     : player(player)
 {
-    for(int i=0; i<count; i++) {
+    for(unsigned int i=0; i<cList.size(); i++) {
         int key          = std::get<0>(cList[i]);
         Command* command = std::get<1>(cList[i]);
         heldKeys[key] = false;

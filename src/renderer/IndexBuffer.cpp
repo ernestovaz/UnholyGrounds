@@ -1,7 +1,7 @@
 #include <glad/glad.h>
 
 #include "IndexBuffer.h"
-#include "Renderer.h"
+#include "utils.h"
 
 IndexBuffer::IndexBuffer()
 {

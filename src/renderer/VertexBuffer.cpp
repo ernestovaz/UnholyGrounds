@@ -1,7 +1,7 @@
 #include <glad/glad.h>
 
 #include "VertexBuffer.h"
-#include "Renderer.h"
+#include "utils.h"
 
 VertexBuffer::VertexBuffer()
 {

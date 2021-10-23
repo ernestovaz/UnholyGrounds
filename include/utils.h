@@ -1,7 +1,28 @@
-#ifndef _UTILS_H
-#define _UTILS_H
+#pragma once
 
+#include <glad/glad.h>
+#include <signal.h>
 #include <cstdio>
+#include <iostream>
+
+static void GLClearError()
+{
+    while (glGetError() != GL_NO_ERROR);
+}
+
+static bool GLLogCall(const char* func, const char* file, int line)
+{
+    bool foundError = true;
+    while(GLenum error = glGetError()) 
+    {
+        std::cout << "(!)OpenGL Error number " << error <<
+            " in " << func << ", " << file << " at line " <<
+            line << std::endl;
+        foundError = false;
+    }
+
+    return foundError;
+} 
 
 static GLenum glCheckError_(const char *file, int line)
 {
@@ -24,6 +45,7 @@ static GLenum glCheckError_(const char *file, int line)
     }
     return errorCode;
 }
-#define glCheckError() glCheckError_(__FILE__, __LINE__)
 
-#endif // _UTILS_H
+#define glCheckError() glCheckError_(__FILE__, __LINE__)
+#define ASSERT(x) if (!(x)) raise(SIGTRAP);     //macro to stop execution (gcc)
+#define GLCall(x) GLClearError(); x; ASSERT(GLLogCall(#x, __FILE__, __LINE__))   
