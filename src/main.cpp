@@ -55,11 +55,7 @@ int main()
         std::make_tuple(GLFW_KEY_D,      right),
         std::make_tuple(GLFW_KEY_ESCAPE, exit)
     };
-
-
     InputManager input(commandLst, 5, player);
-
-
     Window window(&input);
 
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
@@ -68,39 +64,20 @@ int main()
     GLuint fragment_shader_id = LoadShader_Fragment("src/shaders/fragment.glsl");
     GLuint program_id = CreateGpuProgram(vertex_shader_id, fragment_shader_id);
 
-    //Vertex Array Object
-    GLuint vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
-    Model tardis("data/models/tardis.obj"); //reads model, saving position and index array on object
-    std::vector<GLuint> indices = tardis.indices;
-    std::vector<float> vertex_pos = tardis.vertex_positions;
-    std::vector<float> normal_coefs = tardis.normal_coefficients;
-    std::vector<float> texture_coefs = tardis.texture_coefficients;
-
-    VertexBuffer positions(vertex_pos.data(), vertex_pos.size()*sizeof(float), 0);
-    VertexBuffer normals(normal_coefs.data(), normal_coefs.size()*sizeof(float), 1);
-    //VertexBuffer textures(texture_coefs.data(), texture_coefs.size()*sizeof(float), 2);
-    //
-    IndexBuffer ib(indices.data(), indices.size());
-
-
     GLint model_uniform           = glGetUniformLocation(program_id, "model"); 
     GLint view_uniform            = glGetUniformLocation(program_id, "view"); 
     GLint projection_uniform      = glGetUniformLocation(program_id, "projection"); 
-    glEnable(GL_DEPTH_TEST);
 
+    Model tardis("tardis"); 
     float tardisrotation = 0;
+    
+    glEnable(GL_DEPTH_TEST); 
 
     while (!window.shouldClose() && game.isRunning())
     {
         glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         GLCall(glUseProgram(program_id));
-        GLCall(glBindVertexArray(vao));
-        //positions.Bind();
-        //ib.Bind();
         input.handleInput();
 
         glm::vec4 camera_position_c  = player.getPosition();
@@ -124,15 +101,16 @@ int main()
         glm::mat4 model = Matrix_Scale(0.2f, 0.2f, 0.2f)*Matrix_Rotate_Y(tardisrotation);
 
         GLCall(glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model)));
-
-        glDrawElements(
-                tardis.rendering_mode,
-                tardis.num_indices,
+        
+        GLCall(glBindVertexArray(tardis.getId()));
+        GLCall(glDrawElements(
+                GL_TRIANGLES,
+                51708,
                 GL_UNSIGNED_INT,
-                (void*)tardis.first_index
-        );
-
-        //GLCall(glBindVertexArray(0));
+                (void*)0
+        ));
+        GLCall(glBindVertexArray(0));
+        
         window.pollEvents();
         window.swapBuffers();
     }

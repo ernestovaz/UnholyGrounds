@@ -9,6 +9,7 @@ private:
     unsigned int count;
 public:
     IndexBuffer(const GLuint* data, unsigned int count); 
+    IndexBuffer();
     ~IndexBuffer();
 
     void Bind();

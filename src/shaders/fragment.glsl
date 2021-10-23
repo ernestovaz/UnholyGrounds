@@ -9,7 +9,7 @@ uniform mat4 projection;
 
 uniform int object_id;
 
-out vec3 color;
+layout(location = 0) out vec3 color;
 
 void main()
 {
