@@ -10,7 +10,7 @@
 
 Actor::Actor()
 {
-    position = glm::vec4(0.0f, 1.0f, -5.5f, 1.0f);
+    position = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
     facing   = glm::vec4(0.0f, 0.0f, 1.0f,  0.0f);
     viewYaw  = 0.0f;
     viewPitch= 0.0f;
