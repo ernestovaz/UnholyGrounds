@@ -14,6 +14,7 @@ public:
     InputManager(std::tuple<int,Command*> cList[], int count, Actor& player);
     void keyCallback(int key, int action, int mods);
     void cursorCallback(double xpos, double ypos);
+    void setInitialCursorPos(double xpos, double ypos);
     void handleInput();
 
 private:

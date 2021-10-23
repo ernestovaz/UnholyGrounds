@@ -50,6 +50,10 @@ Window::Window(InputManager* input)
         auto input = (InputManager*)glfwGetWindowUserPointer( window );
         input->cursorCallback(xpos, ypos); 
     });
+    double xpos,ypos;
+    glfwGetCursorPos(this->window, &xpos, &ypos);
+    input->setInitialCursorPos(xpos, ypos);
+
     glfwSetFramebufferSizeCallback(this->window, [](GLFWwindow* window, int width, int height)
     {
         glViewport(0, 0, width, height);

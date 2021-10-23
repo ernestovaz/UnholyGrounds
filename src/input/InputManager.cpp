@@ -41,6 +41,12 @@ void InputManager::cursorCallback(double xpos, double ypos)
     lastCursorPosY = ypos;
 }
 
+void InputManager::setInitialCursorPos(double xpos, double ypos)
+{
+    lastCursorPosX = xpos;
+    lastCursorPosY = ypos;
+}
+
 void InputManager::handleInput()
 {
     for(auto const& k : heldKeys)
