@@ -1,3 +1,6 @@
 .ccls
 .ccls-cache
 .ccls.sh
+*.swp
+*/*.swp
+*/*/*.swp

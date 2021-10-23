@@ -1,26 +1,9 @@
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <iostream>
-#include <map>
-#include <string>
-#include <limits>
-#include <fstream>
-#include <sstream>
-#include <chrono>
+#include <vector>
 #include <tuple>
 
-#include <glad/glad.h>  
 #include <GLFW/glfw3.h>  
 
-#include <glm/mat4x4.hpp>
-#include <glm/vec4.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include "utils.h"
-
 #include "Renderer.h"
-#include "Model.h"
 #include "InputManager.h"
 #include "Actor.h"
 #include "Command.h"
