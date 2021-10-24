@@ -25,7 +25,7 @@ Renderer::Renderer(std::string vertexShader, std::string fragmentShader, float s
     glEnable(GL_DEPTH_TEST); 
 
     Entity playerEntity(Model("player"));
-    Entity tardis(Model("tardis"));
+    Entity tardis(Model("tardis"), Matrix_Scale(0.35f,0.35f,0.35f));
 
     this->playerEntity = playerEntity;
     this->testEntity = tardis;
@@ -60,28 +60,9 @@ void Renderer::draw(Actor player)
     drawPlayer(playerEntity);
 }
 
-void Renderer::drawPlayer(Entity playerEntity)
-{
-    glm::mat4 model = Matrix_Identity();
-    glm::mat4 view = Matrix_Identity();
-    GLCall(glUniformMatrix4fv(this->modelUniformId, 1, GL_FALSE, glm::value_ptr(model)));
-    GLCall(glUniformMatrix4fv(this->viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
-
-    glClear(GL_DEPTH_BUFFER_BIT);
-
-    GLCall(glBindVertexArray(playerEntity.model.getId()));
-    GLCall(glDrawElements(
-            GL_TRIANGLES,
-            playerEntity.model.getIndexCount(),
-            GL_UNSIGNED_INT,
-            (void*)0
-    ));
-    GLCall(glBindVertexArray(0));
-}
-
 void Renderer::drawEntity(Entity entity)
 {
-    glm::mat4 model = Matrix_Translate(entity.pos.x, entity.pos.y, entity.pos.z);
+    glm::mat4 model = entity.matrix;
     GLCall(glUniformMatrix4fv(this->modelUniformId, 1, GL_FALSE, glm::value_ptr(model)));
         
     GLCall(glBindVertexArray(entity.model.getId()));
@@ -92,6 +73,14 @@ void Renderer::drawEntity(Entity entity)
             (void*)0
     ));
     GLCall(glBindVertexArray(0));
+}
+
+void Renderer::drawPlayer(Entity playerEntity)
+{
+    glm::mat4 view = Matrix_Identity();
+    GLCall(glUniformMatrix4fv(this->viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
+    glClear(GL_DEPTH_BUFFER_BIT);
+    drawEntity(playerEntity);
 }
 
 unsigned int Renderer::LoadVertexShader(std::string name)

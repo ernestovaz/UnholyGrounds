@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-Entity::Entity(Model model, glm::vec3 position, glm::vec3 rotation) : pos(position), rot(rotation), model(model)
+Entity::Entity(Model model, glm::mat4 initialMatrix) : model(model), matrix(initialMatrix)
 {
 }
 
