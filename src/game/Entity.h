@@ -11,4 +11,5 @@ public:
     glm::vec3 rot;
     Model   model;
     Entity(Model model, glm::vec3 position = glm::vec3(0.0f), glm::vec3 rotation = glm::vec3(0.0f)); 
+    Entity(); 
 };

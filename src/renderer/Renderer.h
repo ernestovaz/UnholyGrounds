@@ -3,7 +3,6 @@
 #include<string>
 
 #include "Entity.h"
-#include "Model.h"
 #include "Actor.h"
 
 class Renderer
@@ -15,8 +14,8 @@ public:
     void drawEntity(Entity entity);
 
 private:
-    Model testObject;
-    float testObjectRotation;
+    Entity playerEntity;
+    Entity testEntity;
 
     float screenRatio;
 
