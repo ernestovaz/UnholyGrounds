@@ -1,4 +1,8 @@
+#define STB_IMAGE_IMPLEMENTATION
+
+#include <stb_image.h>
 #include <tiny_obj_loader.h>
+
 #include <cstdio>
 #include <cassert>
 #include <iostream>
@@ -9,6 +13,7 @@
 #include "Model.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "utils.h"
 
 Model::Model(std::string name)
 {
@@ -87,19 +92,22 @@ Model::Model(std::string name)
     glGenVertexArrays(1, &vaoID);
     glBindVertexArray(vaoID);
 
-    VertexBuffer positions(model_coefficients.data(), model_coefficients.size()*sizeof(float), 0);
+    VertexBuffer positions(model_coefficients.data(), model_coefficients.size()*sizeof(float), 0, 4);
     if(!fileHasNormals) 
         throw std::runtime_error("Modelo não possui normais");
-    VertexBuffer normals(normal_coefficients.data(), normal_coefficients.size()*sizeof(float), 1);
-    //VertexBuffer textures(texture_coefficients.data(), texture_coefficients.size()*sizeof(float), 2);
+    VertexBuffer normals(normal_coefficients.data(), normal_coefficients.size()*sizeof(float), 1, 4);
+    VertexBuffer textures(texture_coefficients.data(), texture_coefficients.size()*sizeof(float), 2, 2);
     IndexBuffer indexBufferObject(indices.data(), indices.size());
+
 
     this->name              = name; 
     this->indexCount        = indices.size(); 
     this->vaoID             = vaoID;
     this->vertexPositions   = positions;
     this->vertexNormals     = normals;
+    this->vertexTextures    = textures;
     this->indices           = indexBufferObject;
+    this->textureID         = loadTexture();
 
     glBindVertexArray(0);
 }
@@ -118,3 +126,30 @@ size_t Model::getIndexCount()
     return this->indexCount;
 }
 
+unsigned int Model::loadTexture()
+{
+    int width, height, channels;
+    std::string filename = "data/textures/"+this->name+".bmp";
+    unsigned char *textureData = stbi_load(filename.c_str(), &width, &height, &channels, 0);
+    if (!textureData)
+    {
+        std::cout << "No texture found for " + this->name + ".\n";
+        textureData = stbi_load("src/data/textures/error.bmp", &width, &height, &channels, 0);
+    }
+
+    unsigned int textureId;
+    GLCall(glGenTextures(1, &textureId));
+    GLCall(glBindTexture(GL_TEXTURE_2D, textureId));
+    GLCall(glTexImage2D(GL_TEXTURE_2D,0, GL_RGB, width, height,0, GL_RGB, GL_UNSIGNED_BYTE, textureData));
+    GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+    GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+    GLCall(glGenerateMipmap(GL_TEXTURE_2D));
+    stbi_image_free(textureData);
+
+    return textureId;
+}
+
+unsigned int Model::getTextureId()
+{
+    return this->textureID;
+}

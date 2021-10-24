@@ -1,11 +1,14 @@
-#version 330 core
+#version 420 core
 
 in vec4 position_world;
 in vec4 normal;
+in vec2 textureCoord;
 
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+
+layout(binding = 0) uniform sampler2D modelTexture;
 
 uniform int object_id;
 
@@ -27,9 +30,9 @@ void main()
     vec4 r = -l + 2*n*dot(n,l); 
 
     //test object properties
-    vec3 Kd = vec3(0.08, 0.23137, 0.4352941); //diffuse
-    vec3 Ks = vec3(0.8, 0.8, 0.8);            //specular
-    vec3 Ka = vec3(0.04, 0.2, 0.4);           //ambient
+    vec3 Kd = vec3(texture(modelTexture, textureCoord)) - 0.3f; //diffuse
+    vec3 Ks = vec3(0.1, 0.1, 0.1);            //specular
+    vec3 Ka = vec3(0.2, 0.2, 0.2);           //ambient
     float q = 32.0;                           //phong exponent
 
     vec3 I = vec3(1.0, 1.0, 1.0); 

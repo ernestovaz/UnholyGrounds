@@ -7,11 +7,10 @@ class VertexBuffer
 private:
     unsigned int bufferID; //internal opengl buffer id
 public:
-    VertexBuffer(const void* data, unsigned int size, int id); 
+    VertexBuffer(const void* data, unsigned int size, int location, int dimensions); 
     VertexBuffer();
     ~VertexBuffer();
 
     void Bind();
     void Unbind();
-
 };

@@ -17,7 +17,7 @@
 
 #define FOV 3.141592f/3.0f
 #define NEARPLANE -0.1f
-#define FARPLANE -10.0f
+#define FARPLANE -100.0f
 
 Renderer::Renderer(std::string vertexShader, std::string fragmentShader, float screenRatio)
 {
@@ -25,10 +25,10 @@ Renderer::Renderer(std::string vertexShader, std::string fragmentShader, float s
     glEnable(GL_DEPTH_TEST); 
 
     Entity playerEntity(Model("player"));
-    Entity tardis(Model("tardis"), Matrix_Scale(0.35f,0.35f,0.35f));
+    Entity ground(Model("ground"));
 
     this->playerEntity = playerEntity;
-    this->testEntity = tardis;
+    this->testEntity = ground;
 
     this->screenRatio = screenRatio;
 
@@ -48,7 +48,7 @@ Renderer::~Renderer()
 
 void Renderer::draw(Actor player)
 {
-    glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
+    glClearColor(0.05f, 0.05f, 0.05f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     GLCall(glUseProgram(this->shaderProgramId));
 
@@ -64,7 +64,7 @@ void Renderer::drawEntity(Entity entity)
 {
     glm::mat4 model = entity.matrix;
     GLCall(glUniformMatrix4fv(this->modelUniformId, 1, GL_FALSE, glm::value_ptr(model)));
-        
+    GLCall(glBindTexture(GL_TEXTURE_2D, entity.model.getTextureId()));         
     GLCall(glBindVertexArray(entity.model.getId()));
     GLCall(glDrawElements(
             GL_TRIANGLES,

@@ -4,7 +4,7 @@
 
 #include "Actor.h"
 
-#define SPEED 0.05f
+#define SPEED 0.10f
 #define SENSITIVITY 0.002f
 #define PI 3.141592f/2.0f
 

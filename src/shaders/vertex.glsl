@@ -10,6 +10,7 @@ uniform mat4 projection;
 
 out vec4 position_world;
 out vec4 normal;
+out vec2 textureCoord;
 
 void main()
 {
@@ -20,5 +21,8 @@ void main()
 
     normal   = inverse(transpose(model)) * normal_coefficients;
     normal.w = 0.0;
+
+    textureCoord = texture_coefficients;
 }
+
 

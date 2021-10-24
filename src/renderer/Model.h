@@ -16,14 +16,19 @@ private:
     std::string     name;
     size_t          indexCount; 
     unsigned int    vaoID;
+    unsigned int    textureID;
     VertexBuffer    vertexPositions;
     VertexBuffer    vertexNormals;
+    VertexBuffer    vertexTextures;
     IndexBuffer     indices;
+
+    unsigned int loadTexture();
 
 public: 
     Model(std::string name); 
     Model();
     unsigned int getId();
+    unsigned int getTextureId();
     size_t getIndexCount();
     void draw();
 };
