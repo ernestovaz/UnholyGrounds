@@ -12,6 +12,7 @@ public:
     ~Renderer();
     void draw(Actor player);
     void drawEntity(Entity entity);
+    void drawPlayer(Entity playerEntity);
 
 private:
     Entity playerEntity;

@@ -52,30 +52,23 @@ void Renderer::draw(Actor player)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     GLCall(glUseProgram(this->shaderProgramId));
 
-    glm::mat4 view = Matrix_Camera_View(player.getPosition(), player.getFacing(), glm::vec4(0,1,0,0));
     glm::mat4 projection = Matrix_Perspective(FOV, this->screenRatio, NEARPLANE, FARPLANE);
-    glm::vec3 pos = player.getPosition();
-    glm::mat4 model = Matrix_Scale(0.3f,0.3f,0.3f);
-    GLCall(glUniformMatrix4fv(this->viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
+    glm::mat4 view       = Matrix_Camera_View(player.getPosition(), player.getFacing(), glm::vec4(0,1,0,0));
     GLCall(glUniformMatrix4fv(this->projectionUniformId, 1 , GL_FALSE , glm::value_ptr(projection)));
-    GLCall(glUniformMatrix4fv(this->modelUniformId, 1, GL_FALSE, glm::value_ptr(model)));
-
-    GLCall(glBindVertexArray(testEntity.model.getId()));
-    GLCall(glDrawElements(
-            GL_TRIANGLES,
-            testEntity.model.getIndexCount(),
-            GL_UNSIGNED_INT,
-            (void*)0
-    ));
-    GLCall(glBindVertexArray(0));
-
-    view = glm::mat4(1.0f);
-    model = Matrix_Translate(0.0f,0.0f,0.0f);
-
     GLCall(glUniformMatrix4fv(this->viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
+    drawEntity(testEntity);
+    drawPlayer(playerEntity);
+}
+
+void Renderer::drawPlayer(Entity playerEntity)
+{
+    glm::mat4 model = Matrix_Identity();
+    glm::mat4 view = Matrix_Identity();
     GLCall(glUniformMatrix4fv(this->modelUniformId, 1, GL_FALSE, glm::value_ptr(model)));
+    GLCall(glUniformMatrix4fv(this->viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
 
     glClear(GL_DEPTH_BUFFER_BIT);
+
     GLCall(glBindVertexArray(playerEntity.model.getId()));
     GLCall(glDrawElements(
             GL_TRIANGLES,
@@ -84,12 +77,12 @@ void Renderer::draw(Actor player)
             (void*)0
     ));
     GLCall(glBindVertexArray(0));
-
 }
 
 void Renderer::drawEntity(Entity entity)
 {
     glm::mat4 model = Matrix_Translate(entity.pos.x, entity.pos.y, entity.pos.z);
+    GLCall(glUniformMatrix4fv(this->modelUniformId, 1, GL_FALSE, glm::value_ptr(model)));
         
     GLCall(glBindVertexArray(entity.model.getId()));
     GLCall(glDrawElements(
@@ -99,7 +92,6 @@ void Renderer::drawEntity(Entity entity)
             (void*)0
     ));
     GLCall(glBindVertexArray(0));
-    GLCall(glUniformMatrix4fv(this->modelUniformId, 1, GL_FALSE, glm::value_ptr(model)));
 }
 
 unsigned int Renderer::LoadVertexShader(std::string name)
