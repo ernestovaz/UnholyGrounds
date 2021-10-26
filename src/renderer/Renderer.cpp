@@ -19,7 +19,7 @@
 #define NEARPLANE -0.1f
 #define FARPLANE -100.0f
 
-Renderer::Renderer(std::string vertexShader, std::string fragmentShader, float screenRatio)
+Renderer::Renderer(float screenRatio)
 {
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
     glEnable(GL_DEPTH_TEST); 
@@ -27,34 +27,36 @@ Renderer::Renderer(std::string vertexShader, std::string fragmentShader, float s
     Entity playerEntity(Model("player"));
     Entity ground(Model("ground"));
 
+    unsigned int firstVertexShaderId     = LoadVertexShader("vertex");
+    unsigned int firstFragmentShaderId   = LoadFragmentShader("fragment");
+    unsigned int secondVertexShaderId     = LoadVertexShader("vertexSecondPass");
+    unsigned int secondFragmentShaderId   = LoadFragmentShader("fragmentSecondPass");
 
     this->playerEntity = playerEntity;
     this->testEntity = ground;
 
     this->screenRatio = screenRatio;
-
     this->lowResBuffer = FrameBuffer(640, 360);
 
-    this->vertexShaderId     = LoadVertexShader(vertexShader);
-    this->fragmentShaderId   = LoadFragmentShader(fragmentShader);
-    this->shaderProgramId    = CreateShaderProgram(this->vertexShaderId, this->fragmentShaderId);
+    this->firstPassShaderId = CreateShaderProgram(firstVertexShaderId, firstFragmentShaderId);
+    this->secondPassShaderId = CreateShaderProgram(secondVertexShaderId, secondFragmentShaderId);
 
-    this->modelUniformId      = glGetUniformLocation(this->shaderProgramId, "model"); 
-    this->viewUniformId       = glGetUniformLocation(this->shaderProgramId, "view"); 
-    this->projectionUniformId = glGetUniformLocation(this->shaderProgramId, "projection"); 
-
+    this->modelUniformId      = glGetUniformLocation(this->firstPassShaderId, "model"); 
+    this->viewUniformId       = glGetUniformLocation(this->firstPassShaderId, "view"); 
+    this->projectionUniformId = glGetUniformLocation(this->firstPassShaderId, "projection"); 
 }
 
 Renderer::~Renderer()
 {
-    glDeleteProgram(shaderProgramId);
+    glDeleteProgram(firstPassShaderId);
+    glDeleteProgram(secondPassShaderId);
 }
 
 void Renderer::draw(Actor player)
 {
     glClearColor(0.05f, 0.05f, 0.05f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    GLCall(glUseProgram(this->shaderProgramId));
+    GLCall(glUseProgram(this->firstPassShaderId));
 
     glm::mat4 projection = Matrix_Perspective(FOV, this->screenRatio, NEARPLANE, FARPLANE);
     glm::mat4 view       = Matrix_Camera_View(player.getPosition(), player.getFacing(), glm::vec4(0,1,0,0));

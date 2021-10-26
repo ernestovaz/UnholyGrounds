@@ -9,7 +9,7 @@
 class Renderer
 {
 public: 
-    Renderer(std::string vertexShader, std::string fragmentShader, float screenRatio);
+    Renderer(float screenRatio);
     ~Renderer();
     void draw(Actor player);
     void drawEntity(Entity entity);
@@ -23,10 +23,8 @@ private:
 
     FrameBuffer lowResBuffer;
 
-    unsigned int vertexShaderId;
-    unsigned int fragmentShaderId;
-    unsigned int framebufferId;
-    unsigned int shaderProgramId;
+    unsigned int firstPassShaderId;
+    unsigned int secondPassShaderId;
 
     unsigned int modelUniformId;
     unsigned int viewUniformId;

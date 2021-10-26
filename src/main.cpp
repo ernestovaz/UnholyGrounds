@@ -28,7 +28,7 @@ int main()
 
     InputManager input(commandLst, player);
     Window window(&input);
-    Renderer renderer("vertex", "fragment", window.getScreenRatio());
+    Renderer renderer(window.getScreenRatio());
 
     while (!window.shouldClose() && game.isRunning())
     {
