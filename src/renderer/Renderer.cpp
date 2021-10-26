@@ -27,10 +27,13 @@ Renderer::Renderer(std::string vertexShader, std::string fragmentShader, float s
     Entity playerEntity(Model("player"));
     Entity ground(Model("ground"));
 
+
     this->playerEntity = playerEntity;
     this->testEntity = ground;
 
     this->screenRatio = screenRatio;
+
+    this->lowResBuffer = FrameBuffer(640, 360);
 
     this->vertexShaderId     = LoadVertexShader(vertexShader);
     this->fragmentShaderId   = LoadFragmentShader(fragmentShader);
@@ -39,6 +42,7 @@ Renderer::Renderer(std::string vertexShader, std::string fragmentShader, float s
     this->modelUniformId      = glGetUniformLocation(this->shaderProgramId, "model"); 
     this->viewUniformId       = glGetUniformLocation(this->shaderProgramId, "view"); 
     this->projectionUniformId = glGetUniformLocation(this->shaderProgramId, "projection"); 
+
 }
 
 Renderer::~Renderer()

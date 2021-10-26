@@ -4,6 +4,7 @@
 
 #include "Entity.h"
 #include "Actor.h"
+#include "FrameBuffer.h"
 
 class Renderer
 {
@@ -20,8 +21,11 @@ private:
 
     float screenRatio;
 
+    FrameBuffer lowResBuffer;
+
     unsigned int vertexShaderId;
     unsigned int fragmentShaderId;
+    unsigned int framebufferId;
     unsigned int shaderProgramId;
 
     unsigned int modelUniformId;

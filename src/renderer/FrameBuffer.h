@@ -5,6 +5,7 @@ class FrameBuffer
 
 public:
     FrameBuffer(unsigned int width, unsigned int height);
+    FrameBuffer();
     ~FrameBuffer();
 private:
     void configureRenderToTexture(unsigned int width, unsigned int height);

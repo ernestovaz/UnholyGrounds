@@ -15,8 +15,13 @@ FrameBuffer::FrameBuffer(unsigned int width, unsigned int height)
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+FrameBuffer::FrameBuffer()
+{
+}
+
 FrameBuffer::~FrameBuffer()
 {
+    glDeleteFramebuffers(1, &bufferID);
 }
 
 void FrameBuffer::configureRenderToTexture(unsigned int width, unsigned int height)
