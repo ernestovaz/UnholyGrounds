@@ -20,11 +20,12 @@
 #define FARPLANE -100.0f
 
 Renderer::Renderer(float screenRatio)
-    : lowResBuffer(1920, 1080)
+    : lowResBuffer(480, 270)
 {
 
     Entity playerEntity(Model("player"));
     Entity ground(Model("ground"));
+
 
     unsigned int firstVertexShaderId     = LoadVertexShader("vertex");
     unsigned int firstFragmentShaderId   = LoadFragmentShader("fragment");
@@ -53,6 +54,7 @@ Renderer::~Renderer()
 
 void Renderer::draw(Actor player)
 {
+    glViewport(0,0,480,270);
     GLCall(glBindFramebuffer(GL_FRAMEBUFFER, this->lowResBuffer.getId()));
     glClearColor(0.05f, 0.05f, 0.05f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -64,6 +66,7 @@ void Renderer::draw(Actor player)
     GLCall(glUniformMatrix4fv(this->viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
     drawEntity(testEntity);
     drawPlayer(playerEntity);
+    glViewport(0,0,1920,1080);
     renderTextureToScreen();
 }
 

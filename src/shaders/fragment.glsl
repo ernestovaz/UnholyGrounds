@@ -35,7 +35,7 @@ void main()
     vec3 Ka = vec3(0.2, 0.2, 0.2);           //ambient
     float q = 32.0;                           //phong exponent
 
-    vec3 I = vec3(1.0, 1.0, 1.0); 
+    vec3 I = vec3(0.5, 0.5, 0.5); 
 
     vec3 Ia = vec3(0.2, 0.2, 0.2); 
 
