@@ -12,8 +12,6 @@ public:
     Renderer(float screenRatio);
     ~Renderer();
     void draw(Actor player);
-    void drawEntity(Entity entity);
-    void drawPlayer(Entity playerEntity);
 
 private:
     Entity playerEntity;
@@ -22,6 +20,7 @@ private:
     float screenRatio;
 
     FrameBuffer lowResBuffer;
+    unsigned int lowResQuadId;
 
     unsigned int firstPassShaderId;
     unsigned int secondPassShaderId;
@@ -29,6 +28,11 @@ private:
     unsigned int modelUniformId;
     unsigned int viewUniformId;
     unsigned int projectionUniformId;
+
+    void drawEntity(Entity entity);
+    void drawPlayer(Entity playerEntity);
+    void renderTextureToScreen();
+    unsigned int generateQuad();
 
     unsigned int LoadVertexShader(std::string name);   
     unsigned int LoadFragmentShader(std::string name);

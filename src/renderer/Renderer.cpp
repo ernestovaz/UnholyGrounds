@@ -20,9 +20,8 @@
 #define FARPLANE -100.0f
 
 Renderer::Renderer(float screenRatio)
+    : lowResBuffer(1920, 1080)
 {
-    gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
-    glEnable(GL_DEPTH_TEST); 
 
     Entity playerEntity(Model("player"));
     Entity ground(Model("ground"));
@@ -36,7 +35,7 @@ Renderer::Renderer(float screenRatio)
     this->testEntity = ground;
 
     this->screenRatio = screenRatio;
-    this->lowResBuffer = FrameBuffer(640, 360);
+    this->lowResQuadId = generateQuad();
 
     this->firstPassShaderId = CreateShaderProgram(firstVertexShaderId, firstFragmentShaderId);
     this->secondPassShaderId = CreateShaderProgram(secondVertexShaderId, secondFragmentShaderId);
@@ -54,16 +53,18 @@ Renderer::~Renderer()
 
 void Renderer::draw(Actor player)
 {
+    GLCall(glBindFramebuffer(GL_FRAMEBUFFER, this->lowResBuffer.getId()));
     glClearColor(0.05f, 0.05f, 0.05f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST); 
     GLCall(glUseProgram(this->firstPassShaderId));
-
     glm::mat4 projection = Matrix_Perspective(FOV, this->screenRatio, NEARPLANE, FARPLANE);
-    glm::mat4 view       = Matrix_Camera_View(player.getPosition(), player.getFacing(), glm::vec4(0,1,0,0));
+    glm::mat4 view = Matrix_Camera_View(player.getPosition(), player.getFacing(), glm::vec4(0,1,0,0));
     GLCall(glUniformMatrix4fv(this->projectionUniformId, 1 , GL_FALSE , glm::value_ptr(projection)));
     GLCall(glUniformMatrix4fv(this->viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
     drawEntity(testEntity);
     drawPlayer(playerEntity);
+    renderTextureToScreen();
 }
 
 void Renderer::drawEntity(Entity entity)
@@ -87,6 +88,46 @@ void Renderer::drawPlayer(Entity playerEntity)
     GLCall(glUniformMatrix4fv(this->viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
     glClear(GL_DEPTH_BUFFER_BIT);
     drawEntity(playerEntity);
+}
+
+void Renderer::renderTextureToScreen()
+{
+    GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+    GLCall(glDisable(GL_DEPTH_TEST));
+    GLCall(glClearColor(1.0f, 1.0f, 1.0f, 1.0f));
+    GLCall(glClear(GL_COLOR_BUFFER_BIT));
+    GLCall(glUseProgram(this->secondPassShaderId));
+    GLCall(glBindVertexArray(this->lowResQuadId));
+    GLCall(glBindTexture(GL_TEXTURE_2D, this->lowResBuffer.getTextureId()));
+    GLCall(glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, (void*)0));
+}
+
+unsigned int Renderer::generateQuad()
+{
+    unsigned int VAO;
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+    float vertices[] = 
+    {    
+        -1.0f,  1.0f,  
+        -1.0f, -1.0f,  
+         1.0f,  1.0f,  
+         1.0f, -1.0f,  
+
+    };
+    float texture[] = 
+    {
+         0.0f,  1.0f,  
+         0.0f,  0.0f,  
+         1.0f,  1.0f,  
+         1.0f,  0.0f,  
+    };
+    unsigned int indices[] = {0, 1, 2, 3};
+    VertexBuffer positions(vertices, 8*sizeof(float), 0, 2);
+    VertexBuffer textures(texture,   8*sizeof(float), 1, 2);
+    IndexBuffer ibo(indices, 6);
+    glBindVertexArray(0);
+    return VAO;
 }
 
 unsigned int Renderer::LoadVertexShader(std::string name)
@@ -166,6 +207,7 @@ void Renderer::LoadShader(const char* filename, unsigned int shader_id)
 
     delete [] log;
 }
+
 unsigned int Renderer::CreateShaderProgram(unsigned int vertexId, unsigned int fragmentId)
 {
     GLuint program_id = glCreateProgram();

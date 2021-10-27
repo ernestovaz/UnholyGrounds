@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <cstdio>
+#include <iostream>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -22,7 +23,7 @@ Window::Window(InputManager* input)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-    glfwWindowHint(GLFW_SAMPLES, 4);
+    //glfwWindowHint(GLFW_SAMPLES, 4);
     //glfw initialization
 
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
@@ -73,6 +74,8 @@ Window::Window(InputManager* input)
 
     glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     //hides mouse cursor
+    
+    gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 }
 
 Window::~Window()

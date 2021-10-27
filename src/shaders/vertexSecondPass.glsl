@@ -1,6 +1,6 @@
 #version 330 core
 
-layout (location = 0) in vec4 model_coefficients;
+layout (location = 0) in vec2 model_coefficients;
 layout (location = 1) in vec2 texture_coefficients;
 
 out vec2 textureCoord;
