@@ -29,9 +29,10 @@ Window::Window(InputManager* input)
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* screen = glfwGetVideoMode(monitor);
     this->window = glfwCreateWindow(screen->width, screen->height, "window", monitor, NULL);
-    this->screenRatio = (float)screen->width/(float)screen->height;
-    //gets screen configuration and creates fullscreen window
+    this->width = screen->width;
+    this->height = screen->height;
 
+    //gets screen configuration and creates fullscreen window
     if (!this->window)
     {
         glfwTerminate();
@@ -104,9 +105,3 @@ void Window::pollEvents()
     glfwPollEvents();
 }
 
-float Window::getScreenRatio()
-{
-    int width, height;
-    glfwGetWindowSize(this->window, &width, &height);
-    return (float)width/(float)height;
-}

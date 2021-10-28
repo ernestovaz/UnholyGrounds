@@ -10,7 +10,7 @@
 class Renderer
 {
 public: 
-    Renderer(float screenRatio);
+    Renderer(unsigned int screenWidth, unsigned int screenHeight);
     ~Renderer();
     void draw(Actor player);
 

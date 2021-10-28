@@ -16,12 +16,15 @@
 #include "Actor.h"
 #include "Entity.h"
 
+#define DOWNSCALE_FACTOR 1/4
+
 #define FOV 3.141592f/3.0f
 #define NEARPLANE -0.1f
 #define FARPLANE -100.0f
 
-Renderer::Renderer(float screenRatio)
-    : downscaledBuffer(480, 270), playerEntity(Model("player")), groundEntity(Model("ground")), 
+Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
+    : downscaledBuffer(screenWidth * DOWNSCALE_FACTOR, screenHeight * DOWNSCALE_FACTOR), 
+    playerEntity(Model("player")), groundEntity(Model("ground")), 
     screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId()))
 {
     unsigned int firstVertexShaderId     = LoadVertexShader("vertex");
@@ -29,7 +32,7 @@ Renderer::Renderer(float screenRatio)
     unsigned int secondVertexShaderId     = LoadVertexShader("vertexSecondPass");
     unsigned int secondFragmentShaderId   = LoadFragmentShader("fragmentSecondPass");
 
-    this->screenRatio = screenRatio;
+    this->screenRatio = (float)screenWidth/(float)screenHeight;
 
     this->firstPassShaderId = CreateShaderProgram(firstVertexShaderId, firstFragmentShaderId);
     this->secondPassShaderId = CreateShaderProgram(secondVertexShaderId, secondFragmentShaderId);
@@ -47,7 +50,7 @@ Renderer::~Renderer()
 
 void Renderer::draw(Actor player)
 {
-    glViewport(0,0,480,270);
+    glViewport(0,0,downscaledBuffer.getWidth(),downscaledBuffer.getHeight());
     GLCall(glBindFramebuffer(GL_FRAMEBUFFER, this->downscaledBuffer.getId()));
     glClearColor(0.05f, 0.05f, 0.05f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

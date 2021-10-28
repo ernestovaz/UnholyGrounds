@@ -11,6 +11,8 @@ FrameBuffer::FrameBuffer(unsigned int width, unsigned int height)
     GLCall(glBindFramebuffer(GL_FRAMEBUFFER, bufferID));
 
     this->textureID = configureRenderToTexture(width, height);
+    this->width = width;
+    this->height = height;
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         std::cout << "Framebuffer is not complete" << std::endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -22,7 +24,7 @@ FrameBuffer::FrameBuffer()
 
 FrameBuffer::~FrameBuffer()
 {
-    //glDeleteFramebuffers(1, &bufferID);
+    glDeleteFramebuffers(1, &bufferID);
 }
 
 unsigned int FrameBuffer::configureRenderToTexture(unsigned int width, unsigned int height)
@@ -55,4 +57,14 @@ unsigned int FrameBuffer::getId()
 unsigned int FrameBuffer::getTextureId()
 {
     return this->textureID;
+}
+
+unsigned int FrameBuffer::getWidth()
+{
+    return this->width;
+}
+
+unsigned int FrameBuffer::getHeight()
+{
+    return this->height;
 }

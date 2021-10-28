@@ -28,7 +28,7 @@ int main()
 
     InputManager input(commandLst, player);
     Window window(&input);
-    Renderer renderer(window.getScreenRatio());
+    Renderer renderer(window.width, window.height);
 
     while (!window.shouldClose() && game.isRunning())
     {
