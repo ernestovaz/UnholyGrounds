@@ -1,4 +1,4 @@
-#version 420 core
+#version 330 core
 
 in vec4 position_world;
 in vec4 normal;
@@ -8,7 +8,7 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
-layout(binding = 0) uniform sampler2D modelTexture;
+uniform sampler2D modelTexture;
 
 uniform int object_id;
 
