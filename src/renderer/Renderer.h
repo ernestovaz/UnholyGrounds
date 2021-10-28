@@ -28,10 +28,11 @@ private:
     float screenWidth;
     float screenHeight;
 
-    unsigned int firstPassShaderId;     //first shader, used for normal rendering into a texture
+    unsigned int firstPassShaderId;     //first shader, used for normal rendering, 
+                                        //which is then bound to a texture
 
     unsigned int secondPassShaderId;    //second shader, used for rendering from a texture
-                                        //may also be used for more post processing effects
+                                        //may also be used for more post-processing effects
 
     unsigned int modelUniformId;
     unsigned int viewUniformId;
