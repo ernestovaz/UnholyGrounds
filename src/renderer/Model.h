@@ -12,15 +12,18 @@
 
 class Model
 {
-private:
+protected:
     std::string     name;
     size_t          indexCount; 
+    unsigned int    renderingMode;
     unsigned int    vaoID;
-    unsigned int    textureID;
     VertexBuffer    vertexPositions;
-    VertexBuffer    vertexNormals;
-    VertexBuffer    vertexTextures;
     IndexBuffer     indices;
+    VertexBuffer    vertexTextures;
+    unsigned int    textureID;
+
+private:
+    VertexBuffer    vertexNormals;
 
     unsigned int loadTexture();
 
@@ -29,6 +32,7 @@ public:
     Model();
     unsigned int getId();
     unsigned int getTextureId();
+    unsigned int getRenderingMode();
     size_t getIndexCount();
     void draw();
 };

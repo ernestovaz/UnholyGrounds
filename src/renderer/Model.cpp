@@ -102,6 +102,7 @@ Model::Model(std::string name)
 
     this->name              = name; 
     this->indexCount        = indices.size(); 
+    this->renderingMode     = GL_TRIANGLES; 
     this->vaoID             = vaoID;
     this->vertexPositions   = positions;
     this->vertexNormals     = normals;
@@ -152,4 +153,9 @@ unsigned int Model::loadTexture()
 unsigned int Model::getTextureId()
 {
     return this->textureID;
+}
+
+unsigned int Model::getRenderingMode()
+{
+    return this->renderingMode;
 }

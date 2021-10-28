@@ -3,6 +3,7 @@
 #include<string>
 
 #include "Entity.h"
+#include "Model.h"
 #include "Actor.h"
 #include "FrameBuffer.h"
 
@@ -14,13 +15,14 @@ public:
     void draw(Actor player);
 
 private:
+    FrameBuffer downscaledBuffer;
+
     Entity playerEntity;
-    Entity testEntity;
+    Entity groundEntity;
+
+    Model* screenQuad;
 
     float screenRatio;
-
-    FrameBuffer lowResBuffer;
-    unsigned int lowResQuadId;
 
     unsigned int firstPassShaderId;
     unsigned int secondPassShaderId;
@@ -30,9 +32,9 @@ private:
     unsigned int projectionUniformId;
 
     void drawEntity(Entity entity);
+    void drawModel(Model model);
     void drawPlayer(Entity playerEntity);
     void renderTextureToScreen();
-    unsigned int generateQuad();
 
     unsigned int LoadVertexShader(std::string name);   
     unsigned int LoadFragmentShader(std::string name);
