@@ -1,5 +1,8 @@
 #pragma once
 
+//buffer in which the program can render onto, 
+//used for rendering into lower resolution for pixelated effect
+
 class FrameBuffer
 {
 

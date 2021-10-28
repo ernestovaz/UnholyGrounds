@@ -17,6 +17,7 @@
 #include "Entity.h"
 
 #define DOWNSCALE_FACTOR 1/4
+//factor used in the game's pixelated effect
 
 #define FOV 3.141592f/3.0f
 #define NEARPLANE -0.1f
@@ -32,7 +33,8 @@ Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     unsigned int secondVertexShaderId     = LoadVertexShader("vertexSecondPass");
     unsigned int secondFragmentShaderId   = LoadFragmentShader("fragmentSecondPass");
 
-    this->screenRatio = (float)screenWidth/(float)screenHeight;
+    this->screenWidth = screenWidth;
+    this->screenHeight = screenHeight;
 
     this->firstPassShaderId = CreateShaderProgram(firstVertexShaderId, firstFragmentShaderId);
     this->secondPassShaderId = CreateShaderProgram(secondVertexShaderId, secondFragmentShaderId);
@@ -51,19 +53,29 @@ Renderer::~Renderer()
 void Renderer::draw(Actor player)
 {
     glViewport(0,0,downscaledBuffer.getWidth(),downscaledBuffer.getHeight());
-    GLCall(glBindFramebuffer(GL_FRAMEBUFFER, this->downscaledBuffer.getId()));
+    GLCall(glBindFramebuffer(GL_FRAMEBUFFER, downscaledBuffer.getId()));
+    //uses downscaled screensize and binds framebuffer
+
     glClearColor(0.05f, 0.05f, 0.05f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST); 
-    GLCall(glUseProgram(this->firstPassShaderId));
-    glm::mat4 projection = Matrix_Perspective(FOV, this->screenRatio, NEARPLANE, FARPLANE);
+
+    GLCall(glUseProgram(firstPassShaderId));
+
+    float screenRatio = (float)screenWidth / (float)screenHeight;
+
+    glm::mat4 projection = Matrix_Perspective(FOV, screenRatio, NEARPLANE, FARPLANE);
     glm::mat4 view = Matrix_Camera_View(player.getPosition(), player.getFacing(), glm::vec4(0,1,0,0));
-    GLCall(glUniformMatrix4fv(this->projectionUniformId, 1 , GL_FALSE , glm::value_ptr(projection)));
-    GLCall(glUniformMatrix4fv(this->viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
+
+    GLCall(glUniformMatrix4fv(projectionUniformId, 1 , GL_FALSE , glm::value_ptr(projection)));
+    GLCall(glUniformMatrix4fv(viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
+
     drawEntity(groundEntity);
     drawPlayer(playerEntity);
-    glViewport(0,0,1920,1080);
+
+    glViewport(0,0, screenWidth, screenHeight);
     renderTextureToScreen();
+    //sets normal screen size and render low resolution texture into screen
 }
 
 void Renderer::drawEntity(Entity entity)

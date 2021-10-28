@@ -15,17 +15,23 @@ public:
     void draw(Actor player);
 
 private:
-    FrameBuffer downscaledBuffer;
+    FrameBuffer downscaledBuffer; 
+    //buffer with lower resolution than the screen, the game is rendered into this buffer 
+    //in order to achieve a pixelated effect
 
     Entity playerEntity;
     Entity groundEntity;
 
-    Model* screenQuad;
+    Model* screenQuad; 
+    //quad that covers the whole screen, the lower resolution rendered output is mapped into it
 
-    float screenRatio;
+    float screenWidth;
+    float screenHeight;
 
-    unsigned int firstPassShaderId;
-    unsigned int secondPassShaderId;
+    unsigned int firstPassShaderId;     //first shader, used for normal rendering into a texture
+
+    unsigned int secondPassShaderId;    //second shader, used for rendering from a texture
+                                        //may also be used for more post processing effects
 
     unsigned int modelUniformId;
     unsigned int viewUniformId;
@@ -34,7 +40,7 @@ private:
     void drawEntity(Entity entity);
     void drawModel(Model model);
     void drawPlayer(Entity playerEntity);
-    void renderTextureToScreen();
+    void renderTextureToScreen();       //render texture input into the entire screen
 
     unsigned int LoadVertexShader(std::string name);   
     unsigned int LoadFragmentShader(std::string name);
