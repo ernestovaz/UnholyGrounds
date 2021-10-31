@@ -28,10 +28,10 @@ Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     playerEntity(Model("player")), groundEntity(Model("ground")), 
     screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId()))
 {
-    unsigned int firstVertexShaderId     = LoadVertexShader("vertex");
-    unsigned int firstFragmentShaderId   = LoadFragmentShader("fragment");
-    unsigned int secondVertexShaderId     = LoadVertexShader("vertexSecondPass");
-    unsigned int secondFragmentShaderId   = LoadFragmentShader("fragmentSecondPass");
+    unsigned int firstVertexShaderId     = LoadVertexShader("firstPass/vertex");
+    unsigned int firstFragmentShaderId   = LoadFragmentShader("firstPass/fragment");
+    unsigned int secondVertexShaderId     = LoadVertexShader("secondPass/vertex");
+    unsigned int secondFragmentShaderId   = LoadFragmentShader("secondPass/fragment");
 
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
