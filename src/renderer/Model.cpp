@@ -129,6 +129,7 @@ size_t Model::getIndexCount()
 
 unsigned int Model::loadTexture()
 {
+    stbi_set_flip_vertically_on_load(true);
     int width, height, channels;
     std::string filename = "data/textures/"+this->name+".bmp";
     unsigned char *textureData = stbi_load(filename.c_str(), &width, &height, &channels, 0);
