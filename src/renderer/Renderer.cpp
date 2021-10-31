@@ -28,10 +28,10 @@ Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     playerEntity(Model("player")), groundEntity(Model("ground")), 
     screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId()))
 {
-    unsigned int firstVertexShaderId     = LoadVertexShader("firstPass/vertex");
-    unsigned int firstFragmentShaderId   = LoadFragmentShader("firstPass/fragment");
-    unsigned int secondVertexShaderId     = LoadVertexShader("secondPass/vertex");
-    unsigned int secondFragmentShaderId   = LoadFragmentShader("secondPass/fragment");
+    unsigned int firstVertexShaderId     = LoadVertexShader("firstPass");
+    unsigned int firstFragmentShaderId   = LoadFragmentShader("firstPass");
+    unsigned int secondVertexShaderId     = LoadVertexShader("secondPass");
+    unsigned int secondFragmentShaderId   = LoadFragmentShader("secondPass");
 
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
@@ -118,7 +118,7 @@ void Renderer::renderTextureToScreen()
 
 unsigned int Renderer::LoadVertexShader(std::string name)
 {
-    std::string filename = "src/shaders/"+name+".glsl";
+    std::string filename = "src/shaders/"+name+"/vertex.glsl";
     GLuint vertex_shader_id = glCreateShader(GL_VERTEX_SHADER);
 
     LoadShader(filename.c_str(), vertex_shader_id);
@@ -128,7 +128,7 @@ unsigned int Renderer::LoadVertexShader(std::string name)
 
 unsigned int Renderer::LoadFragmentShader(std::string name)
 {
-    std::string filename = "src/shaders/"+name+".glsl";
+    std::string filename = "src/shaders/"+name+"/fragment.glsl";
     GLuint fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
 
     LoadShader(filename.c_str(), fragmentShaderId);
