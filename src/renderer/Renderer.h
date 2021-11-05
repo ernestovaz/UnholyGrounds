@@ -37,6 +37,7 @@ private:
     unsigned int modelUniformId;
     unsigned int viewUniformId;
     unsigned int projectionUniformId;
+    unsigned int modelUniform2dId;
 
     void drawEntity(Entity entity);
     void drawModel(Model model);

@@ -42,6 +42,8 @@ Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     this->modelUniformId      = glGetUniformLocation(this->firstPassShaderId, "model"); 
     this->viewUniformId       = glGetUniformLocation(this->firstPassShaderId, "view"); 
     this->projectionUniformId = glGetUniformLocation(this->firstPassShaderId, "projection"); 
+
+    this->modelUniform2dId      = glGetUniformLocation(this->secondPassShaderId, "model"); 
 }
 
 Renderer::~Renderer()
@@ -108,11 +110,13 @@ void Renderer::drawPlayer(Entity playerEntity)
 
 void Renderer::renderTextureToScreen()
 {
+    GLCall(glUseProgram(this->secondPassShaderId));
+    glm::mat4 model = Matrix_Identity();
+    GLCall(glUniformMatrix4fv(this->modelUniform2dId, 1, GL_FALSE, glm::value_ptr(model)));
     GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
     GLCall(glDisable(GL_DEPTH_TEST));
     GLCall(glClearColor(1.0f, 1.0f, 1.0f, 1.0f));
     GLCall(glClear(GL_COLOR_BUFFER_BIT));
-    GLCall(glUseProgram(this->secondPassShaderId));
     drawModel(*screenQuad);
 }
 

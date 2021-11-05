@@ -3,9 +3,9 @@
 out vec4 color;
 
 in vec2 textureCoord;
-uniform sampler2D renderedTexture;
+uniform sampler2D textureInput;
 
 void main()
 {
-    color = texture(renderedTexture, textureCoord);
+    color = texture(textureInput, textureCoord);
 }
