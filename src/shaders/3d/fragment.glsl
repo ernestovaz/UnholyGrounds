@@ -39,7 +39,7 @@ void main()
         l = cameraPosition;
         l_dir  = normalize(cameraDirection);
     }
-    float l_angle = 0.3;//0.523599;
+    float l_angle = 0.5;//0.523599;
 
 /*
     vec4 v = normalize(camera_position - p);
@@ -69,7 +69,7 @@ void main()
     vec3 I; 
 
     if(dot(normalize(p-l),normalize(l_dir)) < cos(l_angle))
-        I = vec3(0.01,0.01,0.01);
+        I = vec3(0.04,0.04,0.04);
     else
         I = vec3(0.3,0.3,0.3); 
 
