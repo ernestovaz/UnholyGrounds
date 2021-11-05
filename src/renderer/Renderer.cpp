@@ -27,7 +27,7 @@ Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     : downscaledBuffer(screenWidth * DOWNSCALE_FACTOR, screenHeight * DOWNSCALE_FACTOR), 
     playerEntity(Model("player")), groundEntity(Model("ground")), 
     screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId())),
-    crosshair(new QuadModel("crosshair"))
+    crosshair(new QuadModel("green_crosshair"))
 {
 
     unsigned int vertexShader3dId     = LoadVertexShader("3d");
