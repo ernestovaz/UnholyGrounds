@@ -8,7 +8,7 @@ class MoveCommand : public Command
 {
 
     public:
-        enum Direction {FORWARD, BACKWARD, LEFT, RIGHT};
+        enum Direction {FORWARD, BACKWARD, LEFT, RIGHT, WALK};
         MoveCommand(Actor& actor, Direction dir);
         virtual void execute() override; 
 

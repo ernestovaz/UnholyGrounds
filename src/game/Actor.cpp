@@ -4,7 +4,6 @@
 
 #include "Actor.h"
 
-#define SPEED 0.10f
 #define SENSITIVITY 0.002f
 #define PI 3.141592f/2.0f
 
@@ -12,6 +11,7 @@ Actor::Actor()
 {
     position = glm::vec4(0.0f, 3.0f, 0.0f, 1.0f);
     facing   = glm::vec4(0.0f, 0.0f, 1.0f,  0.0f);
+    speed = 0.10f;
     viewYaw  = 0.0f;
     viewPitch= 0.0f;
 }
@@ -26,12 +26,17 @@ glm::vec4 Actor::getFacing()
     return facing;
 }
 
+float Actor::getSpeed()
+{
+    return speed;
+}
+
 void Actor::moveForward()
 {
     glm::vec3 forward(facing);
     forward.y = 0;
     glm::vec4 hmForward(glm::normalize(forward), 0.0f);
-    position += hmForward * SPEED;
+    position += hmForward * getSpeed();
 }
 
 void Actor::moveBackward()
@@ -39,7 +44,7 @@ void Actor::moveBackward()
     glm::vec3 backward(-facing);
     backward.y = 0;
     glm::vec4 hmBackward(glm::normalize(backward), 0.0f);
-    position += hmBackward * SPEED;
+    position += hmBackward * getSpeed();
 }
 
 void Actor::moveLeft()
@@ -47,7 +52,7 @@ void Actor::moveLeft()
     glm::vec3 forward(facing);
     glm::vec3 left = glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), forward);
     glm::vec4 hmLeft(left, 0.0f);
-    position += hmLeft * SPEED;
+    position += hmLeft * getSpeed();
 }
 
 void Actor::moveRight()
@@ -55,7 +60,12 @@ void Actor::moveRight()
     glm::vec3 backward(-facing);
     glm::vec3 right = glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), backward);
     glm::vec4 hmRight(right, 0.0f);
-    position += hmRight * SPEED;
+    position += hmRight * getSpeed();
+}
+
+void Actor::moveWalk()
+{
+    speed = 0.05f;
 }
 
 void Actor::moveView(float dx, float dy)
