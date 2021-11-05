@@ -21,6 +21,7 @@ private:
 
     Entity playerEntity;
     Entity groundEntity;
+    Entity skyEntity;
 
     Model* screenQuad; 
     Model* crosshair; 
@@ -38,6 +39,10 @@ private:
     unsigned int modelUniformId;
     unsigned int viewUniformId;
     unsigned int projectionUniformId;
+    unsigned int lightingUniformId;
+    unsigned int handUniformId;
+    unsigned int camPosUniformId;
+    unsigned int camDirUniformId;
     unsigned int modelUniform2dId;
 
     void drawEntity(Entity entity);

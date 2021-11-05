@@ -21,11 +21,11 @@
 
 #define FOV 3.141592f/3.0f
 #define NEARPLANE -0.1f
-#define FARPLANE -100.0f
+#define FARPLANE -400.0f
 
 Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     : downscaledBuffer(screenWidth * DOWNSCALE_FACTOR, screenHeight * DOWNSCALE_FACTOR), 
-    playerEntity(Model("player")), groundEntity(Model("ground")), 
+    playerEntity(Model("player")), groundEntity(Model("ground")), skyEntity(Model("sky"), Matrix_Scale(20.0f, 20.0f, 20.0f)),
     screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId())),
     crosshair(new QuadModel("red_crosshair"))
 {
@@ -44,8 +44,13 @@ Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     this->modelUniformId      = glGetUniformLocation(this->shader3dId, "model"); 
     this->viewUniformId       = glGetUniformLocation(this->shader3dId, "view"); 
     this->projectionUniformId = glGetUniformLocation(this->shader3dId, "projection"); 
+    this->lightingUniformId = glGetUniformLocation(this->shader3dId, "lightingIsEnabled"); 
+    this->handUniformId = glGetUniformLocation(this->shader3dId, "isRenderingHand"); 
+    this->camPosUniformId = glGetUniformLocation(this->shader3dId, "cameraPosition"); 
+    this->camDirUniformId = glGetUniformLocation(this->shader3dId, "cameraDirection"); 
 
     this->modelUniform2dId      = glGetUniformLocation(this->shader2dId, "model"); 
+
 }
 
 Renderer::~Renderer()
@@ -60,7 +65,7 @@ void Renderer::draw(Actor &player)
     GLCall(glBindFramebuffer(GL_FRAMEBUFFER, downscaledBuffer.getId()));
     //uses downscaled screensize and binds framebuffer
 
-    glClearColor(0.05f, 0.05f, 0.05f, 0.0f);
+    glClearColor(0.012f, 0.04f, 0.03f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST); 
 
@@ -73,8 +78,14 @@ void Renderer::draw(Actor &player)
 
     GLCall(glUniformMatrix4fv(projectionUniformId, 1 , GL_FALSE , glm::value_ptr(projection)));
     GLCall(glUniformMatrix4fv(viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
+    GLCall(glUniform4fv(camPosUniformId, 1 , glm::value_ptr(player.getPosition())));
+    GLCall(glUniform4fv(camDirUniformId, 1 , glm::value_ptr(player.getFacing())));
 
+    GLCall(glUniform1i(this->lightingUniformId, true));
     drawEntity(groundEntity);
+    GLCall(glUniform1i(this->lightingUniformId, false));
+    drawEntity(skyEntity);
+    GLCall(glUniform1i(this->lightingUniformId, true));
     drawPlayer(playerEntity);
 
     glViewport(0,0, screenWidth, screenHeight);
@@ -107,8 +118,10 @@ void Renderer::drawPlayer(Entity playerEntity)
 {
     glm::mat4 view = Matrix_Identity();
     GLCall(glUniformMatrix4fv(this->viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
+    GLCall(glUniform1i(this->handUniformId, true));
     glClear(GL_DEPTH_BUFFER_BIT);
     drawEntity(playerEntity);
+    GLCall(glUniform1i(this->handUniformId, false));
 }
 
 void Renderer::drawUI(Model uiElement)
