@@ -8,5 +8,5 @@ class QuadModel : public Model
 {
 public:
     QuadModel(std::string name, unsigned int textureId);
-
+    QuadModel(std::string name);
 };

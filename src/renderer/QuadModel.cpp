@@ -36,3 +36,8 @@ QuadModel::QuadModel(std::string name, unsigned int textureId)
 
     glBindVertexArray(0);
 }
+
+QuadModel::QuadModel(std::string name) : QuadModel(name, loadTexture("data/ui/"+name+".png", true))
+{
+}
+    

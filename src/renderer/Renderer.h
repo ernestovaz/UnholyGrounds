@@ -23,6 +23,7 @@ private:
     Entity groundEntity;
 
     Model* screenQuad; 
+    Model* crosshair; 
     //quad that covers the whole screen, the lower resolution rendered output is mapped into it
 
     float screenWidth;
@@ -42,6 +43,7 @@ private:
     void drawEntity(Entity entity);
     void drawModel(Model model);
     void drawPlayer(Entity playerEntity);
+    void drawUI(Model uiElement);
     void renderTextureToScreen();       //render texture input into the entire screen
 
     unsigned int LoadVertexShader(std::string name);   

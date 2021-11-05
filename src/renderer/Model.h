@@ -22,10 +22,10 @@ protected:
     VertexBuffer    vertexTextures;
     unsigned int    textureID;
 
+    unsigned int loadTexture(std::string filename, bool hasAlpha = false);
+
 private:
     VertexBuffer    vertexNormals;
-
-    unsigned int loadTexture();
 
 public: 
     Model(std::string name); 

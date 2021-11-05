@@ -26,8 +26,10 @@
 Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     : downscaledBuffer(screenWidth * DOWNSCALE_FACTOR, screenHeight * DOWNSCALE_FACTOR), 
     playerEntity(Model("player")), groundEntity(Model("ground")), 
-    screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId()))
+    screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId())),
+    crosshair(new QuadModel("crosshair"))
 {
+
     unsigned int vertexShader3dId     = LoadVertexShader("3d");
     unsigned int fragmentShader3dId   = LoadFragmentShader("3d");
     unsigned int vertexShader2dId     = LoadVertexShader("2d");
@@ -77,6 +79,7 @@ void Renderer::draw(Actor player)
 
     glViewport(0,0, screenWidth, screenHeight);
     renderTextureToScreen();
+    drawUI(*crosshair);
     //sets normal screen size and render low resolution texture into screen
 }
 
@@ -106,6 +109,20 @@ void Renderer::drawPlayer(Entity playerEntity)
     GLCall(glUniformMatrix4fv(this->viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
     glClear(GL_DEPTH_BUFFER_BIT);
     drawEntity(playerEntity);
+}
+
+void Renderer::drawUI(Model uiElement)
+{
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GLCall(glUseProgram(this->shader2dId));
+    glm::mat4 model = Matrix_Scale(0.026f, (float)(screenWidth/screenHeight)*0.026f, 0.0f);
+    GLCall(glUniformMatrix4fv(this->modelUniform2dId, 1, GL_FALSE, glm::value_ptr(model)));
+    GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+    GLCall(glDisable(GL_DEPTH_TEST));
+    //GLCall(glClear(GL_COLOR_BUFFER_BIT));
+    drawModel(uiElement);
+    glDisable(GL_BLEND);
 }
 
 void Renderer::renderTextureToScreen()

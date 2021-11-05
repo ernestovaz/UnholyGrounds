@@ -99,6 +99,8 @@ Model::Model(std::string name)
     VertexBuffer textures(texture_coefficients.data(), texture_coefficients.size()*sizeof(float), 2, 2);
     IndexBuffer indexBufferObject(indices.data(), indices.size());
 
+    std::string texFilename = "data/textures/"+name+".png";
+
 
     this->name              = name; 
     this->indexCount        = indices.size(); 
@@ -108,7 +110,7 @@ Model::Model(std::string name)
     this->vertexNormals     = normals;
     this->vertexTextures    = textures;
     this->indices           = indexBufferObject;
-    this->textureID         = loadTexture();
+    this->textureID         = loadTexture(texFilename);
 
     glBindVertexArray(0);
 }
@@ -127,11 +129,10 @@ size_t Model::getIndexCount()
     return this->indexCount;
 }
 
-unsigned int Model::loadTexture()
+unsigned int Model::loadTexture(std::string filename, bool hasAlpha)
 {
     stbi_set_flip_vertically_on_load(true);
     int width, height, channels;
-    std::string filename = "data/textures/"+this->name+".png";
     unsigned char *textureData = stbi_load(filename.c_str(), &width, &height, &channels, 0);
     if (!textureData)
     {
@@ -142,7 +143,14 @@ unsigned int Model::loadTexture()
     unsigned int textureId;
     GLCall(glGenTextures(1, &textureId));
     GLCall(glBindTexture(GL_TEXTURE_2D, textureId));
-    GLCall(glTexImage2D(GL_TEXTURE_2D,0, GL_RGB, width, height,0, GL_RGB, GL_UNSIGNED_BYTE, textureData));
+    if(hasAlpha)
+    {
+        GLCall(glTexImage2D(GL_TEXTURE_2D,0, GL_RGBA, width, height,0, GL_RGBA, GL_UNSIGNED_BYTE, textureData));
+    }
+    else
+    {
+        GLCall(glTexImage2D(GL_TEXTURE_2D,0, GL_RGB, width, height,0, GL_RGB, GL_UNSIGNED_BYTE, textureData));
+    }
     GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
     GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
     GLCall(glGenerateMipmap(GL_TEXTURE_2D));
