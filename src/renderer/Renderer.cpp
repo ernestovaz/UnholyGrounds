@@ -28,28 +28,28 @@ Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     playerEntity(Model("player")), groundEntity(Model("ground")), 
     screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId()))
 {
-    unsigned int firstVertexShaderId     = LoadVertexShader("firstPass");
-    unsigned int firstFragmentShaderId   = LoadFragmentShader("firstPass");
-    unsigned int secondVertexShaderId     = LoadVertexShader("secondPass");
-    unsigned int secondFragmentShaderId   = LoadFragmentShader("secondPass");
+    unsigned int vertexShader3dId     = LoadVertexShader("3d");
+    unsigned int fragmentShader3dId   = LoadFragmentShader("3d");
+    unsigned int vertexShader2dId     = LoadVertexShader("2d");
+    unsigned int fragmentShader2dId   = LoadFragmentShader("2d");
 
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
 
-    this->firstPassShaderId = CreateShaderProgram(firstVertexShaderId, firstFragmentShaderId);
-    this->secondPassShaderId = CreateShaderProgram(secondVertexShaderId, secondFragmentShaderId);
+    this->shader3dId = CreateShaderProgram(vertexShader3dId, fragmentShader3dId);
+    this->shader2dId = CreateShaderProgram(vertexShader2dId, fragmentShader2dId);
 
-    this->modelUniformId      = glGetUniformLocation(this->firstPassShaderId, "model"); 
-    this->viewUniformId       = glGetUniformLocation(this->firstPassShaderId, "view"); 
-    this->projectionUniformId = glGetUniformLocation(this->firstPassShaderId, "projection"); 
+    this->modelUniformId      = glGetUniformLocation(this->shader3dId, "model"); 
+    this->viewUniformId       = glGetUniformLocation(this->shader3dId, "view"); 
+    this->projectionUniformId = glGetUniformLocation(this->shader3dId, "projection"); 
 
-    this->modelUniform2dId      = glGetUniformLocation(this->secondPassShaderId, "model"); 
+    this->modelUniform2dId      = glGetUniformLocation(this->shader2dId, "model"); 
 }
 
 Renderer::~Renderer()
 {
-    glDeleteProgram(firstPassShaderId);
-    glDeleteProgram(secondPassShaderId);
+    glDeleteProgram(shader3dId);
+    glDeleteProgram(shader2dId);
 }
 
 void Renderer::draw(Actor player)
@@ -62,7 +62,7 @@ void Renderer::draw(Actor player)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST); 
 
-    GLCall(glUseProgram(firstPassShaderId));
+    GLCall(glUseProgram(shader3dId));
 
     float screenRatio = (float)screenWidth / (float)screenHeight;
 
@@ -110,7 +110,7 @@ void Renderer::drawPlayer(Entity playerEntity)
 
 void Renderer::renderTextureToScreen()
 {
-    GLCall(glUseProgram(this->secondPassShaderId));
+    GLCall(glUseProgram(this->shader2dId));
     glm::mat4 model = Matrix_Identity();
     GLCall(glUniformMatrix4fv(this->modelUniform2dId, 1, GL_FALSE, glm::value_ptr(model)));
     GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
