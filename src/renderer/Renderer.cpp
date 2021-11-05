@@ -54,7 +54,7 @@ Renderer::~Renderer()
     glDeleteProgram(shader2dId);
 }
 
-void Renderer::draw(Actor player)
+void Renderer::draw(Actor &player)
 {
     glViewport(0,0,downscaledBuffer.getWidth(),downscaledBuffer.getHeight());
     GLCall(glBindFramebuffer(GL_FRAMEBUFFER, downscaledBuffer.getId()));

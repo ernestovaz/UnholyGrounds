@@ -9,6 +9,7 @@ private:
     glm::vec4 facing;
     float viewYaw;
     float viewPitch;
+    bool isCrouched;
 public:
     Actor();
     glm::vec4 getPosition();
@@ -17,5 +18,6 @@ public:
     void moveBackward();
     void moveLeft();
     void moveRight();
+    void crouch();
     void moveView(float dx, float dy);
 };

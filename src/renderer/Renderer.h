@@ -12,7 +12,7 @@ class Renderer
 public: 
     Renderer(unsigned int screenWidth, unsigned int screenHeight);
     ~Renderer();
-    void draw(Actor player);
+    void draw(Actor &player);
 
 private:
     FrameBuffer downscaledBuffer; 

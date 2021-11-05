@@ -14,11 +14,19 @@ Actor::Actor()
     facing   = glm::vec4(0.0f, 0.0f, 1.0f,  0.0f);
     viewYaw  = 0.0f;
     viewPitch= 0.0f;
+    isCrouched = false;
 }
 
 glm::vec4 Actor::getPosition()
 {
-    return position;
+    if(isCrouched){
+        isCrouched = false;
+        return position - glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+    }
+    else{
+        isCrouched = false;
+        return position;
+    }
 }
 
 glm::vec4 Actor::getFacing()
@@ -56,6 +64,11 @@ void Actor::moveRight()
     glm::vec3 right = glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), backward);
     glm::vec4 hmRight(right, 0.0f);
     position += hmRight * SPEED;
+}
+
+void Actor::crouch()
+{
+    isCrouched = true;
 }
 
 void Actor::moveView(float dx, float dy)
