@@ -12,6 +12,7 @@ Actor::Actor()
     position = glm::vec4(0.0f, 3.0f, 0.0f, 1.0f);
     facing   = glm::vec4(0.0f, 0.0f, 1.0f,  0.0f);
     speed = 0.10f;
+    health = 100;
     viewYaw  = 0.0f;
     viewPitch= 0.0f;
     isCrouched = false;
@@ -44,6 +45,11 @@ float Actor::getSpeed()
         return speed;
     }
     
+}
+
+int Actor::getHealth()
+{
+    return health;
 }
 
 void Actor::moveForward()

@@ -8,6 +8,7 @@ private:
     glm::vec4 position;
     glm::vec4 facing;
     float speed;
+    int health;
     float viewYaw;
     float viewPitch;
     bool isCrouched;
@@ -17,6 +18,7 @@ public:
     glm::vec4 getPosition();
     glm::vec4 getFacing();
     float getSpeed();
+    int getHealth();
     void moveForward();
     void moveBackward();
     void moveLeft();
