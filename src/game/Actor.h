@@ -10,6 +10,8 @@ private:
     float speed;
     float viewYaw;
     float viewPitch;
+    bool isCrouched;
+    bool isWalking;
 public:
     Actor();
     glm::vec4 getPosition();
@@ -20,5 +22,6 @@ public:
     void moveLeft();
     void moveRight();
     void moveWalk();
+    void crouch();
     void moveView(float dx, float dy);
 };
