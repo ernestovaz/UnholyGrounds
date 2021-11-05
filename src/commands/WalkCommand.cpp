@@ -1,8 +1,8 @@
 
 #include "WalkCommand.h"
-#include "Actor.h"
+#include "Player.h"
 
-WalkCommand::WalkCommand(Actor& a) : player(a)
+WalkCommand::WalkCommand(Player& a) : player(a)
 {
 }
 

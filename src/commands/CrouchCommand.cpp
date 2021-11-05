@@ -2,7 +2,7 @@
 #include "CrouchCommand.h"
 #include "Actor.h"
 
-CrouchCommand::CrouchCommand(Actor& a) : player(a)
+CrouchCommand::CrouchCommand(Player& a) : player(a)
 {
 }
 

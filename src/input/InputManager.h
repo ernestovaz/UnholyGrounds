@@ -12,7 +12,7 @@ class InputManager
 
 public:
 
-    InputManager(std::vector <std::tuple<int,Command*>> cList, Actor& player);
+    InputManager(std::vector <std::tuple<int,Command*>> cList, Player& player);
     void keyCallback(int key, int action, int mods);
     void cursorCallback(double xpos, double ypos);
     void setInitialCursorPos(double xpos, double ypos);
@@ -23,6 +23,6 @@ private:
     std::map<int,Command*> commands;
     float lastCursorPosX;
     float lastCursorPosY;
-    Actor& player;
+    Player& player;
 };
 

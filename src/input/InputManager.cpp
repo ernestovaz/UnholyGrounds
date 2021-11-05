@@ -5,7 +5,7 @@
 
 #include "InputManager.h" 
 
-InputManager::InputManager(std::vector<std::tuple<int,Command*>> cList, Actor& player)
+InputManager::InputManager(std::vector<std::tuple<int,Command*>> cList, Player& player)
     : player(player)
 {
     for(unsigned int i=0; i<cList.size(); i++) {

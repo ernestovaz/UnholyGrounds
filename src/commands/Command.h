@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Actor.h"
+#include "Player.h"
 
 class Command
 {

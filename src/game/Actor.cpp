@@ -4,32 +4,17 @@
 
 #include "Actor.h"
 
-#define SENSITIVITY 0.002f
-#define PI 3.141592f/2.0f
-
 Actor::Actor()
 {
     position = glm::vec4(0.0f, 3.0f, 0.0f, 1.0f);
     facing   = glm::vec4(0.0f, 0.0f, 1.0f,  0.0f);
     speed = 0.10f;
     health = 100;
-    ammunition = 50;
-    viewYaw  = 0.0f;
-    viewPitch= 0.0f;
-    isCrouched = false;
-    isWalking = false;
-    infAmmunition = false;
 }
 
 glm::vec4 Actor::getPosition()
 {
-    if(isCrouched){
-        isCrouched = false;
-        return position - glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
-    }
-    else{
-        return position;
-    }
+    return position;
 }
 
 glm::vec4 Actor::getFacing()
@@ -39,34 +24,12 @@ glm::vec4 Actor::getFacing()
 
 float Actor::getSpeed()
 {
-    if (isWalking){
-        isWalking = false;
-        return speed - 0.05f;
-    }
-    else{
-        return speed;
-    }
-    
+    return speed;   
 }
 
 int Actor::getHealth()
 {
     return health;
-}
-
-int Actor::getAmmunition()
-{
-    if (infAmmunition){
-        return 9999;
-    }
-    else{
-        return ammunition;
-    }
-}
-
-void Actor::setInfAmmunition()
-{
-    infAmmunition = true;
 }
 
 void Actor::moveForward()
@@ -101,36 +64,3 @@ void Actor::moveRight()
     position += hmRight * getSpeed();
 }
 
-void Actor::walk()
-{
-    isWalking = true;
-}
-
-void Actor::crouch()
-{
-    isCrouched = true;
-    isWalking = true;
-}
-
-void Actor::shoot()
-{
-    if (getAmmunition() > 0){    
-        ammunition--;
-    }
-}
-
-void Actor::moveView(float dx, float dy)
-{
-    viewYaw   -= SENSITIVITY * dx; 
-    viewPitch -= SENSITIVITY * dy; 
-    if(viewPitch > PI/2)
-        viewPitch = PI/2;
-    if(viewPitch < -PI/2)
-        viewPitch = -PI/2;
-    facing = glm::vec4(
-            glm::cos(viewPitch) * glm::sin(viewYaw),
-            glm::sin(viewPitch),
-            glm::cos(viewPitch) * glm::cos(viewYaw),
-            0.0f
-    );
-}

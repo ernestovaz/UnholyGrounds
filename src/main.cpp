@@ -7,6 +7,7 @@
 #include "Renderer.h"
 #include "InputManager.h"
 #include "Actor.h"
+#include "Player.h"
 #include "Command.h"
 #include "MoveCommand.h"
 #include "CrouchCommand.h"
@@ -18,7 +19,7 @@
 
 int main()
 {
-    Actor player;
+    Player player;
     Game game;
 
     std::vector<std::tuple<int, Command*>> commandLst = {

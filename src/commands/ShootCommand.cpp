@@ -1,8 +1,8 @@
 
 #include "ShootCommand.h"
-#include "Actor.h"
+#include "Player.h"
 
-ShootCommand::ShootCommand(Actor& a) : player(a)
+ShootCommand::ShootCommand(Player& a) : player(a)
 {
 }
 
