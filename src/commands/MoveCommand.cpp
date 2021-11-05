@@ -21,7 +21,5 @@ void MoveCommand::execute()
         case(RIGHT):
             actor.moveRight();
             break;
-        case(WALK):
-            actor.moveWalk();
     }
 }

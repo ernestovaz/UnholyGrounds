@@ -101,7 +101,7 @@ void Actor::moveRight()
     position += hmRight * getSpeed();
 }
 
-void Actor::moveWalk()
+void Actor::walk()
 {
     isWalking = true;
 }
