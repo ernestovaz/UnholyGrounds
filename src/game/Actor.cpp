@@ -112,6 +112,11 @@ void Actor::crouch()
     isWalking = true;
 }
 
+void Actor::shoot()
+{
+    ammunition--;
+}
+
 void Actor::moveView(float dx, float dy)
 {
     viewYaw   -= SENSITIVITY * dx; 

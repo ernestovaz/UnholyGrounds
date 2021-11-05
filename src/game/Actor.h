@@ -29,5 +29,6 @@ public:
     void moveRight();
     void moveWalk();
     void crouch();
+    void shoot();
     void moveView(float dx, float dy);
 };
