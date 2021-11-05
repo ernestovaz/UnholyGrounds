@@ -114,7 +114,10 @@ void Actor::crouch()
 
 void Actor::shoot()
 {
-    ammunition--;
+    if (getAmmunition() > 0){    
+        ammunition--;
+    }
+    
 }
 
 void Actor::moveView(float dx, float dy)
