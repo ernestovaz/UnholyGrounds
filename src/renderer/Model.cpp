@@ -131,12 +131,12 @@ unsigned int Model::loadTexture()
 {
     stbi_set_flip_vertically_on_load(true);
     int width, height, channels;
-    std::string filename = "data/textures/"+this->name+".bmp";
+    std::string filename = "data/textures/"+this->name+".png";
     unsigned char *textureData = stbi_load(filename.c_str(), &width, &height, &channels, 0);
     if (!textureData)
     {
         std::cout << "No texture found for " + this->name + ".\n";
-        textureData = stbi_load("src/data/textures/error.bmp", &width, &height, &channels, 0);
+        textureData = stbi_load("src/data/textures/error.png", &width, &height, &channels, 0);
     }
 
     unsigned int textureId;
