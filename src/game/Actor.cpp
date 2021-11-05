@@ -13,10 +13,12 @@ Actor::Actor()
     facing   = glm::vec4(0.0f, 0.0f, 1.0f,  0.0f);
     speed = 0.10f;
     health = 100;
+    ammunition = 50;
     viewYaw  = 0.0f;
     viewPitch= 0.0f;
     isCrouched = false;
     isWalking = false;
+    infAmmunition = false;
 }
 
 glm::vec4 Actor::getPosition()
@@ -50,6 +52,21 @@ float Actor::getSpeed()
 int Actor::getHealth()
 {
     return health;
+}
+
+int Actor::getAmmunition()
+{
+    if (infAmmunition){
+        return 9999;
+    }
+    else{
+        return ammunition;
+    }
+}
+
+void Actor::setInfAmmunition()
+{
+    infAmmunition = true;
 }
 
 void Actor::moveForward()
