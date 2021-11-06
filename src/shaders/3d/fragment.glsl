@@ -39,8 +39,9 @@ void main()
         light = cameraPosition;
         light_dir  = normalize(cameraDirection);
     }
-    float light1_angle = 0.35;
-    float light2_angle = 0.4; //broader flashlight, less powerful, to smooth the contrast
+    float light1_angle = 0.27;
+    float light2_angle = 0.3; //broader flashlight, less powerful, to smooth the contrast
+    float light3_angle = 0.52;
 
 /*
     vec4 v = normalize(camera_position - p);
@@ -75,9 +76,11 @@ void main()
         I = vec3(0.3,0.3,0.3); 
     */
     if(dot(normalize(p-light),normalize(light_dir)) >= cos(light1_angle))
-        I = vec3(0.55,0.55,0.55); //Intensity for the main flashlight
+        I = vec3(0.7,0.7,0.7); //Intensity for the main flashlight
     else if(dot(normalize(p-light),normalize(light_dir)) >= cos(light2_angle))
-        I = vec3(0.13,0.13,0.13); //Intensity for the second flashlight
+        I = vec3(0.55,0.55,0.55); //Intensity for the second phase
+    else if(dot(normalize(p-light),normalize(light_dir)) >= cos(light3_angle))
+        I = vec3(0.13,0.13,0.13); //Intensity for the third phase    
     else
         I = vec3(0.04,0.04,0.04);
 
