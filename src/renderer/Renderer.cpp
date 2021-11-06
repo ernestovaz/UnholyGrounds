@@ -24,7 +24,7 @@
 #define FARPLANE -400.0f
 
 Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
-    : downscaledBuffer(screenWidth * DOWNSCALE_FACTOR, screenHeight * DOWNSCALE_FACTOR), 
+    : downscaledBuffer(screenWidth*3.0/4 * DOWNSCALE_FACTOR, screenHeight * DOWNSCALE_FACTOR), 
     playerEntity(Model("player")), groundEntity(Model("ground")), skyEntity(Model("sky"), Matrix_Scale(20.0f, 20.0f, 20.0f)),
     screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId())),
     crosshair(new QuadModel("red_crosshair"))
@@ -71,7 +71,7 @@ void Renderer::draw(Actor &player)
 
     GLCall(glUseProgram(shader3dId));
 
-    float screenRatio = (float)screenWidth / (float)screenHeight;
+    float screenRatio = 4.0/3.0; //(float)screenWidth / (float)screenHeight;
 
     glm::mat4 projection = Matrix_Perspective(FOV, screenRatio, NEARPLANE, FARPLANE);
     glm::mat4 view = Matrix_Camera_View(player.getPosition(), player.getFacing(), glm::vec4(0,1,0,0));
@@ -141,11 +141,11 @@ void Renderer::drawUI(Model uiElement)
 void Renderer::renderTextureToScreen()
 {
     GLCall(glUseProgram(this->shader2dId));
-    glm::mat4 model = Matrix_Identity();
+    glm::mat4 model = Matrix_Scale(3.0/4.0, 1.0, 1.0);
     GLCall(glUniformMatrix4fv(this->modelUniform2dId, 1, GL_FALSE, glm::value_ptr(model)));
     GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
     GLCall(glDisable(GL_DEPTH_TEST));
-    GLCall(glClearColor(1.0f, 1.0f, 1.0f, 1.0f));
+    GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
     GLCall(glClear(GL_COLOR_BUFFER_BIT));
     drawModel(*screenQuad);
 }
