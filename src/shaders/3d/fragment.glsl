@@ -27,19 +27,20 @@ void main()
 
     vec4 n = normalize(normal);
 
-    vec4 l;
-    vec4 l_dir  = normalize(cameraDirection);
-    if(isRenderingHand)
+    vec4 light;
+    vec4 light_dir  = normalize(cameraDirection);
+    if(isRenderingHand) //the hand has hardcoded constant ilumination
     {
-        l = vec4(0.0, 4.0, -1.0, 0.0); 
-        l_dir  = vec4(0.0, -1.0, 0.0, 0.0); 
+        light = vec4(0.0, 4.0, -1.0, 0.0); 
+        light_dir  = vec4(0.0, -1.0, 0.0, 0.0); 
     }
     else
     { 
-        l = cameraPosition;
-        l_dir  = normalize(cameraDirection);
+        light = cameraPosition;
+        light_dir  = normalize(cameraDirection);
     }
-    float l_angle = 0.5;//0.523599;
+    float light1_angle = 0.35;
+    float light2_angle = 0.4; //broader flashlight, less powerful, to smooth the contrast
 
 /*
     vec4 v = normalize(camera_position - p);
@@ -68,15 +69,22 @@ void main()
 
     vec3 I; 
 
-    if(dot(normalize(p-l),normalize(l_dir)) < cos(l_angle))
+    /*if(dot(normalize(p-l),normalize(l_dir)) < cos(l1_angle))
         I = vec3(0.04,0.04,0.04);
     else
         I = vec3(0.3,0.3,0.3); 
+    */
+    if(dot(normalize(p-light),normalize(light_dir)) >= cos(light1_angle))
+        I = vec3(0.55,0.55,0.55); //Intensity for the main flashlight
+    else if(dot(normalize(p-light),normalize(light_dir)) >= cos(light2_angle))
+        I = vec3(0.13,0.13,0.13); //Intensity for the second flashlight
+    else
+        I = vec3(0.04,0.04,0.04);
 
     if(lightingIsEnabled)
     {
         // Equação de Iluminação
-        float lambert = max(0,dot(n,l));
+        float lambert = max(0,dot(n,light));
         color = (Kd0 - 0.3)  * (I*lambert);
         //color = pow(color, vec3(1.0,1.0,1.0)/2.2);
     }
