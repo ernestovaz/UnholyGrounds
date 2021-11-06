@@ -36,7 +36,7 @@ void main()
     }
     else
     { 
-        light = cameraPosition;
+        light = cameraPosition - vec4(0.0, 0.6, 0.0, 0.0); //flashlight is a little lower than head, gives a cool distortion
         light_dir  = normalize(cameraDirection);
     }
     float light1_angle = 0.37;
