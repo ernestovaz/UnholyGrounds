@@ -110,7 +110,7 @@ Model::Model(std::string name)
     this->vertexNormals     = normals;
     this->vertexTextures    = textures;
     this->indices           = indexBufferObject;
-    this->textureID         = loadTexture(texFilename);
+    this->textureID         = loadTexture(texFilename, true);
 
     glBindVertexArray(0);
 }

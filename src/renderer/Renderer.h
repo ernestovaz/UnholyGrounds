@@ -22,6 +22,7 @@ private:
     Entity playerEntity;
     Entity groundEntity;
     Entity skyEntity;
+    Entity skeleton;
 
     Model* screenQuad; 
     Model* crosshair; 

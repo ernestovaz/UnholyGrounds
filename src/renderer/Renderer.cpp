@@ -13,7 +13,7 @@
 #include "matrices.h"
 #include "Model.h"
 #include "QuadModel.h"
-#include "Actor.h"
+#include "Actor.h" 
 #include "Entity.h"
 
 #define DOWNSCALE_FACTOR 1/4
@@ -26,9 +26,11 @@
 Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     : downscaledBuffer(screenWidth*3.0/4 * DOWNSCALE_FACTOR, screenHeight * DOWNSCALE_FACTOR), 
     playerEntity(Model("player")), groundEntity(Model("ground")), skyEntity(Model("sky"), Matrix_Scale(20.0f, 20.0f, 20.0f)),
+    skeleton(Model("skeleton"), Matrix_Scale(1.8f, 1.8f, 1.8f)),
     screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId())),
     crosshair(new QuadModel("red_crosshair"))
 {
+
 
     unsigned int vertexShader3dId     = LoadVertexShader("3d");
     unsigned int fragmentShader3dId   = LoadFragmentShader("3d");
@@ -40,7 +42,6 @@ Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
 
     this->shader3dId = CreateShaderProgram(vertexShader3dId, fragmentShader3dId);
     this->shader2dId = CreateShaderProgram(vertexShader2dId, fragmentShader2dId);
-
     this->modelUniformId      = glGetUniformLocation(this->shader3dId, "model"); 
     this->viewUniformId       = glGetUniformLocation(this->shader3dId, "view"); 
     this->projectionUniformId = glGetUniformLocation(this->shader3dId, "projection"); 
@@ -75,7 +76,6 @@ void Renderer::draw(Actor &player)
 
     glm::mat4 projection = Matrix_Perspective(FOV, screenRatio, NEARPLANE, FARPLANE);
     glm::mat4 view = Matrix_Camera_View(player.getPosition(), player.getFacing(), glm::vec4(0,1,0,0));
-
     GLCall(glUniformMatrix4fv(projectionUniformId, 1 , GL_FALSE , glm::value_ptr(projection)));
     GLCall(glUniformMatrix4fv(viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
     GLCall(glUniform4fv(camPosUniformId, 1 , glm::value_ptr(player.getPosition())));
@@ -83,6 +83,7 @@ void Renderer::draw(Actor &player)
 
     GLCall(glUniform1i(this->lightingUniformId, true));
     drawEntity(groundEntity);
+    drawEntity(skeleton);
     GLCall(glUniform1i(this->lightingUniformId, false));
     drawEntity(skyEntity);
     GLCall(glUniform1i(this->lightingUniformId, true));
@@ -133,7 +134,6 @@ void Renderer::drawUI(Model uiElement)
     GLCall(glUniformMatrix4fv(this->modelUniform2dId, 1, GL_FALSE, glm::value_ptr(model)));
     GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
     GLCall(glDisable(GL_DEPTH_TEST));
-    //GLCall(glClear(GL_COLOR_BUFFER_BIT));
     drawModel(uiElement);
     glDisable(GL_BLEND);
 }

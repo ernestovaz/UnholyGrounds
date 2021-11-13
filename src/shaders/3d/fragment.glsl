@@ -16,7 +16,7 @@ uniform bool isRenderingHand;
 uniform vec4 cameraPosition;
 uniform vec4 cameraDirection;
 
-layout(location = 0) out vec3 color;
+layout(location = 0) out vec4 color;
 
 void main()
 {
@@ -66,18 +66,20 @@ void main()
 
     color = lambert_diffuse_term + ambient_term + phong_specular_term;
 */
-    vec3 Kd0 = texture(modelTexture, textureCoord).rgb;
+    vec4 Kd0 = texture(modelTexture, textureCoord);
+    if(Kd0.a < 0.01)
+        discard;
 
-    vec3 I; 
+    vec4 I; 
 
     if(dot(normalize(p-light),normalize(light_dir)) >= cos(light1_angle))
-        I = vec3(0.7,0.7,0.7)*min(1, 20/length(cameraPosition-p)); //Intensity for the main flashlight
+        I = vec4(0.7,0.7,0.7,0.0)*min(1, 5/length(cameraPosition-p)); //Intensity for the main flashlight
     else if(dot(normalize(p-light),normalize(light_dir)) >= cos(light2_angle))
-        I = vec3(0.55,0.55,0.55)*min(1, 18/length(cameraPosition - p)) ; //Intensity for the second phase
+        I = vec4(0.55,0.55,0.55,0.0)*min(1, 4/length(cameraPosition - p)) ; //Intensity for the second phase
     //else if(dot(normalize(p-light),normalize(light_dir)) >= cos(light3_angle))
     //    I = vec3(0.13,0.13,0.13)*min(1, 18/length(cameraPosition - p)); //Intensity for the third phase    
     else
-        I = vec3(0.04,0.04,0.04);
+        I = vec4(0.03,0.03,0.03,0.0);
 
     if(lightingIsEnabled)
     {
