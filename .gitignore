@@ -1,5 +1,6 @@
 .ccls
 .ccls-cache
+.cache
 .ccls.sh
 compile_commands.json
 *.swp
