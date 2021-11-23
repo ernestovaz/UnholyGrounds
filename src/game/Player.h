@@ -6,9 +6,10 @@
 class Player : public Actor
 {
 private:
-    int ammunition;
     float viewYaw;
     float viewPitch;
+    int ammunition;
+    int shootingState;  //0 if not shooting
     bool isCrouched;
     bool isWalking;
     bool infAmmunition;

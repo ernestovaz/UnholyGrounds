@@ -22,13 +22,13 @@ protected:
     VertexBuffer    vertexTextures;
     unsigned int    textureID;
 
-    unsigned int loadTexture(std::string filename, bool hasAlpha = false);
+    unsigned int loadTexture(std::string filename, bool hasAlpha);
 
 private:
     VertexBuffer    vertexNormals;
 
 public: 
-    Model(std::string name); 
+    Model(std::string name, bool hasAlpha = true); 
     Model();
     unsigned int getId();
     unsigned int getTextureId();

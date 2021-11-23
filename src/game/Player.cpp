@@ -1,10 +1,6 @@
-#include <glm/glm.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
 #include "Player.h"
-#include "Entity.h"
-#include "Model.h"
-#include "Shot.h"
+
+#include <glm/trigonometric.hpp>
 
 #define SENSITIVITY 0.002f
 #define PI 3.141592f/2.0f
@@ -13,10 +9,11 @@ Player::Player() : entity("player")
 {
     position = glm::vec4(0.0f, 3.0f, 0.0f, 1.0f);
     facing   = glm::vec4(0.0f, 0.0f, 1.0f,  0.0f);
-    speed = 0.10f;
-    ammunition = 50;
     viewYaw  = 0.0f;
     viewPitch= 0.0f;
+    shootingState = 0;
+    speed = 0.10f;
+    ammunition = 50;
     isCrouched = false;
     isWalking = false;
     infAmmunition = false;

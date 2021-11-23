@@ -15,7 +15,7 @@
 #include "IndexBuffer.h"
 #include "utils.h"
 
-Model::Model(std::string name)
+Model::Model(std::string name, bool hasAlpha)
 {
     std::string filename = "data/models/"+name+".obj";
     std::vector<tinyobj::material_t> materials; //unused for now    
@@ -110,7 +110,7 @@ Model::Model(std::string name)
     this->vertexNormals     = normals;
     this->vertexTextures    = textures;
     this->indices           = indexBufferObject;
-    this->textureID         = loadTexture(texFilename, true);
+    this->textureID         = loadTexture(texFilename, hasAlpha);
 
     glBindVertexArray(0);
 }
