@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Entity.h"
 #include "Model.h"
+#include "Shot.h"
 
 #define SENSITIVITY 0.002f
 #define PI 3.141592f/2.0f
