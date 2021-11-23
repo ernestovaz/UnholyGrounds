@@ -9,7 +9,8 @@ private:
     float viewYaw;
     float viewPitch;
     int ammunition;
-    int shootingState;  //0 if not shooting
+    int shootingState;  
+    bool isShooting;
     bool isCrouched;
     bool isWalking;
     bool infAmmunition;

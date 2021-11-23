@@ -227,6 +227,13 @@ void Renderer::LoadShader(const char* filename, unsigned int shader_id)
     delete [] log;
 }
 
+void calculateShootingAnimation(Player& player)
+{
+    
+
+
+}
+
 unsigned int Renderer::CreateShaderProgram(unsigned int vertexId, unsigned int fragmentId)
 {
     GLuint program_id = glCreateProgram();

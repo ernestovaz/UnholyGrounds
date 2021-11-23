@@ -14,6 +14,7 @@ Player::Player() : entity("player")
     shootingState = 0;
     speed = 0.10f;
     ammunition = 50;
+    isShooting = false;
     isCrouched = false;
     isWalking = false;
     infAmmunition = false;
@@ -72,7 +73,7 @@ void Player::shoot()
 {
     if (getAmmunition() > 0){    
         ammunition--;
-        Shot shot = Shot(this->getFacing());
+        //Shot shot = Shot(this->getFacing());
     }
 }
 

@@ -17,6 +17,8 @@
 #include "Window.h"
 #include "Game.h"
 
+#define FPS_LIMIT 1.0/60.0
+
 int main()
 {
     Window window;
@@ -28,20 +30,27 @@ int main()
         std::make_tuple(GLFW_KEY_S,     new MoveCommand(player, MoveCommand::BACKWARD)),
         std::make_tuple(GLFW_KEY_A,     new MoveCommand(player, MoveCommand::LEFT)),
         std::make_tuple(GLFW_KEY_D,     new MoveCommand(player, MoveCommand::RIGHT)),
-        std::make_tuple(GLFW_KEY_LEFT_SHIFT,     new WalkCommand(player)),
-        //std::make_tuple(GLFW_KEY_LEFT_CONTROL,     new CrouchCommand(player)),
-        std::make_tuple(GLFW_MOUSE_BUTTON_LEFT,    new ShootCommand(player)),
+        std::make_tuple(GLFW_KEY_LEFT_SHIFT,        new WalkCommand(player)),
+        std::make_tuple(GLFW_KEY_LEFT_CONTROL,      new CrouchCommand(player)),
+        std::make_tuple(GLFW_MOUSE_BUTTON_LEFT,     new ShootCommand(player)),
         std::make_tuple(GLFW_KEY_ESCAPE,new ExitCommand (game))
     };
     InputManager input(commandLst, player);
     window.setKeyCallbacks(&input);
 
+    double frameTime = glfwGetTime();
+
     while (!window.shouldClose() && game.isRunning())
     {
-        input.handleInput();
-        renderer.draw(player);
+        double elapsedTime = glfwGetTime() - frameTime;
         window.pollEvents();
-        window.swapBuffers();
+        if(elapsedTime >= FPS_LIMIT)
+        {
+            input.handleInput();
+            renderer.draw(player);
+            window.swapBuffers();
+            frameTime = glfwGetTime();
+        }
     }
 
     return 0;
