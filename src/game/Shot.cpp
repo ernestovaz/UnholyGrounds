@@ -3,7 +3,7 @@
 
 #include "Shot.h"
 
-Shot::Shot()
+Shot::Shot(glm::vec4 dir)
 {
-    direction = glm::vec4(0.0f, 0.0f, 0.0f,  0.0f);
+    direction = dir;
 }

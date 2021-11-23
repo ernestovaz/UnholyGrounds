@@ -5,6 +5,6 @@
 class Shot
 {
 public:
-    Shot();
+    Shot(glm::vec4 dir);
     glm::vec4 direction;
 };
