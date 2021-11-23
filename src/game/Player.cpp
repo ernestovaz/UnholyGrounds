@@ -73,7 +73,7 @@ void Player::shoot()
 {
     if (getAmmunition() > 0){    
         ammunition--;
-        //Shot shot = Shot(this->getFacing());
+        Shot shot = Shot(this->getFacing());
     }
 }
 
