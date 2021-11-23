@@ -1,1 +1,1 @@
-# Unnamed game project for Fundamentals of Computer Graphics
+Unholy Grounds game project for Fundamentals of Computer Graphics
