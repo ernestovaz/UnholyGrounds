@@ -1,9 +1,10 @@
 #include <map>
 #include <iterator>
 
+#include "Player.h"
+#include "InputManager.h" 
 #include <GLFW/glfw3.h>
 
-#include "InputManager.h" 
 
 InputManager::InputManager(std::vector<std::tuple<int,Command*>> cList, Player& player)
     : player(player)

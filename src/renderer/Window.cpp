@@ -8,7 +8,7 @@
 #include "Window.h"
 #include "InputManager.h"
 
-Window::Window(InputManager* input)
+Window::Window()
 {
     if (!glfwInit())
     {
@@ -42,25 +42,6 @@ Window::Window(InputManager* input)
     glfwMakeContextCurrent(this->window);
     //creates glfw context
 
-    glfwSetWindowUserPointer(this->window, input); //sets input manager pointer, for handling callbacks
-    glfwSetKeyCallback(this->window, [](GLFWwindow* window, int key, int scancode, int action, int mod)
-    {
-        auto input = (InputManager*)glfwGetWindowUserPointer( window );
-        input->keyCallback(key, action, mod); 
-    });
-    //lambda used for callbacks (calls input manager for handling)
-
-    glfwSetCursorPosCallback(this->window, [](GLFWwindow* window, double xpos, double ypos)
-    {
-        auto input = (InputManager*)glfwGetWindowUserPointer( window );
-        input->cursorCallback(xpos, ypos); 
-    });
-    //lambda used for callbacks (calls input manager for handling)
-    
-    double xpos,ypos;
-    glfwGetCursorPos(this->window, &xpos, &ypos);
-    input->setInitialCursorPos(xpos, ypos);
-    //sets initial position for mouse, since movement is calculated from mouse displacement
 
     glfwSetFramebufferSizeCallback(this->window, [](GLFWwindow* window, int width, int height)
     {
@@ -83,6 +64,30 @@ Window::~Window()
 {
    glfwDestroyWindow(this->window); 
    glfwTerminate();
+}
+
+void Window::setKeyCallbacks(InputManager* input)
+{
+    glfwSetWindowUserPointer(this->window, input); //sets input manager pointer, for handling callbacks
+    glfwSetKeyCallback(this->window, [](GLFWwindow* window, int key, int scancode, int action, int mod)
+    {
+        auto input = (InputManager*)glfwGetWindowUserPointer( window );
+        input->keyCallback(key, action, mod); 
+    });
+    //lambda used for callbacks (calls input manager for handling)
+
+    glfwSetCursorPosCallback(this->window, [](GLFWwindow* window, double xpos, double ypos)
+    {
+        auto input = (InputManager*)glfwGetWindowUserPointer( window );
+        input->cursorCallback(xpos, ypos); 
+    });
+    //lambda used for callbacks (calls input manager for handling)
+    
+    double xpos,ypos;
+    glfwGetCursorPos(this->window, &xpos, &ypos);
+    input->setInitialCursorPos(xpos, ypos);
+    //sets initial position for mouse, since movement is calculated from mouse displacement
+
 }
 
 bool Window::shouldClose()

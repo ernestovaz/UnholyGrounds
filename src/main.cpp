@@ -19,8 +19,10 @@
 
 int main()
 {
-    Player player;
+    Window window;
+    Renderer renderer(window.width, window.height);
     Game game;
+    Player player;
     std::vector<std::tuple<int, Command*>> commandLst = {
         std::make_tuple(GLFW_KEY_W,     new MoveCommand(player, MoveCommand::FORWARD)),
         std::make_tuple(GLFW_KEY_S,     new MoveCommand(player, MoveCommand::BACKWARD)),
@@ -32,8 +34,7 @@ int main()
         std::make_tuple(GLFW_KEY_ESCAPE,new ExitCommand (game))
     };
     InputManager input(commandLst, player);
-    Window window(&input);
-    Renderer renderer(window.width, window.height);
+    window.setKeyCallbacks(&input);
 
     while (!window.shouldClose() && game.isRunning())
     {

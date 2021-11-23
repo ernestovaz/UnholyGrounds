@@ -2,11 +2,13 @@
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 #include "Player.h"
+#include "Entity.h"
+#include "Model.h"
 
 #define SENSITIVITY 0.002f
 #define PI 3.141592f/2.0f
 
-Player::Player()
+Player::Player() : entity("player")
 {
     position = glm::vec4(0.0f, 3.0f, 0.0f, 1.0f);
     facing   = glm::vec4(0.0f, 0.0f, 1.0f,  0.0f);

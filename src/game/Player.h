@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Actor.h"
+#include "Entity.h"
 
 class Player : public Actor
 {
@@ -12,6 +13,7 @@ private:
     bool isWalking;
     bool infAmmunition;
 public:
+    Entity entity;
     Player();
     virtual glm::vec4 getPosition() override;
     virtual float getSpeed() override;

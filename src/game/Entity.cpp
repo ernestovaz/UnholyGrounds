@@ -4,6 +4,10 @@ Entity::Entity(Model model, glm::mat4 initialMatrix) : model(model), matrix(init
 {
 }
 
+Entity::Entity(std::string name, glm::mat4 initialMatrix) : model(name), matrix(initialMatrix)
+{
+}
+
 Entity::Entity()
 {
 }

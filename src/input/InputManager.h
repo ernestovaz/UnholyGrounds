@@ -3,9 +3,11 @@
 #include <map>
 #include <tuple>
 #include <vector>
-#include <GLFW/glfw3.h>
 
 #include "Command.h" 
+#include "Player.h" 
+
+#include <GLFW/glfw3.h>
 
 class InputManager
 {

@@ -25,7 +25,7 @@
 
 Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     : downscaledBuffer(screenWidth*3.0/4 * DOWNSCALE_FACTOR, screenHeight * DOWNSCALE_FACTOR), 
-    playerEntity(Model("player")), groundEntity(Model("ground")), skyEntity(Model("sky"), Matrix_Scale(20.0f, 20.0f, 20.0f)),
+    groundEntity(Model("ground")), skyEntity(Model("sky"), Matrix_Scale(20.0f, 20.0f, 20.0f)),
     skeleton(Model("tomb2"), Matrix_Scale(0.7f, 0.7f, 0.7f)),
     screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId())),
     crosshair(new QuadModel("red_crosshair"))
@@ -59,7 +59,7 @@ Renderer::~Renderer()
     glDeleteProgram(shader2dId);
 }
 
-void Renderer::draw(Actor &player)
+void Renderer::draw(Player &player)
 {
     glViewport(0,0,downscaledBuffer.getWidth(),downscaledBuffer.getHeight());
     GLCall(glBindFramebuffer(GL_FRAMEBUFFER, downscaledBuffer.getId()));
@@ -86,7 +86,7 @@ void Renderer::draw(Actor &player)
     GLCall(glUniform1i(this->lightingUniformId, false));
     drawEntity(skyEntity);
     GLCall(glUniform1i(this->lightingUniformId, true));
-    drawPlayer(playerEntity);
+    drawPlayer(player.entity);
 
     glViewport(0,0, screenWidth, screenHeight);
     renderTextureToScreen();

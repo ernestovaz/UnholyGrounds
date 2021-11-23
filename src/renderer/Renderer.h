@@ -4,7 +4,7 @@
 
 #include "Entity.h"
 #include "Model.h"
-#include "Actor.h"
+#include "Player.h"
 #include "FrameBuffer.h"
 
 class Renderer
@@ -12,14 +12,13 @@ class Renderer
 public: 
     Renderer(unsigned int screenWidth, unsigned int screenHeight);
     ~Renderer();
-    void draw(Actor &player);
+    void draw(Player &player);
 
 private:
     FrameBuffer downscaledBuffer; 
     //buffer with lower resolution than the screen, the game is rendered into this buffer 
     //in order to achieve a pixelated effect
 
-    Entity playerEntity;
     Entity groundEntity;
     Entity skyEntity;
     Entity skeleton;
