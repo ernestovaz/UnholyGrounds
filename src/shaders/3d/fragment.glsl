@@ -27,17 +27,12 @@ void main()
 
     vec4 n = normalize(normal);
 
-    vec4 light;
+    vec4 light = cameraPosition - vec4(0.0, 0.6, 0.0, 0.0); //flashlight is a little lower than head, gives a cool distortion
     vec4 light_dir  = normalize(cameraDirection);
     if(isRenderingHand) //the hand has hardcoded constant ilumination
     {
-        light = vec4(0.0, 4.0, -1.0, 0.0); 
-        light_dir  = vec4(0.0, -1.0, 0.0, 0.0); 
-    }
-    else
-    { 
-        light = cameraPosition - vec4(0.0, 0.6, 0.0, 0.0); //flashlight is a little lower than head, gives a cool distortion
-        light_dir  = normalize(cameraDirection);
+        light = camera_position + vec4(0.0, 0.3, 0.0, 0.0);    
+        light_dir = vec4(0.3,-0.7, 0.0, 0.0);   
     }
     float light1_angle = 0.37;
     float light2_angle = 0.43; //broader flashlight, less powerful, to smooth the contrast
@@ -80,6 +75,10 @@ void main()
     //    I = vec3(0.13,0.13,0.13)*min(1, 18/length(cameraPosition - p)); //Intensity for the third phase    
     else
         I = vec4(0.03,0.03,0.03,0.0);
+    if(isRenderingHand) //the hand has hardcoded constant ilumination
+    {
+        I = vec4(0.6,0.6,0.6,0.0);
+    }
 
     if(lightingIsEnabled)
     {

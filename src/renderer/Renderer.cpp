@@ -26,11 +26,10 @@
 Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     : downscaledBuffer(screenWidth*3.0/4 * DOWNSCALE_FACTOR, screenHeight * DOWNSCALE_FACTOR), 
     playerEntity(Model("player")), groundEntity(Model("ground")), skyEntity(Model("sky"), Matrix_Scale(20.0f, 20.0f, 20.0f)),
-    skeleton(Model("skeleton"), Matrix_Scale(1.8f, 1.8f, 1.8f)),
+    skeleton(Model("tomb2"), Matrix_Scale(0.7f, 0.7f, 0.7f)),
     screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId())),
     crosshair(new QuadModel("red_crosshair"))
 {
-
 
     unsigned int vertexShader3dId     = LoadVertexShader("3d");
     unsigned int fragmentShader3dId   = LoadFragmentShader("3d");
