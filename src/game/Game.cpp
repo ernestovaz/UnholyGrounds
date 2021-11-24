@@ -25,6 +25,7 @@ void Game::update()
     if(glfwGetTime() - spawnClock >= 10){
         scene.spawnSkeleton();
         spawnClock = glfwGetTime();
+        checkCollisions();
     }
 }
 
@@ -39,4 +40,24 @@ void Game::checkCollisions()
         bool playerinside = pointBoundingBoxCollision(scene.player.getPosition(), enemy.model.getBoundingBox());
     }
 
+}
+
+void Game::movePlayerForward()
+{
+    scene.player.moveForward();
+}
+
+void Game::movePlayerBackward()
+{
+    scene.player.moveBackward();
+}
+
+void Game::movePlayerLeft()
+{
+    scene.player.moveLeft();
+}
+
+void Game::movePlayerRight()
+{
+    scene.player.moveRight();
 }

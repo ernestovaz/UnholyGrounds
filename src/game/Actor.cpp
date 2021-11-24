@@ -3,8 +3,6 @@
 #include <glm/vec4.hpp>
 
 #include "Actor.h"
-#include "collisions.h"
-#include <iostream>
 
 Actor::Actor()
 {

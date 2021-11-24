@@ -19,4 +19,8 @@ public:
     bool isRunning();
     void update();
     void checkCollisions();
+    void movePlayerForward();
+    void movePlayerBackward();
+    void movePlayerRight();
+    void movePlayerLeft();
 };

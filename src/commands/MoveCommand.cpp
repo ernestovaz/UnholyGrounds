@@ -10,16 +10,16 @@ void MoveCommand::execute()
     switch(dir)
     {
         case(FORWARD):
-            game.scene.player.moveForward();
+            game.movePlayerForward();
             break;
         case(BACKWARD):
-            game.scene.player.moveBackward();
+            game.movePlayerBackward();
             break;
         case(LEFT):
-            game.scene.player.moveLeft();
+            game.movePlayerLeft();
             break;
         case(RIGHT):
-            game.scene.player.moveRight();
+            game.movePlayerRight();
             break;
     }
 }
