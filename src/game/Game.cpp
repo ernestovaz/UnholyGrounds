@@ -9,6 +9,10 @@ Game::Game(Player& player) : scene(player)
     running = true;
     startClock = glfwGetTime();
     spawnClock = glfwGetTime();
+    limits.push_back(glm::vec4(-50.0f,-50.0f,0.0f,1.0f));
+    limits.push_back(glm::vec4(50.0f,-50.0f,0.0f,1.0f));
+    limits.push_back(glm::vec4(-50.0f,50.0f,0.0f,1.0f));
+    limits.push_back(glm::vec4(50.0f,50.0f,0.0f,1.0f));
 }
 
 void Game::terminate()

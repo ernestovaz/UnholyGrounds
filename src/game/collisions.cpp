@@ -25,8 +25,7 @@ bool pointLineSegment(glm::vec4 point, glm::vec4 p1, glm::vec4 p2)
     //Arguments are the point and two other points that compose a line segment
     bool xInside = point.x >= std::min(p1.x, p2.x) && point.x <= std::max(p1.x, p2.x);
     bool yInside = point.y >= std::min(p1.y, p2.y) && point.y <= std::max(p1.y, p2.y);
-    bool zInside = point.z >= std::min(p1.z, p2.z) && point.z <= std::max(p1.z, p2.z);
-    bool isInside = xInside && yInside && zInside;
+    bool isInside = xInside && yInside;
     return isInside;
 }
 
