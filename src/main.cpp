@@ -24,8 +24,8 @@ int main()
 {
     Window window;
     Renderer renderer(window.width, window.height);
-    Game game;
     Player player;
+    Game game(player);
     std::vector<std::tuple<int, Command*>> commandLst = {
         std::make_tuple(GLFW_KEY_W,     new MoveCommand(player, MoveCommand::FORWARD)),
         std::make_tuple(GLFW_KEY_S,     new MoveCommand(player, MoveCommand::BACKWARD)),
@@ -39,8 +39,6 @@ int main()
     InputManager input(commandLst, player);
     window.setKeyCallbacks(&input);
 
-    Scene scene(player);
-
     double frameTime = glfwGetTime();
     while (!window.shouldClose() && game.isRunning())
     {
@@ -49,7 +47,7 @@ int main()
         if(elapsedTime >= FPS_LIMIT)
         {
             input.handleInput();
-            renderer.draw(scene);
+            renderer.draw(game.scene);
             window.swapBuffers();
             frameTime = glfwGetTime();
         }
