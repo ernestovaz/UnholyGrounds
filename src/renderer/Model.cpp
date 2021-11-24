@@ -39,10 +39,10 @@ Model::Model(std::string name, bool hasBoundingBox, bool hasAlpha)
 
     bool fileHasNormals = false;
     
-    float xMax = -2147483648;
+    float xMax = 0;
     float yMax = xMax; 
     float zMax = xMax; 
-    float xMin = 2147483648;
+    float xMin = 0;
     float yMin = xMin;
     float zMin = xMin;
     
@@ -66,12 +66,12 @@ Model::Model(std::string name, bool hasBoundingBox, bool hasAlpha)
 
                 if(hasBoundingBox)
                 {
-                    xMax = std::max(vx, xMax);
-                    yMax = std::max(vy, yMax);
-                    zMax = std::max(vz, zMax);
-                    xMin = std::min(vx, xMin);
-                    yMin = std::min(vy, yMin);
-                    zMin = std::min(vz, zMin);
+                    if(vx > xMax) xMax = vx;
+                    if(vy > yMax) yMax = vy;
+                    if(vz > zMax) zMax = vz;
+                    if(vx < xMin) xMin = vx;
+                    if(vy < yMin) yMin = vy;
+                    if(vz < zMin) zMin = vz;
                 }
 
                 model_coefficients.push_back( vx ); 
@@ -130,7 +130,9 @@ Model::Model(std::string name, bool hasBoundingBox, bool hasAlpha)
     this->textureID         = loadTexture(texFilename, hasAlpha);
 
     if(hasBoundingBox)
+    {
         this->boundingBox = calculateBoundingBox(xMax, yMax, zMax, xMin, yMin, zMin);
+    }
 
     glBindVertexArray(0);
 }
@@ -208,4 +210,9 @@ unsigned int Model::getRenderingMode()
 BoundingBox Model::getBoundingBox()
 {
     return this->boundingBox;
+}
+
+void Model::setBoundingBox(BoundingBox boundingBox)
+{
+    this->boundingBox = boundingBox;
 }
