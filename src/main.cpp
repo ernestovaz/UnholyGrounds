@@ -39,8 +39,9 @@ int main()
     InputManager input(commandLst, player);
     window.setKeyCallbacks(&input);
 
-    double frameTime = glfwGetTime();
+    Scene scene(player);
 
+    double frameTime = glfwGetTime();
     while (!window.shouldClose() && game.isRunning())
     {
         double elapsedTime = glfwGetTime() - frameTime;
@@ -48,7 +49,7 @@ int main()
         if(elapsedTime >= FPS_LIMIT)
         {
             input.handleInput();
-            renderer.draw(player);
+            renderer.draw(scene);
             window.swapBuffers();
             frameTime = glfwGetTime();
         }
