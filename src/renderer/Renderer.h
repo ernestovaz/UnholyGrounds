@@ -21,7 +21,7 @@ private:
 
     Entity groundEntity;
     Entity skyEntity;
-    Entity skeleton;
+    Entity car;
 
     Model* screenQuad; 
     Model* crosshair; 

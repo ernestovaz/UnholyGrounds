@@ -2,6 +2,7 @@
 
 #include "Actor.h"
 #include "Entity.h"
+#include "Shot.h"
 
 class Player : public Actor
 {
