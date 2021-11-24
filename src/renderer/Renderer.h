@@ -6,6 +6,7 @@
 #include "Model.h"
 #include "Player.h"
 #include "FrameBuffer.h"
+#include "Scene.h"
 
 class Renderer
 {
@@ -19,9 +20,7 @@ private:
     //buffer with lower resolution than the screen, the game is rendered into this buffer 
     //in order to achieve a pixelated effect
 
-    Entity groundEntity;
-    Entity skyEntity;
-    Entity car;
+    Scene scene;
 
     Model* screenQuad; 
     Model* crosshair; 

@@ -25,8 +25,7 @@
 
 Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     : downscaledBuffer(screenWidth*3.0/4 * DOWNSCALE_FACTOR, screenHeight * DOWNSCALE_FACTOR), 
-    groundEntity(Model("ground")), skyEntity(Model("sky"), Matrix_Scale(20.0f, 20.0f, 20.0f)),
-    car(Model("car", false), Matrix_Translate(6.0f,0.0f, 1.0f) * Matrix_Scale(0.02f, 0.02f, 0.02f)),
+    scene(),
     screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId())),
     crosshair(new QuadModel("red_crosshair"))
 {
@@ -87,10 +86,11 @@ void Renderer::draw(Player &player)
     GLCall(glUniform4fv(camDirUniformId, 1 , glm::value_ptr(player.getFacing())));
 
     GLCall(glUniform1i(this->lightingUniformId, true));
-    drawEntity(groundEntity);
-    drawEntity(car);
+    drawEntity(scene.ground);
+    for(Entity item : scene.ambientItem)
+        drawEntity(item);
     GLCall(glUniform1i(this->lightingUniformId, false));
-    drawEntity(skyEntity);
+    drawEntity(scene.sky);
     GLCall(glUniform1i(this->lightingUniformId, true));
     drawPlayer(player.entity);
 
