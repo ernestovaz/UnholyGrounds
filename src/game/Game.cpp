@@ -35,7 +35,6 @@ bool Game::checkCollisions(glm::vec4 position)
     {
         if(pointBoundingBoxCollision(position, item.getGlobalBoundingBox()))
         {
-            //std::cout<<"Travou em Item do Ambiente"<<std::endl;
             return true;
         }
     }
@@ -43,7 +42,6 @@ bool Game::checkCollisions(glm::vec4 position)
     {
         if(pointBoundingBoxCollision(position, enemy.getGlobalBoundingBox()))
         {
-            //std::cout<<"Travou em Inimigo"<<std::endl;
             return true;
         }
     }
