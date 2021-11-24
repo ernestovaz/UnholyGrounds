@@ -18,7 +18,7 @@ public:
     void terminate();
     bool isRunning();
     void update();
-    void checkCollisions();
+    bool checkCollisions(glm::vec4 position);
     void movePlayerForward();
     void movePlayerBackward();
     void movePlayerRight();
