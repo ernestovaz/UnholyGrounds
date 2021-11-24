@@ -86,6 +86,7 @@ void Renderer::draw(Scene& scene)
 
     GLCall(glUniform1i(this->lightingUniformId, true));
     drawEntity(scene.ground);
+    drawEntity(scene.border);
     for(Entity item : scene.ambientItem){
         drawEntity(item);
     }

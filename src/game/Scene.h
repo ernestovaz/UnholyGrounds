@@ -11,6 +11,7 @@ public:
     Player& player;
     Entity ground;
     Entity sky;
+    Entity border;
     std::vector<Entity> enemies;
     std::vector<Entity> ambientItem;
 

@@ -14,7 +14,9 @@
 #define RADIUS 5
 #define HEIGHT 3
 
-Scene::Scene(Player& player) : player(player), ground("ground", false),sky("sky",false,Matrix_Scale(20.0f, 20.0f, 20.0f))
+Scene::Scene(Player& player) 
+    : player(player), ground("ground", false),sky("sky", false, Matrix_Scale(20.0f, 20.0f, 20.0f)),
+    border("border", false, Matrix_Scale(20.0f, 20.0f, 20.0f))
 {
     this->ambientItem.push_back(Entity(Model("car", true, false), Matrix_Translate(6.0f,0.0f, 1.0f) * Matrix_Scale(0.02f, 0.02f, 0.02f)));
 }
