@@ -2,6 +2,11 @@
 
 #include "BoundingBox.h"
 
+BoundingBox::BoundingBox(std::vector<glm::vec4> box)
+{
+    boundingBox = box;
+}
+
 BoundingBox::BoundingBox()
 {//object's bounding box
     for (int i = 0; i<= 7; i++){
