@@ -1,6 +1,7 @@
 #include "Player.h"
 
 #include <glm/trigonometric.hpp>
+#include <iostream>
 
 #define SENSITIVITY 0.002f
 #define PI 3.141592f/2.0f
@@ -71,6 +72,7 @@ void Player::crouch()
 
 void Player::shoot()
 {
+    this->isShooting = true;
     if (getAmmunition() > 0){    
         ammunition--;
         Shot shot = Shot(this->getFacing());
@@ -92,3 +94,4 @@ void Player::moveView(float dx, float dy)
             0.0f
     );
 }
+

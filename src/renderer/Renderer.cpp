@@ -39,6 +39,8 @@ Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
 
+    this->fov = FOV;
+
     this->shader3dId = CreateShaderProgram(vertexShader3dId, fragmentShader3dId);
     this->shader2dId = CreateShaderProgram(vertexShader2dId, fragmentShader2dId);
     this->modelUniformId      = glGetUniformLocation(this->shader3dId, "model"); 
@@ -72,8 +74,12 @@ void Renderer::draw(Player &player)
     GLCall(glUseProgram(shader3dId));
 
     float screenRatio = 4.0/3.0; //(float)screenWidth / (float)screenHeight;
+    if(player.isShooting)
+    {
+        this->calculateShootingAnimation(player);
+    }
 
-    glm::mat4 projection = Matrix_Perspective(FOV, screenRatio, NEARPLANE, FARPLANE);
+    glm::mat4 projection = Matrix_Perspective(fov, screenRatio, NEARPLANE, FARPLANE);
     glm::mat4 view = Matrix_Camera_View(player.getPosition(), player.getFacing(), glm::vec4(0,1,0,0));
     GLCall(glUniformMatrix4fv(projectionUniformId, 1 , GL_FALSE , glm::value_ptr(projection)));
     GLCall(glUniformMatrix4fv(viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
@@ -147,6 +153,25 @@ void Renderer::renderTextureToScreen()
     GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
     GLCall(glClear(GL_COLOR_BUFFER_BIT));
     drawModel(*screenQuad);
+}
+
+void Renderer::calculateShootingAnimation(Player& player)
+{
+    player.shootingState++;
+    if(player.shootingState <= 3){
+        player.entity.matrix = player.entity.matrix * Matrix_Translate(0.0f,-0.04f, 0.0f) * Matrix_Rotate_X(0.08f);
+        //player.entity.matrix *= Matrix_Rotate_X(0.08f);
+        this->fov += 0.008f;
+    }
+    else if(player.shootingState <= 9){
+        player.entity.matrix = Matrix_Rotate_X(-0.04f) * Matrix_Translate(0.0f,0.02f, 0.0f) * player.entity.matrix;
+        //player.entity.matrix *= Matrix_Rotate_X(-0.04f);
+        this->fov -= 0.004f;
+    }
+    else{
+        player.shootingState = 0;
+        player.isShooting = false;
+    }
 }
 
 unsigned int Renderer::LoadVertexShader(std::string name)
@@ -225,13 +250,6 @@ void Renderer::LoadShader(const char* filename, unsigned int shader_id)
     }
 
     delete [] log;
-}
-
-void calculateShootingAnimation(Player& player)
-{
-    
-
-
 }
 
 unsigned int Renderer::CreateShaderProgram(unsigned int vertexId, unsigned int fragmentId)

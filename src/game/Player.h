@@ -9,13 +9,13 @@ private:
     float viewYaw;
     float viewPitch;
     int ammunition;
-    int shootingState;  
-    bool isShooting;
     bool isCrouched;
     bool isWalking;
     bool infAmmunition;
 public:
     Entity entity;
+    float shootingState;  
+    bool isShooting;
     Player();
     virtual glm::vec4 getPosition() override;
     virtual float getSpeed() override;

@@ -17,6 +17,7 @@ public:
     InputManager(std::vector <std::tuple<int,Command*>> cList, Player& player);
     void keyCallback(int key, int action, int mods);
     void cursorCallback(double xpos, double ypos);
+    void mouseButtonCallback(int button, int action, int mods);
     void setInitialCursorPos(double xpos, double ypos);
     void handleInput();
 

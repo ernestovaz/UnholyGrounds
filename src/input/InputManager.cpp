@@ -5,6 +5,7 @@
 #include "InputManager.h" 
 #include <GLFW/glfw3.h>
 
+#include <iostream>
 
 InputManager::InputManager(std::vector<std::tuple<int,Command*>> cList, Player& player)
     : player(player)
@@ -25,13 +26,30 @@ void InputManager::keyCallback(int key, int action, int mods)
     }
     else if(action == GLFW_RELEASE)
         keyState = false;
-    else
-        return;
+    else{
+    }
 
     std::map<int, bool>::iterator it = heldKeys.find(key); 
     if (it != heldKeys.end())
         it->second = keyState; 
 }
+
+void InputManager::mouseButtonCallback(int button, int action, int mods)
+{
+    bool keyState;
+    if(action == GLFW_PRESS){
+        keyState = true;
+    }
+    else if(action == GLFW_RELEASE)
+        keyState = false;
+    else{
+    }
+
+    std::map<int, bool>::iterator it = heldKeys.find(button); 
+    if (it != heldKeys.end())
+        it->second = keyState; 
+}
+    
 
 void InputManager::cursorCallback(double xpos, double ypos)
 {

@@ -30,6 +30,8 @@ private:
     float screenWidth;
     float screenHeight;
 
+    float fov;
+
     unsigned int shader3dId;     //first shader, used for normal rendering, 
                                         //which is then bound to a texture
 
@@ -50,6 +52,8 @@ private:
     void drawPlayer(Entity playerEntity);
     void drawUI(Model uiElement);
     void renderTextureToScreen();       //render texture input into the entire screen
+
+    void calculateShootingAnimation(Player& player);
 
     unsigned int LoadVertexShader(std::string name);   
     unsigned int LoadFragmentShader(std::string name);

@@ -76,6 +76,13 @@ void Window::setKeyCallbacks(InputManager* input)
     });
     //lambda used for callbacks (calls input manager for handling)
 
+    glfwSetMouseButtonCallback(this->window, [](GLFWwindow* window, int button, int action, int mod)
+    {
+        auto input = (InputManager*)glfwGetWindowUserPointer( window );
+        input->mouseButtonCallback(button, action, mod); 
+    });
+    //lambda used for callbacks (calls input manager for handling)
+    //
     glfwSetCursorPosCallback(this->window, [](GLFWwindow* window, double xpos, double ypos)
     {
         auto input = (InputManager*)glfwGetWindowUserPointer( window );

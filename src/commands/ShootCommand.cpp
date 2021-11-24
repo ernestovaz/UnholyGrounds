@@ -1,6 +1,7 @@
 
 #include "ShootCommand.h"
 #include "Player.h"
+#include <iostream>
 
 ShootCommand::ShootCommand(Player& a) : player(a)
 {
@@ -8,5 +9,6 @@ ShootCommand::ShootCommand(Player& a) : player(a)
 
 void ShootCommand::execute()
 {
-    player.shoot();
+    if(!player.isShooting)
+        player.shoot();
 }
