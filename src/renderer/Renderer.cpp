@@ -10,7 +10,7 @@
 #include <GLFW/glfw3.h>
 
 #include "utils.h"
-#include "matrices.h"
+#include "Matrices.h"
 #include "Model.h"
 #include "QuadModel.h"
 #include "Actor.h" 
