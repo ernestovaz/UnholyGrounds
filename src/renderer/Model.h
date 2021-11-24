@@ -41,5 +41,5 @@ public:
     size_t getIndexCount();
     void draw();
     BoundingBox getBoundingBox();
-    BoundingBox setBoundingBox(BoundingBox boundingBox);
+    void setBoundingBox(BoundingBox boundingBox);
 };
