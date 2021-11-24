@@ -1,5 +1,4 @@
-#include "BoundingBox.h"
-#include <glm/vec4.hpp>
+#include "collisions.h"
 
 bool PointBoundingBoxCollision(glm::vec4 point,BoundingBox box){
     std::vector<float> minCoords = box.getMinCoords();
