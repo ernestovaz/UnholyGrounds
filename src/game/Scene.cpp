@@ -7,10 +7,12 @@
 
 #include <vector>
 
+#include <iostream>
+
 #define PI 3.14159265f
 
-#define RADIUS 10
-#define HEIGHT 20
+#define RADIUS 5
+#define HEIGHT 3
 
 Scene::Scene(Player& player) : player(player), ground("ground"), sky("sky", Matrix_Scale(20.0f, 20.0f, 20.0f))
 {

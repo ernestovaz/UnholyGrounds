@@ -8,6 +8,8 @@ class Game
 
 private:
     bool running;
+    float startClock;
+    float spawnClock;
 
 public:
     Scene scene;
@@ -15,4 +17,5 @@ public:
     Game(Player& player);
     void terminate();
     bool isRunning();
+    void update();
 };

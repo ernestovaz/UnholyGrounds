@@ -46,6 +46,7 @@ int main()
         window.pollEvents();
         if(elapsedTime >= FPS_LIMIT)
         {
+            game.update();
             input.handleInput();
             renderer.draw(game.scene);
             window.swapBuffers();
