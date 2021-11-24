@@ -12,7 +12,7 @@
 #define PI 3.14159265f
 
 #define RADIUS 5
-#define HEIGHT 3
+#define HEIGHT 0
 
 Scene::Scene(Player& player) 
     : player(player), ground("ground", false),sky("sky", false, Matrix_Scale(20.0f, 20.0f, 20.0f)),
@@ -27,7 +27,7 @@ void Scene::spawnSkeleton()
     float x = RADIUS * cos(theta);
     float z = RADIUS * sin(theta);
 
-    Entity skeleton = Entity("skeleton", true, Matrix_Translate(x, HEIGHT, z));
+    Entity skeleton = Entity("skeleton", true, Matrix_Translate(x, HEIGHT, z) * Matrix_Scale(2.0f, 2.0f, 2.0f));
     this->enemies.push_back(skeleton);
 }
 

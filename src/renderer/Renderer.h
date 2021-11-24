@@ -40,6 +40,7 @@ private:
     unsigned int projectionUniformId;
     unsigned int lightingUniformId;
     unsigned int handUniformId;
+    unsigned int groundUniformId;
     unsigned int camPosUniformId;
     unsigned int camDirUniformId;
     unsigned int modelUniform2dId;
