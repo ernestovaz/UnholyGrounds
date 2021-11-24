@@ -159,14 +159,14 @@ void Renderer::calculateShootingAnimation(Player& player)
 {
     player.shootingState++;
     if(player.shootingState <= 3){
-        player.entity.matrix = player.entity.matrix * Matrix_Translate(0.0f,-0.04f, 0.0f) * Matrix_Rotate_X(0.08f);
+        player.entity.matrix = player.entity.matrix * Matrix_Translate(0.0f,-0.05f, 0.0f) * Matrix_Rotate_X(0.10f);
         //player.entity.matrix *= Matrix_Rotate_X(0.08f);
-        this->fov += 0.008f;
+        this->fov += 0.004f;
     }
     else if(player.shootingState <= 9){
-        player.entity.matrix = Matrix_Rotate_X(-0.04f) * Matrix_Translate(0.0f,0.02f, 0.0f) * player.entity.matrix;
+        player.entity.matrix = Matrix_Rotate_X(-0.05f) * Matrix_Translate(0.0f,0.025f, 0.0f) * player.entity.matrix;
         //player.entity.matrix *= Matrix_Rotate_X(-0.04f);
-        this->fov -= 0.004f;
+        this->fov -= 0.002f;
     }
     else{
         player.shootingState = 0;
