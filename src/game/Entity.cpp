@@ -21,7 +21,7 @@ BoundingBox Entity::getGlobalBoundingBox()
     std::vector<glm::vec4> global;
     for(glm::vec4 point : local.boundingBox)
     {
-        global.push_back(point * this->matrix);
+        global.push_back(this->matrix * point);
     }
     return BoundingBox(global);
 }
