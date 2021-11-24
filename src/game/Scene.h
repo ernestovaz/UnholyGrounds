@@ -1,16 +1,19 @@
 #include <vector>
 
 #include "Entity.h"
+#include "Player.h"
 
 #pragma once
 
 class Scene
 {
 public:
-    Scene();
-private:    
+    Player& player;
     Entity ground;
     Entity sky;
-    //std::vector<Entity> enemies;
-    //std::vector<Entity> ambientItem;
+    std::vector<Entity> enemies;
+    std::vector<Entity> ambientItem;
+
+    Scene(Player& player);
+    void spawnSkeleton();
 };

@@ -25,8 +25,6 @@
 
 Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     : downscaledBuffer(screenWidth*3.0/4 * DOWNSCALE_FACTOR, screenHeight * DOWNSCALE_FACTOR), 
-    groundEntity(Model("ground")), skyEntity(Model("sky"), Matrix_Scale(20.0f, 20.0f, 20.0f)),
-    car(Model("car", false), Matrix_Translate(6.0f,0.0f, 1.0f) * Matrix_Scale(0.02f, 0.02f, 0.02f)),
     screenQuad(new QuadModel("screenQuad", downscaledBuffer.getTextureId())),
     crosshair(new QuadModel("red_crosshair"))
 {
@@ -61,7 +59,7 @@ Renderer::~Renderer()
     glDeleteProgram(shader2dId);
 }
 
-void Renderer::draw(Player &player)
+void Renderer::draw(Scene& scene)
 {
     glViewport(0,0,downscaledBuffer.getWidth(),downscaledBuffer.getHeight());
     GLCall(glBindFramebuffer(GL_FRAMEBUFFER, downscaledBuffer.getId()));
@@ -74,25 +72,26 @@ void Renderer::draw(Player &player)
     GLCall(glUseProgram(shader3dId));
 
     float screenRatio = 4.0/3.0; //(float)screenWidth / (float)screenHeight;
-    if(player.isShooting)
+    if(scene.player.isShooting)
     {
-        this->calculateShootingAnimation(player);
+        this->calculateShootingAnimation(scene.player);
     }
 
     glm::mat4 projection = Matrix_Perspective(fov, screenRatio, NEARPLANE, FARPLANE);
-    glm::mat4 view = Matrix_Camera_View(player.getPosition(), player.getFacing(), glm::vec4(0,1,0,0));
+    glm::mat4 view = Matrix_Camera_View(scene.player.getPosition(), scene.player.getFacing(), glm::vec4(0,1,0,0));
     GLCall(glUniformMatrix4fv(projectionUniformId, 1 , GL_FALSE , glm::value_ptr(projection)));
     GLCall(glUniformMatrix4fv(viewUniformId, 1 , GL_FALSE , glm::value_ptr(view)));
-    GLCall(glUniform4fv(camPosUniformId, 1 , glm::value_ptr(player.getPosition())));
-    GLCall(glUniform4fv(camDirUniformId, 1 , glm::value_ptr(player.getFacing())));
+    GLCall(glUniform4fv(camPosUniformId, 1 , glm::value_ptr(scene.player.getPosition())));
+    GLCall(glUniform4fv(camDirUniformId, 1 , glm::value_ptr(scene.player.getFacing())));
 
     GLCall(glUniform1i(this->lightingUniformId, true));
-    drawEntity(groundEntity);
-    drawEntity(car);
+    drawEntity(scene.ground);
+    for(Entity item : scene.ambientItem)
+        drawEntity(item);
     GLCall(glUniform1i(this->lightingUniformId, false));
-    drawEntity(skyEntity);
+    drawEntity(scene.sky);
     GLCall(glUniform1i(this->lightingUniformId, true));
-    drawPlayer(player.entity);
+    drawPlayer(scene.player.entity);
 
     glViewport(0,0, screenWidth, screenHeight);
     renderTextureToScreen();

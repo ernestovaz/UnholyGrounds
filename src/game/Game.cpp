@@ -1,6 +1,7 @@
 #include "Game.h"
 
-Game::Game()
+
+Game::Game(Player& player) : scene(player)
 {
     running = true;
 }
