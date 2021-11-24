@@ -46,6 +46,7 @@ Renderer::Renderer(unsigned int screenWidth, unsigned int screenHeight)
     this->projectionUniformId = glGetUniformLocation(this->shader3dId, "projection"); 
     this->lightingUniformId = glGetUniformLocation(this->shader3dId, "lightingIsEnabled"); 
     this->handUniformId = glGetUniformLocation(this->shader3dId, "isRenderingHand"); 
+    this->groundUniformId = glGetUniformLocation(this->shader3dId, "isRenderingGround"); 
     this->camPosUniformId = glGetUniformLocation(this->shader3dId, "cameraPosition"); 
     this->camDirUniformId = glGetUniformLocation(this->shader3dId, "cameraDirection"); 
 
@@ -85,7 +86,9 @@ void Renderer::draw(Scene& scene)
     GLCall(glUniform4fv(camDirUniformId, 1 , glm::value_ptr(scene.player.getFacing())));
 
     GLCall(glUniform1i(this->lightingUniformId, true));
+    GLCall(glUniform1i(this->groundUniformId, true));
     drawEntity(scene.ground);
+    GLCall(glUniform1i(this->groundUniformId, false));
     drawEntity(scene.border);
     for(Entity item : scene.ambientItem){
         drawEntity(item);
