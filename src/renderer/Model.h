@@ -40,4 +40,5 @@ public:
     unsigned int getRenderingMode();
     size_t getIndexCount();
     void draw();
+    BoundingBox getBoundingBox();
 };

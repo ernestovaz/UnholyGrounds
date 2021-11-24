@@ -1,6 +1,6 @@
 #include "collisions.h"
 
-bool PointBoundingBoxCollision(glm::vec4 point,BoundingBox box){
+bool pointBoundingBoxCollision(glm::vec4 point,BoundingBox box){
     std::vector<float> minCoords = box.getMinCoords();
     std::vector<float> maxCoords = box.getMaxCoords();
     bool isInside = false;
@@ -15,12 +15,12 @@ bool PointBoundingBoxCollision(glm::vec4 point,BoundingBox box){
     return isInside;
 } 
 
-bool LineSphereCollision(){
+bool lineSphereCollision(){
     //Arguments are a vec4 (vector) and a bounding box?
     return false;
 }
 
-bool BetweenBoundingBoxes(){
+bool betweenBoundingBoxes(){
     //Arguments are two bounding boxes.
     return false;
 }

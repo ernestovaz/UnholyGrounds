@@ -204,3 +204,8 @@ unsigned int Model::getRenderingMode()
 {
     return this->renderingMode;
 }
+
+BoundingBox Model::getBoundingBox()
+{
+    return this->boundingBox;
+}

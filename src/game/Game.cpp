@@ -30,6 +30,13 @@ void Game::update()
 
 void Game::checkCollisions()
 {
-    
+    for (Entity item : scene.ambientItem)
+    {
+        bool playerInside = pointBoundingBoxCollision(scene.player.getPosition(), item.model.getBoundingBox());
+    }
+    for (Entity enemy : scene.enemies)
+    {
+        bool playerinside = pointBoundingBoxCollision(scene.player.getPosition(), enemy.model.getBoundingBox());
+    }
 
 }
