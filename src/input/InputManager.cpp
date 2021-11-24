@@ -21,12 +21,11 @@ InputManager::InputManager(std::vector<std::tuple<int,Command*>> cList, Player& 
 void InputManager::keyCallback(int key, int action, int mods)
 {
     bool keyState;
-    if(action == GLFW_PRESS){
+    if(action == GLFW_PRESS || action == GLFW_REPEAT){
         keyState = true;
     }
-    else if(action == GLFW_RELEASE)
+    else if(action == GLFW_RELEASE){
         keyState = false;
-    else{
     }
 
     std::map<int, bool>::iterator it = heldKeys.find(key); 
@@ -73,8 +72,9 @@ void InputManager::handleInput()
         if(k.second == true){               //if key is held
             Command* targetCommand = commands[k.first];
             targetCommand->execute();       //execute key's command
-            if(!targetCommand->isRepeatable())
+            if(!targetCommand->isRepeatable()){
                 k.second = false;
+            }
         }
     }
 }
