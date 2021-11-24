@@ -1,4 +1,5 @@
 #include "collisions.h"
+#include <iostream>
 
 bool pointBoundingBoxCollision(glm::vec4 point,BoundingBox box){
     std::vector<float> minCoords = box.getMinCoords();
@@ -23,16 +24,15 @@ bool lineBoundingBoxCollision(){
 bool pointLineSegment(glm::vec4 point, glm::vec4 p1, glm::vec4 p2)
 {
     //Arguments are the point and two other points that compose a line segment
-    bool xInside = point.x >= std::min(p1.x, p2.x) && point.x <= std::max(p1.x, p2.x);
-    bool yInside = point.y >= std::min(p1.y, p2.y) && point.y <= std::max(p1.y, p2.y);
-    bool isInside = xInside && yInside;
+    bool xInside = int(point.x) >= int(std::min(p1[0], p2[0])) && int(point.x) <= int(std::max(p1[0], p2[0]));
+    bool zInside = int(point.z) >= int(std::min(p1[2], p2[2])) && int(point.z) <= int(std::max(p1[2], p2[2]));
+    bool isInside = xInside && zInside;
     return isInside;
 }
 
 bool pointSquare(glm::vec4 point, std::vector<glm::vec4> squareVertices)
 {
     //Arguments are a vec4 (point) and a vector of points (containing 4 points).
-
     bool isInsideFirstLine = pointLineSegment(point, squareVertices[0], squareVertices[1]);
     bool isInsideSecondLine = pointLineSegment(point, squareVertices[0], squareVertices[2]);
     bool isInsideThirdLine = pointLineSegment(point, squareVertices[3], squareVertices[1]);

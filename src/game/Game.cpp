@@ -9,10 +9,10 @@ Game::Game(Player& player) : scene(player)
     running = true;
     startClock = glfwGetTime();
     spawnClock = glfwGetTime();
-    limits.push_back(glm::vec4(-50.0f,-50.0f,0.0f,1.0f));
-    limits.push_back(glm::vec4(50.0f,-50.0f,0.0f,1.0f));
-    limits.push_back(glm::vec4(-50.0f,50.0f,0.0f,1.0f));
-    limits.push_back(glm::vec4(50.0f,50.0f,0.0f,1.0f));
+    limits.push_back(glm::vec4(-45.0f,0.0f,-45.0f,1.0f));
+    limits.push_back(glm::vec4(45.0f,0.0f,-45.0f,1.0f));
+    limits.push_back(glm::vec4(-45.0f,0.0f,45.0f,1.0f));
+    limits.push_back(glm::vec4(45.0f,0.0f,45.0f,1.0f));
 }
 
 void Game::terminate()
@@ -33,8 +33,13 @@ void Game::update()
     }
 }
 
+bool Game::isOffLimits(glm::vec4 position)
+{ //checks if given position is off limits
+    return pointSquare(position, limits);
+}
+
 bool Game::checkCollisions(glm::vec4 position)
-{ //check collisions between given position and all enemies and ambient itens in the scene.
+{ //checks collisions between given position and all enemies and ambient itens in the scene.
     for (Entity item : scene.ambientItem)
     {
         if(pointBoundingBoxCollision(position, item.getGlobalBoundingBox()))
@@ -60,7 +65,8 @@ void Game::movePlayerForward()
     glm::vec4 newPosition = scene.player.getPosition() + hmForward * scene.player.getSpeed();
 
     bool causeCollision = checkCollisions(newPosition);
-    if (!causeCollision){
+    bool offLimits = isOffLimits(newPosition);
+    if (!causeCollision && !offLimits){
         scene.player.moveForward();
     }
 }
@@ -73,7 +79,8 @@ void Game::movePlayerBackward()
     glm::vec4 newPosition = scene.player.getPosition() + hmBackward * scene.player.getSpeed();
 
     bool causeCollision = checkCollisions(newPosition);
-    if (!causeCollision){
+    bool offLimits = isOffLimits(newPosition);
+    if (!causeCollision && !offLimits){
         scene.player.moveBackward();
     }
 }
@@ -86,7 +93,8 @@ void Game::movePlayerLeft()
     glm::vec4 newPosition = scene.player.getPosition() + hmLeft * scene.player.getSpeed();
 
     bool causeCollision = checkCollisions(newPosition);
-    if (!causeCollision){
+    bool offLimits = isOffLimits(newPosition);
+    if (!causeCollision && !offLimits){
         scene.player.moveLeft();
     }
 }
@@ -99,7 +107,8 @@ void Game::movePlayerRight()
     glm::vec4 newPosition = scene.player.getPosition() + hmRight * scene.player.getSpeed();
 
     bool causeCollision = checkCollisions(newPosition);
-    if (!causeCollision){
+    bool offLimits = isOffLimits(newPosition);
+    if (!causeCollision && !offLimits){
         scene.player.moveRight();
     }
 }

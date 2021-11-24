@@ -18,6 +18,7 @@ public:
     void terminate();
     bool isRunning();
     void update();
+    bool isOffLimits(glm::vec4 position);
     bool checkCollisions(glm::vec4 position);
     void movePlayerForward();
     void movePlayerBackward();
