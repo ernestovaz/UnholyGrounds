@@ -36,12 +36,8 @@ void main()
     }
     float light1_angle = 0.37;
     float light2_angle = 0.43; //broader flashlight, less powerful, to smooth the contrast
-    float light3_angle = 0.47;
 
 /*
-    vec4 v = normalize(camera_position - p);
-
-    vec4 r = -l + 2*n*dot(n,l); 
 
     //test object properties
     vec3 Kd = vec3(texture(modelTexture, textureCoord)) - 0.3f; //diffuse
@@ -55,13 +51,15 @@ void main()
 
     vec3 lambert_diffuse_term = Kd*I*max(0, dot(n,l)); 
 
-    vec3 ambient_term = Ka*Ia; 
 
-    vec3 phong_specular_term  = Ks*I*pow(max(0, dot(r,v)), q); 
 
-    color = lambert_diffuse_term + ambient_term + phong_specular_term;
 */
     vec4 Kd0 = texture(modelTexture, textureCoord);
+    vec4 Ks  = vec4(0.05, 0.05, 0.05, 1.0);            //specular
+    vec4 Ka  = vec4(0.2, 0.2, 0.2, 1.0);           
+    vec4 Ia =  vec4(0.01, 0.01, 0.01, 1.0); 
+    float q = 1.0;                           //phong exponent
+
     if(Kd0.a < 0.01)
         discard;
 
@@ -71,28 +69,27 @@ void main()
         I = vec4(0.7,0.7,0.7,0.0)*min(1, 5/length(cameraPosition-p)); //Intensity for the main flashlight
     else if(dot(normalize(p-light),normalize(light_dir)) >= cos(light2_angle))
         I = vec4(0.55,0.55,0.55,0.0)*min(1, 4/length(cameraPosition - p)) ; //Intensity for the second phase
-    //else if(dot(normalize(p-light),normalize(light_dir)) >= cos(light3_angle))
-    //    I = vec3(0.13,0.13,0.13)*min(1, 18/length(cameraPosition - p)); //Intensity for the third phase    
     else
         I = vec4(0.03,0.03,0.03,0.0);
     if(isRenderingHand) //the hand has hardcoded constant ilumination
     {
-        I = vec4(0.6,0.6,0.6,0.0);
+        I = vec4(0.7,0.7,0.7,0.0);
     }
 
     if(lightingIsEnabled)
     {
-        // Equação de Iluminação
-        float lambert = max(0,dot(n,light));
-        color = (Kd0 - 0.3)  * (I*lambert);
-        //color = pow(color, vec3(1.0,1.0,1.0)/2.2);
+        vec4 v = normalize(camera_position - p);
+        vec4 r = -light + 2*n*dot(n,light); 
+
+        vec4 lambert_diffuse_term = (Kd0 - 0.3)  * I *max(0,dot(n,light));
+        vec4 ambient_term = Ka*Ia; 
+        vec4 phong_specular_term  = Ks*I*pow(max(0, dot(r,v)), q); 
+        color = lambert_diffuse_term + ambient_term + phong_specular_term;
     }
     else
     {
         color = Kd0 - 0.1;
     }
     
-    // Cor final com correção gamma, considerando monitor sRGB.
-    // Veja https://en.wikipedia.org/w/index.php?title=Gamma_correction&oldid=751281772#Windows.2C_Mac.2C_sRGB_and_TV.2Fvideo_standard_gammas
 } 
 

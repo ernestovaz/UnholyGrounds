@@ -33,18 +33,18 @@ bool Game::checkCollisions(glm::vec4 position)
 { //check collisions between given position and all enemies and ambient itens in the scene.
     for (Entity item : scene.ambientItem)
     {
-        if(pointBoundingBoxCollision(position, item.model.getBoundingBox()))
+        if(pointBoundingBoxCollision(position, item.getGlobalBoundingBox()))
         {
-            std::cout<<"Travou em Item do Ambiente"<<std::endl;
-            //return true;
+            //std::cout<<"Travou em Item do Ambiente"<<std::endl;
+            return true;
         }
     }
     for (Entity enemy : scene.enemies)
     {
-        if(pointBoundingBoxCollision(position, enemy.model.getBoundingBox()))
+        if(pointBoundingBoxCollision(position, enemy.getGlobalBoundingBox()))
         {
-            std::cout<<"Travou em Inimigo"<<std::endl;
-            //return true;
+            //std::cout<<"Travou em Inimigo"<<std::endl;
+            return true;
         }
     }
     return false;
