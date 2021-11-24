@@ -7,7 +7,7 @@
 #define SENSITIVITY 0.002f
 #define PI 3.141592f/2.0f
 
-Player::Player() : entity("player")
+Player::Player() : entity("player", false)
 {
     position = glm::vec4(0.0f, 3.0f, 0.0f, 1.0f);
     facing   = glm::vec4(0.0f, 0.0f, 1.0f,  0.0f);

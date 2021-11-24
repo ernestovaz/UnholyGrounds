@@ -7,6 +7,7 @@
 #include <cassert>
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <glad/glad.h>
 #include <stdexcept>
 
@@ -15,7 +16,7 @@
 #include "IndexBuffer.h"
 #include "utils.h"
 
-Model::Model(std::string name, bool hasAlpha)
+Model::Model(std::string name, bool hasBoundingBox, bool hasAlpha)
 {
     std::string filename = "data/models/"+name+".obj";
     std::vector<tinyobj::material_t> materials; //unused for now    
@@ -37,7 +38,13 @@ Model::Model(std::string name, bool hasAlpha)
     std::vector<float> texture_coefficients;
 
     bool fileHasNormals = false;
-    //bool fileHasTexture = false;
+    
+    float xMax = -2147483648;
+    float yMax = xMax; 
+    float zMax = xMax; 
+    float xMin = 2147483648;
+    float yMin = xMin;
+    float zMin = xMin;
     
     for (size_t shape = 0; shape < shapes.size(); ++shape) 
     // a single .obj can have multiple "shapes" (e.g. each shape can have a diferent material)
@@ -56,6 +63,16 @@ Model::Model(std::string name, bool hasAlpha)
                 const float vx = attrib.vertices[3*idx.vertex_index + 0];
                 const float vy = attrib.vertices[3*idx.vertex_index + 1];
                 const float vz = attrib.vertices[3*idx.vertex_index + 2];
+
+                if(hasBoundingBox)
+                {
+                    xMax = std::max(vx, xMax);
+                    yMax = std::max(vy, yMax);
+                    zMax = std::max(vz, zMax);
+                    xMin = std::min(vx, xMin);
+                    yMin = std::min(vy, yMin);
+                    zMin = std::min(vz, zMin);
+                }
 
                 model_coefficients.push_back( vx ); 
                 model_coefficients.push_back( vy ); 
@@ -112,6 +129,9 @@ Model::Model(std::string name, bool hasAlpha)
     this->indices           = indexBufferObject;
     this->textureID         = loadTexture(texFilename, hasAlpha);
 
+    if(hasBoundingBox)
+        this->boundingBox = calculateBoundingBox(xMax, yMax, zMax, xMin, yMin, zMin);
+
     glBindVertexArray(0);
 }
 
@@ -157,6 +177,22 @@ unsigned int Model::loadTexture(std::string filename, bool hasAlpha)
     stbi_image_free(textureData);
 
     return textureId;
+}
+
+BoundingBox  Model::calculateBoundingBox(int xMax, int yMax, int zMax, int xMin, int yMin, int zMin)
+{
+    std::vector<glm::vec4> points;
+
+    points.push_back(glm::vec4(xMax, yMax, zMax, 1.0f));
+    points.push_back(glm::vec4(xMax, yMax, zMin, 1.0f));
+    points.push_back(glm::vec4(xMax, yMin, zMax, 1.0f));
+    points.push_back(glm::vec4(xMax, yMin, zMin, 1.0f));
+    points.push_back(glm::vec4(xMin, yMax, zMax, 1.0f));
+    points.push_back(glm::vec4(xMin, yMax, zMin, 1.0f));
+    points.push_back(glm::vec4(xMin, yMin, zMax, 1.0f));
+    points.push_back(glm::vec4(xMin, yMin, zMin, 1.0f));
+
+    return BoundingBox(points);
 }
 
 unsigned int Model::getTextureId()
