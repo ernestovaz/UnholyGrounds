@@ -68,10 +68,13 @@ void InputManager::setInitialCursorPos(double xpos, double ypos)
 
 void InputManager::handleInput()
 {
-    for(auto const& k : heldKeys)
+    for(auto& k : heldKeys)
     {
-        if(k.second == true){                            //if key is held
-            commands[k.first]->execute();       //execute key's command
+        if(k.second == true){               //if key is held
+            Command* targetCommand = commands[k.first];
+            targetCommand->execute();       //execute key's command
+            if(!targetCommand->isRepeatable())
+                k.second = false;
         }
     }
 }

@@ -5,6 +5,7 @@
 
 ShootCommand::ShootCommand(Player& a) : player(a)
 {
+    this->repeatable = false;
 }
 
 void ShootCommand::execute()
