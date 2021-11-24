@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "collisions.h"
 
 #include <GLFW/glfw3.h>  
 
@@ -27,3 +28,8 @@ void Game::update()
     }
 }
 
+void Game::checkCollisions()
+{
+    
+
+}

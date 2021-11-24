@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Command.h"
-#include "Actor.h"
+#include "Game.h"
 
 
 class MoveCommand : public Command
@@ -9,11 +9,11 @@ class MoveCommand : public Command
 
     public:
         enum Direction {FORWARD, BACKWARD, LEFT, RIGHT};
-        MoveCommand(Actor& actor, Direction dir);
+        MoveCommand(Game& game, Direction dir);
         virtual void execute() override; 
 
     private:
-        Actor& actor;
+        Game& game;
         Direction dir;
 };
 

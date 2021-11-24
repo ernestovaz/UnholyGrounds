@@ -18,4 +18,5 @@ public:
     void terminate();
     bool isRunning();
     void update();
+    void checkCollisions();
 };

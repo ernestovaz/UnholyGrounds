@@ -3,7 +3,8 @@
 #include <glm/vec4.hpp>
 
 #include "Actor.h"
-//#include "collisions.h"
+#include "collisions.h"
+#include <iostream>
 
 Actor::Actor()
 {
@@ -39,7 +40,6 @@ void Actor::moveForward()
     forward.y = 0;
     glm::vec4 hmForward(glm::normalize(forward), 0.0f);
     position += hmForward * getSpeed();
-    //BoundingBox box = BoundingBox();
 }
 
 void Actor::moveBackward()

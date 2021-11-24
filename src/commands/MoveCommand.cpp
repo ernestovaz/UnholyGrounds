@@ -1,7 +1,7 @@
 #include "MoveCommand.h"
-#include "Actor.h"
+#include "Game.h"
 
-MoveCommand::MoveCommand(Actor& a, Direction d) : actor(a), dir(d)
+MoveCommand::MoveCommand(Game& g, Direction d) : game(g), dir(d)
 {
 }
 
@@ -10,16 +10,16 @@ void MoveCommand::execute()
     switch(dir)
     {
         case(FORWARD):
-            actor.moveForward();
+            game.scene.player.moveForward();
             break;
         case(BACKWARD):
-            actor.moveBackward();
+            game.scene.player.moveBackward();
             break;
         case(LEFT):
-            actor.moveLeft();
+            game.scene.player.moveLeft();
             break;
         case(RIGHT):
-            actor.moveRight();
+            game.scene.player.moveRight();
             break;
     }
 }
