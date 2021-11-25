@@ -11,14 +11,13 @@
 
 #define PI 3.14159265f
 
-#define RADIUS 5
-#define HEIGHT 0
+#define RADIUS 10
 
 Scene::Scene(Player& player) 
     : player(player), ground("ground", false),sky("sky", false, Matrix_Scale(20.0f, 20.0f, 20.0f)),
     border("border", false, Matrix_Scale(20.0f, 20.0f, 20.0f))
 {
-    this->ambientItem.push_back(Entity(Model("car", true, false), Matrix_Translate(9.0f,0.0f, 1.0f) * Matrix_Scale(0.02f, 0.02f, 0.02f)));
+    this->ambientItem.push_back(Entity(Model("car", true, false), Matrix_Translate(30.0f,0.0f, 1.0f) * Matrix_Scale(0.02f, 0.02f, 0.02f)));
 }
 
 void Scene::spawnSkeleton()
@@ -39,7 +38,7 @@ void Scene::spawnSkeleton()
     float x = RADIUS * cos(theta);
     float z = RADIUS * sin(theta);
 
-    Entity skeleton = Entity("skeleton", box, Matrix_Translate(x, HEIGHT, z));
+    Entity skeleton = Entity("skeleton", box, Matrix_Rotate_Y(theta) * Matrix_Translate(x, 0.0, z));
     this->enemies.push_back(skeleton);
 }
 

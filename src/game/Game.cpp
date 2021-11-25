@@ -29,7 +29,7 @@ bool Game::isRunning()
 
 void Game::update()
 {
-    if(glfwGetTime() - spawnClock >= 5){
+    if(glfwGetTime() - spawnClock >= 2){
         scene.spawnSkeleton();
         spawnClock = glfwGetTime();
     }
@@ -66,7 +66,6 @@ bool Game::shotHit(Shot shot)
         if (lineBoundingBoxCollision(shot.position, shot.direction, scene.enemies[i].getGlobalBoundingBox()))
         {
             scene.enemies.erase(scene.enemies.begin() + i);
-            std::cout<<"Acertou"<<std::endl;
             return true;
         }
     }
