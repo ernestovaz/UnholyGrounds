@@ -2,6 +2,7 @@
 
 #include "Scene.h"
 #include "Player.h"
+#include "Shot.h"
 
 class Game
 {
@@ -20,6 +21,7 @@ public:
     void update();
     bool isOffLimits(glm::vec4 position);
     bool checkCollisions(glm::vec4 position);
+    bool shotHit(Shot shot);
     void movePlayerForward();
     void movePlayerBackward();
     void movePlayerRight();

@@ -58,6 +58,20 @@ bool Game::checkCollisions(glm::vec4 position)
     return false;
 }
 
+bool Game::shotHit(Shot shot)
+{
+    for (int i=0; i < scene.enemies.size(); i++)
+    {
+        if (lineBoundingBoxCollision(shot.position, shot.direction, scene.enemies[i].getGlobalBoundingBox()))
+        {
+            scene.enemies.erase(scene.enemies.begin() + i);
+            std::cout<<"Acertou"<<std::endl;
+            return true;
+        }
+    }
+    return false;
+}
+
 void Game::movePlayerForward()
 {
     glm::vec3 forward(scene.player.getFacing());
@@ -117,4 +131,6 @@ void Game::movePlayerRight()
 void Game::playerShoot()
 {
     scene.player.shoot();
+    Shot shot = Shot(scene.player.getFacing(), scene.player.getPosition());
+    bool hit = shotHit(shot);
 }

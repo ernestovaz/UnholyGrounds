@@ -5,7 +5,7 @@
 
 bool pointBoundingBoxCollision(glm::vec4 point,BoundingBox box);
 
-bool lineBoundingBoxCollision();
+bool lineBoundingBoxCollision(glm::vec4 position, glm::vec4 vector, BoundingBox box);
 
 bool pointLineSegment(glm::vec4 point, glm::vec4 p1, glm::vec4 p2);
 
