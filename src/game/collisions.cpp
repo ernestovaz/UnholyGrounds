@@ -1,5 +1,8 @@
 #include "collisions.h"
 #include <iostream>
+#include <cmath>
+
+#include <glm/glm.hpp>
 
 bool pointBoundingBoxCollision(glm::vec4 point,BoundingBox box){
     std::vector<float> minCoords = box.getMinCoords();
@@ -18,18 +21,17 @@ bool pointBoundingBoxCollision(glm::vec4 point,BoundingBox box){
 
 bool lineBoundingBoxCollision(glm::vec4 point, glm::vec4 vector, BoundingBox box){
     //Arguments are shot position (point), shot direction (vector) and a bounding box
-    bool hit = false;
     std::vector<float> minCoords = box.getMinCoords();
     std::vector<float> maxCoords = box.getMaxCoords();
-    bool isInsideX = point.x + vector.x <= maxCoords[0] && point.x + vector.x >= minCoords[0];
-    bool isInsideY = point.y + vector.y <= maxCoords[1] && point.y + vector.y >= minCoords[1];
-    bool isInsideZ = point.z + vector.z <= maxCoords[2] && point.z + vector.z >= minCoords[2];
-    if(isInsideX && isInsideY && isInsideZ)
-    {
-        hit = true;
-    } 
+    float torsoDistance = std::fabs(minCoords[0] - maxCoords[0])*0.9; //using the "trick" that we know that the smaller intersection is through x
+    glm::vec4 stepVector = (vector * torsoDistance);
+    for(int i = 0; i < 200; i++){
+        point += stepVector;
+        if(pointBoundingBoxCollision(point, box))
+                return true;
+    }
 
-    return hit;
+    return false;
 }
 
 bool pointLineSegment(glm::vec4 point, glm::vec4 p1, glm::vec4 p2)

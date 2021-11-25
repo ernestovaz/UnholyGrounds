@@ -3,6 +3,7 @@
 #include "Shot.h"
 
 #include <GLFW/glfw3.h>
+#include <glm/vec4.hpp>
 #include <iostream>  
 
 Game::Game(Player& player) : scene(player)
@@ -28,7 +29,7 @@ bool Game::isRunning()
 
 void Game::update()
 {
-    if(glfwGetTime() - spawnClock >= 10){
+    if(glfwGetTime() - spawnClock >= 5){
         scene.spawnSkeleton();
         spawnClock = glfwGetTime();
     }
