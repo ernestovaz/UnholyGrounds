@@ -24,5 +24,6 @@ public:
     void movePlayerBackward();
     void movePlayerRight();
     void movePlayerLeft();
+    void playerShoot();
     std::vector<glm::vec4> limits;
 };

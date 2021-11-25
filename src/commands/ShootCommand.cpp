@@ -1,15 +1,14 @@
 
 #include "ShootCommand.h"
-#include "Player.h"
 #include <iostream>
 
-ShootCommand::ShootCommand(Player& a) : player(a)
+ShootCommand::ShootCommand(Game& g) : game(g)
 {
     this->repeatable = false;
 }
 
 void ShootCommand::execute()
 {
-    if(!player.isShooting)
-        player.shoot();
+    if(!game.scene.player.isShooting)
+        game.playerShoot();
 }

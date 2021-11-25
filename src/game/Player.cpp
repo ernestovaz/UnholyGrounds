@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "Shot.h"
 
 #include <glm/trigonometric.hpp>
 #include <iostream>
@@ -76,7 +75,6 @@ void Player::shoot()
     this->isShooting = true;
     if (getAmmunition() > 0){    
         ammunition--;
-        Shot shot = Shot(this->getFacing());
     }
 }
 

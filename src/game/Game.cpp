@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "collisions.h"
+#include "Shot.h"
 
 #include <GLFW/glfw3.h>
 #include <iostream>  
@@ -111,4 +112,9 @@ void Game::movePlayerRight()
     if (!causeCollision && !offLimits){
         scene.player.moveRight();
     }
+}
+
+void Game::playerShoot()
+{
+    scene.player.shoot();
 }
