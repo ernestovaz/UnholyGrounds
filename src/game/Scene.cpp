@@ -18,10 +18,7 @@ Scene::Scene(Player& player)
     border("border", false, Matrix_Scale(20.0f, 20.0f, 20.0f))
 {
     this->ambientItem.push_back(Entity(Model("car", true, false), Matrix_Translate(30.0f,0.0f, 1.0f) * Matrix_Scale(0.02f, 0.02f, 0.02f)));
-}
 
-void Scene::spawnSkeleton()
-{
     std::vector<glm::vec4> points;
     points.push_back(glm::vec4(-0.381485,0.000632 ,0.569600 ,1.0f));
     points.push_back(glm::vec4(-0.381485,4.000632 ,0.569600 ,1.0f));
@@ -34,11 +31,18 @@ void Scene::spawnSkeleton()
 
     BoundingBox box = BoundingBox(points);
 
+    this->skeleton = Entity("skeleton", box);
+}
+
+void Scene::spawnSkeleton()
+{
+
     float theta = fmod(rand(),(2.0 * PI)); 
     float x = RADIUS * cos(theta);
     float z = RADIUS * sin(theta);
 
-    Entity skeleton = Entity("skeleton", box, Matrix_Rotate_Y(theta) * Matrix_Translate(x, 0.0, z));
-    this->enemies.push_back(skeleton);
+    Entity newSkeleton = this->skeleton;
+    newSkeleton.matrix *= Matrix_Rotate_Y(theta) * Matrix_Translate(x, 0.0, z);
+    this->enemies.push_back(newSkeleton);
 }
 
