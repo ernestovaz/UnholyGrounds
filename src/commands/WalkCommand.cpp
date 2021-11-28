@@ -1,12 +1,12 @@
 
 #include "WalkCommand.h"
-#include "Player.h"
+#include "Game.h"
 
-WalkCommand::WalkCommand(Player& a) : player(a)
+WalkCommand::WalkCommand(Game& g) : game(g)
 {
 }
 
 void WalkCommand::execute()
 {
-    player.walk();
+    game.playerWalk();
 }

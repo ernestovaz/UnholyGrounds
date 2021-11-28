@@ -59,17 +59,6 @@ void Player::setInfAmmunition()
     infAmmunition = true;
 }
 
-void Player::walk()
-{
-    isWalking = true;
-}
-
-void Player::crouch()
-{
-    isCrouched = true;
-    isWalking = true;
-}
-
 void Player::shoot()
 {
     this->isShooting = true;

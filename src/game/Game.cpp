@@ -134,3 +134,14 @@ void Game::playerShoot()
     Shot shot = Shot(scene.player.getFacing(), scene.player.getPosition());
     bool hit = shotHit(shot);
 }
+
+void Game::playerCrouch()
+{
+    scene.player.isCrouched = true;
+    scene.player.isWalking = true;
+}
+
+void Game::playerWalk()
+{
+    scene.player.isWalking = true;
+}

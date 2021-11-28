@@ -31,8 +31,8 @@ int main()
         std::make_tuple(GLFW_KEY_S,     new MoveCommand(game, MoveCommand::BACKWARD)),
         std::make_tuple(GLFW_KEY_A,     new MoveCommand(game, MoveCommand::LEFT)),
         std::make_tuple(GLFW_KEY_D,     new MoveCommand(game, MoveCommand::RIGHT)),
-        std::make_tuple(GLFW_KEY_LEFT_SHIFT,        new WalkCommand(player)),
-        std::make_tuple(GLFW_KEY_LEFT_CONTROL,      new CrouchCommand(player)),
+        std::make_tuple(GLFW_KEY_LEFT_SHIFT,        new WalkCommand(game)),
+        std::make_tuple(GLFW_KEY_LEFT_CONTROL,      new CrouchCommand(game)),
         std::make_tuple(GLFW_MOUSE_BUTTON_LEFT,     new ShootCommand(game)),
         std::make_tuple(GLFW_KEY_ESCAPE,new ExitCommand (game))
     };

@@ -1,13 +1,13 @@
 #pragma once 
 
 #include "Command.h"
-#include "Player.h"
+#include "Game.h"
 
 class WalkCommand : public Command
 {
 public:
-    WalkCommand(Player& actor);
+    WalkCommand(Game& game);
     virtual void execute() override;
 private:
-    Player& player;
+    Game& game;
 };

@@ -1,13 +1,13 @@
 
 #include "CrouchCommand.h"
-#include "Actor.h"
+#include "Game.h"
 #include <iostream>
 
-CrouchCommand::CrouchCommand(Player& a) : player(a)
+CrouchCommand::CrouchCommand(Game& g) : game(g)
 {
 }
 
 void CrouchCommand::execute()
 {
-    player.crouch();
+    game.playerCrouch();
 }

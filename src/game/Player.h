@@ -10,20 +10,18 @@ private:
     float viewYaw;
     float viewPitch;
     int ammunition;
-    bool isCrouched;
-    bool isWalking;
     bool infAmmunition;
 public:
     Entity entity;
-    float shootingState;  
+    float shootingState;
+    bool isWalking;  
     bool isShooting;
+    bool isCrouched;
     Player();
     virtual glm::vec4 getPosition() override;
     virtual float getSpeed() override;
     int getAmmunition();
     void setInfAmmunition();
-    void walk();
-    void crouch();
     void shoot();
     void moveView(float dx, float dy);
 };

@@ -27,5 +27,7 @@ public:
     void movePlayerRight();
     void movePlayerLeft();
     void playerShoot();
+    void playerCrouch();
+    void playerWalk();
     std::vector<glm::vec4> limits;
 };
