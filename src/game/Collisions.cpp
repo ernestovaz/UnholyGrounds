@@ -1,4 +1,4 @@
-#include "collisions.h"
+#include "Collisions.h"
 #include <iostream>
 #include <cmath>
 
@@ -23,9 +23,9 @@ bool lineBoundingBoxCollision(glm::vec4 point, glm::vec4 vector, BoundingBox box
     //Arguments are shot position (point), shot direction (vector) and a bounding box
     std::vector<float> minCoords = box.getMinCoords();
     std::vector<float> maxCoords = box.getMaxCoords();
-    float torsoDistance = std::fabs(minCoords[0] - maxCoords[0])*0.9; //using the "trick" that we know that the smaller intersection is through x
+    float torsoDistance = std::fabs(minCoords[0] - maxCoords[0])*0.2; //using the "trick" that we know that the smaller intersection is through x
     glm::vec4 stepVector = (vector * torsoDistance);
-    for(int i = 0; i < 200; i++){
+    for(int i = 0; i < 400; i++){
         point += stepVector;
         if(pointBoundingBoxCollision(point, box))
                 return true;

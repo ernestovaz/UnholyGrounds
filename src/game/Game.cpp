@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "collisions.h"
+#include "Collisions.h"
 #include "Shot.h"
 
 #include <GLFW/glfw3.h>
