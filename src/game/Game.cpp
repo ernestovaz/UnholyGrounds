@@ -77,7 +77,11 @@ void Game::movePlayerForward()
     glm::vec3 forward(scene.player.getFacing());
     forward.y = 0;
     glm::vec4 hmForward(glm::normalize(forward), 0.0f);
-    glm::vec4 newPosition = scene.player.getPosition() + hmForward * scene.player.getSpeed();
+    float playerSpeed = scene.player.speed;
+    if (scene.player.isWalking){
+        playerSpeed = 0.5*playerSpeed;
+    }
+    glm::vec4 newPosition = scene.player.getPosition() + hmForward * playerSpeed;
 
     bool causeCollision = checkCollisions(newPosition);
     bool offLimits = isOffLimits(newPosition);
@@ -91,7 +95,11 @@ void Game::movePlayerBackward()
     glm::vec3 backward(-scene.player.getFacing());
     backward.y = 0;
     glm::vec4 hmBackward(glm::normalize(backward), 0.0f);
-    glm::vec4 newPosition = scene.player.getPosition() + hmBackward * scene.player.getSpeed();
+    float playerSpeed = scene.player.speed;
+    if (scene.player.isWalking){
+        playerSpeed = 0.5*playerSpeed;
+    }
+    glm::vec4 newPosition = scene.player.getPosition() + hmBackward * playerSpeed;
 
     bool causeCollision = checkCollisions(newPosition);
     bool offLimits = isOffLimits(newPosition);
@@ -105,7 +113,11 @@ void Game::movePlayerLeft()
     glm::vec3 forward(scene.player.getFacing());
     glm::vec3 left = glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), forward);
     glm::vec4 hmLeft(left, 0.0f);
-    glm::vec4 newPosition = scene.player.getPosition() + hmLeft * scene.player.getSpeed();
+    float playerSpeed = scene.player.speed;
+    if (scene.player.isWalking){
+        playerSpeed = 0.5*playerSpeed;
+    }
+    glm::vec4 newPosition = scene.player.getPosition() + hmLeft * playerSpeed;
 
     bool causeCollision = checkCollisions(newPosition);
     bool offLimits = isOffLimits(newPosition);
@@ -119,7 +131,11 @@ void Game::movePlayerRight()
     glm::vec3 backward(-scene.player.getFacing());
     glm::vec3 right = glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), backward);
     glm::vec4 hmRight(right, 0.0f);
-    glm::vec4 newPosition = scene.player.getPosition() + hmRight * scene.player.getSpeed();
+    float playerSpeed = scene.player.speed;
+    if (scene.player.isWalking){
+        playerSpeed = 0.5*playerSpeed;
+    }
+    glm::vec4 newPosition = scene.player.getPosition() + hmRight * playerSpeed;
 
     bool causeCollision = checkCollisions(newPosition);
     bool offLimits = isOffLimits(newPosition);

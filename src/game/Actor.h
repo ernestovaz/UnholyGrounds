@@ -7,10 +7,10 @@ class Actor
 protected:
     glm::vec4 position;
     glm::vec4 facing;
-    float speed;
     int health;
 
 public:
+    float speed;
     Actor();
     virtual glm::vec4 getPosition();
     glm::vec4 getFacing();
