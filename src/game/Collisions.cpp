@@ -52,3 +52,17 @@ bool pointSquare(glm::vec4 point, std::vector<glm::vec4> squareVertices)
     bool isInsideFourthLine = pointLineSegment(point, squareVertices[3], squareVertices[2]);
     return isInsideFirstLine || isInsideSecondLine || isInsideThirdLine || isInsideFourthLine;
 }
+
+std::vector<float> quadraticRoot(float a, float b, float c)
+{
+    std::vector<float> solutions;
+    float discriminant = b*b - 4*a*c;
+    if(discriminant > 0){
+        solutions.push_back(-b + sqrt(discriminant) / (2*a));
+        solutions.push_back(-b - sqrt(discriminant) / (2*a));
+    }
+    else if(discriminant == 0)
+        solutions.push_back(-b/(2*a));
+
+    return solutions;
+}
