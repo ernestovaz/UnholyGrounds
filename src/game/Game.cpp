@@ -49,9 +49,9 @@ bool Game::checkCollisions(glm::vec4 position)
             return true;
         }
     }
-    for (Entity enemy : scene.enemies)
+    for (Enemy enemy : scene.enemies)
     {
-        if(pointBoundingBoxCollision(position, enemy.getGlobalBoundingBox()))
+        if(pointBoundingBoxCollision(position, enemy.entity.getGlobalBoundingBox()))
         {
             return true;
         }
@@ -63,7 +63,7 @@ bool Game::shotHit(Shot shot)
 {
     for (int i=0; i < scene.enemies.size(); i++)
     {
-        if (lineBoundingBoxCollision(shot.position, shot.direction, scene.enemies[i].getGlobalBoundingBox()))
+        if (lineBoundingBoxCollision(shot.position, shot.direction, scene.enemies[i].entity.getGlobalBoundingBox()))
         {
             scene.enemies.erase(scene.enemies.begin() + i);
             return true;

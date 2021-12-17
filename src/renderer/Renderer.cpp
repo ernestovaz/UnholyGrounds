@@ -93,8 +93,8 @@ void Renderer::draw(Scene& scene)
     for(Entity item : scene.ambientItem){
         drawEntity(item);
     }
-    for(Entity enemy : scene.enemies){
-        drawEntity(enemy);
+    for(Enemy enemy : scene.enemies){
+        drawEntity(enemy.entity);
     }
     GLCall(glUniform1i(this->lightingUniformId, false));
     drawEntity(scene.sky);

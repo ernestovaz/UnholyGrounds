@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "Player.h"
+#include "Enemy.h"
 
 #pragma once
 
@@ -13,7 +14,7 @@ public:
     Entity sky;
     Entity border;
     Entity skeleton;
-    std::vector<Entity> enemies;
+    std::vector<Enemy> enemies;
     std::vector<Entity> ambientItem;
 
     Scene(Player& player);
