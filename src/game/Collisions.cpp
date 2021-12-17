@@ -53,14 +53,14 @@ bool pointSquare(glm::vec4 point, std::vector<glm::vec4> squareVertices)
     return isInsideFirstLine || isInsideSecondLine || isInsideThirdLine || isInsideFourthLine;
 }
 
-bool raySphere(glm::vec4 rayOrigin, glm::vec4 rayDirection, glm::vec4 sphereOrigin, float sphereRadius, float maxDistance)
+bool raySphereCollision(glm::vec4 rayOrigin, glm::vec4 rayDirection, glm::vec4 sphereOrigin, float sphereRadius, float maxDistance)
 {
     float a = pow(glm::length(rayDirection), 2);
-    float b = glm::dot(rayDirection * 2.0f, rayOrigin - sphereOrigin);
+    float b = 2*glm::dot(rayDirection, rayOrigin - sphereOrigin);
     float c = pow(glm::length(rayOrigin - sphereOrigin), 2) - pow(sphereRadius,2);
     for (float root : quadraticRoot(a,b,c))
     {
-        if(root >= 0 and (root < maxDistance or maxDistance == 0))
+        if(root >= 0 and (maxDistance == 0 or root <= maxDistance))
             return true;
     }
     return false;

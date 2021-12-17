@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Collisions.h"
+#include "Enemy.h"
 #include "Shot.h"
 
 #include <GLFW/glfw3.h>
@@ -63,11 +64,18 @@ bool Game::shotHit(Shot shot)
 {
     for (int i=0; i < scene.enemies.size(); i++)
     {
-        if (lineBoundingBoxCollision(shot.position, shot.direction, scene.enemies[i].entity.getGlobalBoundingBox()))
+        if (raySphereCollision(shot.position, shot.direction, Enemy::HEAD_SPHERE_ORIGIN*scene.enemies[i].matrix, Enemy::HEAD_SPHERE_RADIUS))
         {
             scene.enemies.erase(scene.enemies.begin() + i);
             return true;
         }
+        /*
+        if (lineBoundingBoxCollision(shot.position, shot.direction, scene.enemies[i].getGlobalBoundingBox()))
+        {
+            scene.enemies.erase(scene.enemies.begin() + i);
+            return true;
+        }
+        */
     }
     return false;
 }
