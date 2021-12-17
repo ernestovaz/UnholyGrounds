@@ -11,7 +11,7 @@
 
 #define PI 3.14159265f
 
-#define RADIUS 10
+#define RADIUS 20
 
 Scene::Scene(Player& player) 
     : player(player), ground("ground", false),sky("sky", false, Matrix_Scale(20.0f, 20.0f, 20.0f)),
@@ -40,9 +40,17 @@ void Scene::spawnSkeleton()
     float theta = fmod(rand(),(2.0 * PI)); 
     float x = RADIUS * cos(theta);
     float z = RADIUS * sin(theta);
-
     Entity newSkeleton = this->skeleton;
-    newSkeleton.matrix *= Matrix_Rotate_Y(theta) * Matrix_Translate(x, 0.0, z);
+    newSkeleton.matrix = newSkeleton.matrix*(Matrix_Translate(x, 0.0, z) * Matrix_Rotate_Y(theta));
+    glm::vec4 product = glm::vec4(1.0, 1.0, 1.0, 1.0) * newSkeleton.matrix;
     this->enemies.push_back(newSkeleton);
 }
+/*
+            [1 2 3 4]
+[0 0 0 1] * [1 2 3 4]       
+            [1 2 3 4]
+            [1 2 3 4]
 
+ 1x4           4x4                     
+
+*/
