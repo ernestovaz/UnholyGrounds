@@ -64,7 +64,7 @@ bool Game::shotHit(Shot shot)
 {
     for (int i=0; i < scene.enemies.size(); i++)
     {
-        if (raySphereCollision(shot.position, shot.direction, Enemy::HEAD_SPHERE_ORIGIN*scene.enemies[i].matrix, Enemy::HEAD_SPHERE_RADIUS))
+        if (raySphereCollision(shot.position, shot.direction, Enemy::HEAD_SPHERE_ORIGIN*scene.enemies[i].entity.matrix, Enemy::HEAD_SPHERE_RADIUS))
         {
             scene.enemies.erase(scene.enemies.begin() + i);
             return true;
