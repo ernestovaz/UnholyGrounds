@@ -1,7 +1,7 @@
 #pragma once 
 
 #include "Command.h"
-#include "Game.h"
+#include "../game/Game.h"
 
 class ShootCommand : public Command
 {

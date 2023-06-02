@@ -13,8 +13,8 @@
 #include "Matrices.h"
 #include "Model.h"
 #include "QuadModel.h"
-#include "Actor.h" 
-#include "Entity.h"
+#include "../game/Actor.h" 
+#include "../game/Entity.h"
 
 #define DOWNSCALE_FACTOR 1/4
 //factor used in the game's pixelated effect

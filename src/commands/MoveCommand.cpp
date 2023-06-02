@@ -1,5 +1,4 @@
 #include "MoveCommand.h"
-#include "Game.h"
 
 MoveCommand::MoveCommand(Game& g, Direction d) : game(g), dir(d)
 {

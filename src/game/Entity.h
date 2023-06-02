@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "BoundingBox.h"
-#include "Model.h"
+#include "../renderer/Model.h"
 
 class Entity
 {

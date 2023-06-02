@@ -1,6 +1,6 @@
 #pragma once
    
-#include "InputManager.h"
+#include "../input/InputManager.h"
 
 #include <GLFW/glfw3.h>
 

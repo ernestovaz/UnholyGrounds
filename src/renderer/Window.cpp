@@ -6,7 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #include "Window.h"
-#include "InputManager.h"
+#include "../input/InputManager.h"
 
 Window::Window()
 {

@@ -4,19 +4,18 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>  
 
-#include "Renderer.h"
-#include "InputManager.h"
-#include "Actor.h"
-#include "Player.h"
-#include "Command.h"
-#include "MoveCommand.h"
-#include "CrouchCommand.h"
-#include "ShootCommand.h"
-#include "WalkCommand.h"
-#include "ExitCommand.h"
-#include "Window.h"
-#include "Game.h"
-
+#include "renderer/Renderer.h"
+#include "renderer/Window.h"
+#include "input/InputManager.h"
+#include "game/Game.h"
+#include "game/Actor.h"
+#include "game/Player.h"
+#include "commands/Command.h"
+#include "commands/MoveCommand.h"
+#include "commands/CrouchCommand.h"
+#include "commands/ShootCommand.h"
+#include "commands/WalkCommand.h"
+#include "commands/ExitCommand.h"
 
 #define FPS_LIMIT 1.0/60.0
 
