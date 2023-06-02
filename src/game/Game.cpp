@@ -7,10 +7,11 @@
 #include <glm/vec4.hpp>
 #include <iostream>  
 
+#define SPAWNTIME 10
+
 Game::Game(Player& player) : scene(player)
 {
     running = true;
-    startClock = glfwGetTime();
     spawnClock = glfwGetTime();
     limits.push_back(glm::vec4(-45.0f,0.0f,-45.0f,1.0f));
     limits.push_back(glm::vec4(45.0f,0.0f,-45.0f,1.0f));
@@ -30,7 +31,7 @@ bool Game::isRunning()
 
 void Game::update()
 {
-    if(glfwGetTime() - spawnClock >= 2){
+    if(glfwGetTime() - spawnClock >= SPAWNTIME){
         scene.spawnSkeleton();
         spawnClock = glfwGetTime();
     }
