@@ -1,4 +1,3 @@
-
 #include "ShootCommand.h"
 #include <iostream>
 

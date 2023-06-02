@@ -1,6 +1,4 @@
-
 #include "WalkCommand.h"
-#include "Game.h"
 
 WalkCommand::WalkCommand(Game& g) : game(g)
 {

@@ -4,8 +4,8 @@
 #include <tuple>
 #include <vector>
 
-#include "Command.h" 
-#include "Player.h" 
+#include "../commands/Command.h" 
+#include "../game/Player.h" 
 
 #include <GLFW/glfw3.h>
 

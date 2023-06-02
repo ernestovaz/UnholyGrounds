@@ -1,6 +1,6 @@
 #include "Scene.h"
-#include "Matrices.h"
-#include "Model.h"
+#include "../renderer/Matrices.h"
+#include "../renderer/Model.h"
 
 #include <cstdlib>
 #include <cmath>

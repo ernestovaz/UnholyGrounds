@@ -2,11 +2,11 @@
 
 #include<string>
 
-#include "Entity.h"
+#include "../game/Entity.h"
+#include "../game/Player.h"
+#include "../game/Scene.h"
 #include "Model.h"
-#include "Player.h"
 #include "FrameBuffer.h"
-#include "Scene.h"
 
 class Renderer
 {
