@@ -19,4 +19,5 @@ public:
 
     Scene(Player& player);
     void spawnSkeleton();
+    void spawnSkeletonInCenter();
 };

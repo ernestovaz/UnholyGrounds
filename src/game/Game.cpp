@@ -7,7 +7,7 @@
 #include <glm/vec4.hpp>
 #include <iostream>  
 
-#define SPAWNTIME 10
+#define SPAWNTIME 2
 
 Game::Game(Player& player) : scene(player)
 {
@@ -65,12 +65,13 @@ bool Game::shotHit(Shot shot)
 {
     for (int i=0; i < scene.enemies.size(); i++)
     {
-        if (raySphereCollision(shot.position, shot.direction, Enemy::HEAD_SPHERE_ORIGIN*scene.enemies[i].entity.matrix, Enemy::HEAD_SPHERE_RADIUS))
+        if (raySphereCollision(shot.position, shot.direction, scene.enemies[i].entity.matrix * Enemy::HEAD_SPHERE_ORIGIN, Enemy::HEAD_SPHERE_RADIUS))
         {
             scene.enemies.erase(scene.enemies.begin() + i);
             return true;
         }
         /*
+         * old method for colisions
         if (lineBoundingBoxCollision(shot.position, shot.direction, scene.enemies[i].getGlobalBoundingBox()))
         {
             scene.enemies.erase(scene.enemies.begin() + i);

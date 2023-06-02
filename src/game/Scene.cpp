@@ -32,18 +32,28 @@ Scene::Scene(Player& player)
     BoundingBox box = BoundingBox(points);
 
     this->skeleton = Entity("skeleton", box);
+    spawnSkeletonInCenter();
 }
 
 void Scene::spawnSkeleton()
 {
-
     float theta = fmod(rand(),(2.0 * PI)); 
     float x = RADIUS * cos(theta);
     float z = RADIUS * sin(theta);
     Entity newSkeletonEntity = this->skeleton;
-    newSkeletonEntity.matrix = newSkeletonEntity.matrix*(Matrix_Translate(x, 0.0, z) * Matrix_Rotate_Y(theta));
-    glm::vec4 facing = glm::vec4(cos(theta), 0, sin(theta), 0.0);
+    newSkeletonEntity.matrix = Matrix_Translate(x, 0.0, z) * newSkeletonEntity.matrix;
+    glm::vec4 facing = glm::vec4(0.0);
     glm::vec4 position = glm::vec4(x, 0.0, z, 1.0);
+    Enemy newSkeleton = Enemy(newSkeletonEntity, position, facing);
+
+    this->enemies.push_back(newSkeleton);
+}
+
+void Scene::spawnSkeletonInCenter()
+{
+    Entity newSkeletonEntity = this->skeleton;
+    glm::vec4 facing = glm::vec4(0.0);
+    glm::vec4 position = glm::vec4(0.0, 0.0, 0.0, 1.0);
     Enemy newSkeleton = Enemy(newSkeletonEntity, position, facing);
 
     this->enemies.push_back(newSkeleton);

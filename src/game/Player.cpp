@@ -8,7 +8,7 @@
 
 Player::Player() : entity("player", false)
 {
-    position = glm::vec4(0.0f, 3.0f, 0.0f, 1.0f);
+    position = glm::vec4(0.0f, 3.0f, 3.0f, 1.0f);
     facing   = glm::vec4(0.0f, 0.0f, 1.0f,  0.0f);
     viewYaw  = 0.0f;
     viewPitch= 0.0f;
