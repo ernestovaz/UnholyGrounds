@@ -1,8 +1,15 @@
+compile_commands.json
+unholy-grounds
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles/*
+Makefile
+
 .ccls
 .ccls-cache
 .cache
 .ccls.sh
-compile_commands.json
+
 *.swp
 */*.swp
 */*/*.swp
