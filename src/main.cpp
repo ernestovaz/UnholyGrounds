@@ -17,6 +17,10 @@
 #include "commands/WalkCommand.h"
 #include "commands/ExitCommand.h"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+
 #define FPS_LIMIT 1.0/60.0
 
 int main()
@@ -37,6 +41,11 @@ int main()
     };
     InputManager input(commandLst, player);
     window.setKeyCallbacks(&input);
+    
+    //TODO: figure out better place for this stuff
+    ImGui::CreateContext();
+    ImGui_ImplGlfw_InitForOpenGL(window.getThing(), true);
+    ImGui_ImplOpenGL3_Init("#version 400");
 
     double frameTime = glfwGetTime();
     while (!window.shouldClose() && game.isRunning())
@@ -45,13 +54,30 @@ int main()
         window.pollEvents();
         if(elapsedTime >= FPS_LIMIT)
         {
+            //TODO: fix this 
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+            ImGui::Begin("Menu");
+            ImGui::Text("Framerate: %7.1f FPS", ImGui::GetIO().Framerate);
+            ImGui::End();
+            ImGui::Render();
+
             game.update();
             input.handleInput();
             renderer.draw(game.scene);
+
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
             window.swapBuffers();
             frameTime = glfwGetTime();
+
         }
     }
+    
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     return 0;
 }
