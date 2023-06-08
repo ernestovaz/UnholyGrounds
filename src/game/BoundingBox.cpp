@@ -29,7 +29,7 @@ std::vector<float> BoundingBox::getMinCoords() //returns min (x,y,z) beteween bo
 
 std::vector<float> BoundingBox::getMaxCoords() //returns max (x,y,z) between bounding box's vertices
 {
-    std::vector<float> maxCoords = {0.0, 0.0, 0.0};
+    std::vector<float> maxCoords = {-1000.0, -1000.0, -1000.0};
     for (int c = 0; c <= 2; c++){
         for (int v = 0; v <= 7; v++){
             if(boundingBox[v][c] > maxCoords[c]){
