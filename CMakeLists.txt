@@ -14,10 +14,10 @@ add_executable(unholy-grounds ${SOURCE_FILES})
 find_package(glfw3 3.3 REQUIRED)
 find_package(OpenGL REQUIRED COMPONENTS OpenGL)
 
-add_dependencies(unholy-grounds OpenGL::OpenGL)
+add_dependencies(unholy-grounds OpenGL::GL)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(unholy-grounds glfw)
-target_link_libraries(unholy-grounds OpenGL::OpenGL)
+target_link_libraries(unholy-grounds OpenGL::GL)
 target_link_libraries(unholy-grounds ${CMAKE_DL_LIBS})
