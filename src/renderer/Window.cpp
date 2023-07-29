@@ -24,6 +24,8 @@ Window::Window()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    //glfwWindowHint(GLFW_SAMPLES, 4);
+    //glfw initialization
 
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* screen = glfwGetVideoMode(monitor);

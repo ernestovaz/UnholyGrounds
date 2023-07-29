@@ -28,7 +28,7 @@ bool lineBoundingBoxCollision(glm::vec4 point, glm::vec4 vector, BoundingBox box
     for(int i = 0; i < 400; i++){
         point += stepVector;
         if(pointBoundingBoxCollision(point, box))
-            return true;
+                return true;
     }
 
     return false;

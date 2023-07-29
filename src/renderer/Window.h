@@ -10,7 +10,6 @@ class Window
 private:
     GLFWwindow* window;
     float screenRatio;
-
 public:
     unsigned int width;
     unsigned int height;
@@ -23,7 +22,4 @@ public:
     void setShouldClose();
     void swapBuffers();
     void pollEvents();
-    
-    //TODO: fix this 
-    GLFWwindow* getThing() { return window; };
 };
